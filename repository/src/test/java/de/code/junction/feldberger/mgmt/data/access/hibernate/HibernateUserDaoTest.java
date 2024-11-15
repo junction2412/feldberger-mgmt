@@ -1,6 +1,5 @@
 package de.code.junction.feldberger.mgmt.data.access.hibernate;
 
-import de.code.junction.feldberger.mgmt.data.PersistenceManager;
 import de.code.junction.feldberger.mgmt.data.access.user.User;
 import de.code.junction.feldberger.mgmt.data.access.user.UserDataAccessObject;
 import org.hibernate.SessionFactory;
@@ -17,14 +16,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class HibernateUserDaoTest {
 
     UserDataAccessObject userDao;
+    SessionFactory sessionFactory;
 
     @BeforeEach
     void setUp() {
-        SessionFactory sessionFactory = new Configuration()
+        sessionFactory = new Configuration()
                 .addAnnotatedClass(User.class)
                 .buildSessionFactory();
-
-        PersistenceManager.initialize(sessionFactory);
 
         userDao = new HibernateUserDao(sessionFactory);
     }
@@ -32,7 +30,7 @@ class HibernateUserDaoTest {
     @AfterEach
     void tearDown() {
 
-        PersistenceManager.getInstance().getSessionFactory().close();
+        sessionFactory.close();
     }
 
     @Test

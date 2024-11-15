@@ -5,8 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity(name = "users")
-@Getter @Setter
-@ToString @EqualsAndHashCode
+@Data
 @SuppressWarnings("unused")
 public class User implements DataTransferObject<Integer> {
 

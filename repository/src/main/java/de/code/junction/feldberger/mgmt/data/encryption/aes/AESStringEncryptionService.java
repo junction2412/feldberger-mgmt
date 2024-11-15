@@ -1,7 +1,5 @@
 package de.code.junction.feldberger.mgmt.data.encryption.aes;
 
-import lombok.SneakyThrows;
-
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
@@ -19,25 +17,32 @@ public class AESStringEncryptionService implements AESEncryptionService<String, 
 
 
     @Override
-    @SneakyThrows
     public String encrypt(String clear) {
+        try {
+            final Cipher cipher = Cipher.getInstance(TRANSFORM);
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
 
-        final var cipher = Cipher.getInstance(TRANSFORM);
-        cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-        final var encryptedBytes = cipher.doFinal(clear.getBytes());
+            final var encryptedBytes = cipher.doFinal(clear.getBytes());
 
-        return Base64.getEncoder().encodeToString(encryptedBytes);
+            return Base64.getEncoder().encodeToString(encryptedBytes);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    @SneakyThrows
     public String decrypt(String encrypted) {
 
-        var cipher = Cipher.getInstance(TRANSFORM);
-        cipher.init(Cipher.DECRYPT_MODE, secretKey);
-        var encryptedBytes = Base64.getDecoder().decode(encrypted);
-        var decryptedBytes = cipher.doFinal(encryptedBytes);
+        try {
+            final Cipher cipher = Cipher.getInstance(TRANSFORM);
+            cipher.init(Cipher.DECRYPT_MODE, secretKey);
 
-        return new String(decryptedBytes);
+            var encryptedBytes = Base64.getDecoder().decode(encrypted);
+            var decryptedBytes = cipher.doFinal(encryptedBytes);
+
+            return new String(decryptedBytes);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
