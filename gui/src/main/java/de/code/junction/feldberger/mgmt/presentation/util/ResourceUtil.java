@@ -9,4 +9,9 @@ public class ResourceUtil {
 
         return ResourceBundle.getBundle("de/code/junction/feldberger/mgmt/i18n/labels");
     }
+
+    public static ResourceBundle getMessageStringResources() {
+
+        return ResourceBundle.getBundle("de/code/junction/feldberger/mgmt/i18n/messages");
+    }
 }

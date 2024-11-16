@@ -1,6 +1,7 @@
 package de.code.junction.feldberger.mgmt.presentation.view.login;
 
 import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionManager;
+import de.code.junction.feldberger.mgmt.presentation.model.Credentials;
 import de.code.junction.feldberger.mgmt.presentation.view.Controller;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
@@ -53,7 +54,7 @@ public class LoginController extends Controller {
         register.setOnAction(this::onRegisterClicked);
         submit.setOnAction(this::onSubmitClicked);
 
-        viewModel.usernameProperty().bindBidirectional(usernameField.textProperty());
+        usernameField.textProperty().bindBidirectional(viewModel.usernameProperty());
         viewModel.passwordProperty().bind(Bindings.createStringBinding(() -> passwordField.getCharacters().toString(),
                 passwordField.textProperty()));
     }

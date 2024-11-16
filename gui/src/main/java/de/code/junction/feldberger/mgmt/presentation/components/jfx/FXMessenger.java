@@ -7,6 +7,7 @@ import de.code.junction.feldberger.mgmt.presentation.components.messaging.Messen
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.util.Optional;
@@ -29,6 +30,7 @@ public class FXMessenger implements Messenger {
         alert.setTitle(message.title());
         alert.setHeaderText(message.header());
         alert.setContentText(message.content());
+        alert.setResizable(true);
 
         final Optional<ButtonType> buttonType = alert.showAndWait();
 

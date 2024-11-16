@@ -9,4 +9,9 @@ public record Message(
         String content,
         Consumer<MessageResponse> onResponse
 ) {
+
+    public Message(MessageType type, String title, String header, String content) {
+
+        this(type, title, header, content, _ -> { /* NOOP */ });
+    }
 }
