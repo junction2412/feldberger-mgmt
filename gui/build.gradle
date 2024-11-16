@@ -10,13 +10,27 @@ repositories {
     mavenCentral()
 }
 
+application {
+    run {
+        jvmArgs += [
+                '--add-reads', 'org.jboss.logging=java.logging'
+        ]
+    }
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(23)
+    }
+}
+
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
 
 application {
     mainModule = 'de.code.junction.feldberger.mgmt.gui'
-    mainClass = 'de.code.junction.feldberger.mgmt.representation.HelloApplication'
+    mainClass = 'de.code.junction.feldberger.mgmt.presentation.Main'
 }
 
 javafx {
@@ -25,9 +39,14 @@ javafx {
 }
 
 dependencies {
+    implementation(project(':repository'))
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+    compileOnly 'org.projectlombok:lombok:1.18.34'
+    annotationProcessor 'org.projectlombok:lombok:1.18.34'
+    implementation 'com.h2database:h2:2.3.232'
+
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
 }
 
 test {
