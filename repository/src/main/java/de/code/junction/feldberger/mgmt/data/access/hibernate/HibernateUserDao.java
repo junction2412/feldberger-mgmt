@@ -71,4 +71,16 @@ public class HibernateUserDao
 
         return sessionFactory.fromSession(session -> session.createSelectionQuery(query).list());
     }
+
+    @Override
+    public long countAll() {
+
+        final var users = new CriteriaDefinition<>(sessionFactory, User.class) {
+            {
+                from(User.class);
+            }
+        };
+
+        return sessionFactory.fromSession(session -> session.createSelectionQuery(users).getResultCount());
+    }
 }

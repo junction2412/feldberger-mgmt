@@ -142,4 +142,27 @@ class HibernateUserDaoTest {
         // then: the list is empty
         assertTrue(all.isEmpty());
     }
+
+    @Test
+    void countIsZeroOnEmptyTable() {
+        // given: no rows
+
+        // when: count
+        final long total = userDao.countAll();
+
+        // then: count is zero
+        assertEquals(0L, total);
+    }
+
+    @Test
+    void countIsOneOnFilledTable() {
+        // given: 1 row
+        userDao.persistUser(new User());
+
+        // when: count
+        final long total = userDao.countAll();
+
+        // then: count is one
+        assertEquals(1L, total);
+    }
 }

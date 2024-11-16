@@ -45,4 +45,6 @@ public interface UserDataAccessObject extends DataAccessObject<Integer, User> {
 
         return findByUsername(username, true);
     }
+
+    long countAll();
 }

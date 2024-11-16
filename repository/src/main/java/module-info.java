@@ -11,7 +11,6 @@ module de.code.junction.feldbergermgmt.repository {
     requires org.hibernate.orm.core;
     requires org.hibernate.commons.annotations;
     requires org.jboss.logging;
-    requires static lombok;
 
     opens de.code.junction.feldberger.mgmt.data.access.user to org.hibernate.orm.core;
 

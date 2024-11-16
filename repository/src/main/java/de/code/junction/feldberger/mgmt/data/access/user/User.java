@@ -2,10 +2,8 @@ package de.code.junction.feldberger.mgmt.data.access.user;
 
 import de.code.junction.feldberger.mgmt.data.access.DataTransferObject;
 import jakarta.persistence.*;
-import lombok.*;
 
 @Entity(name = "users")
-@Data
 @SuppressWarnings("unused")
 public class User implements DataTransferObject<Integer> {
 
@@ -14,13 +12,13 @@ public class User implements DataTransferObject<Integer> {
     private int id;
 
     @Column(unique = true, nullable = false)
-    private @NonNull String username;
+    private String username;
 
     @Column(name = "password_hash", nullable = false)
-    private @NonNull String passwordHash;
+    private String passwordHash;
 
     @Column(name = "password_salt", nullable = false)
-    private @NonNull String passwordSalt;
+    private String passwordSalt;
 
     @Column(nullable = false)
     private boolean active;
@@ -31,9 +29,9 @@ public class User implements DataTransferObject<Integer> {
     }
 
     public User(int id,
-                @NonNull String username,
-                @NonNull String passwordHash,
-                @NonNull String passwordSalt,
+                String username,
+                String passwordHash,
+                String passwordSalt,
                 boolean active) {
 
         this.id = id;
@@ -43,9 +41,9 @@ public class User implements DataTransferObject<Integer> {
         this.active = active;
     }
 
-    public User(@NonNull String username,
-                @NonNull String passwordHash,
-                @NonNull String passwordSalt) {
+    public User(String username,
+                String passwordHash,
+                String passwordSalt) {
 
         this(0, username, passwordHash, passwordSalt, true);
     }
@@ -60,6 +58,39 @@ public class User implements DataTransferObject<Integer> {
     public void setID(Integer id) {
 
         this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+
+        this.username = username;
+    }
+
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public void setPasswordHash(String passwordHash) {
+
+        this.passwordHash = passwordHash;
+    }
+
+    public String getPasswordSalt() {
+
+        return passwordSalt;
+    }
+
+    public void setPasswordSalt(String passwordSalt) {
+
+        this.passwordSalt = passwordSalt;
+    }
+
+    public boolean isActive() {
+
+        return active;
     }
 
     public void setActive() {
@@ -77,5 +108,18 @@ public class User implements DataTransferObject<Integer> {
 
         if (active)
             active = false;
+    }
+
+
+    @Override
+    public String toString() {
+
+        return "User{" +
+                "id=" + id +
+                ", username='" + getUsername() + '\'' +
+                ", passwordHash='" + getPasswordHash() + '\'' +
+                ", passwordSalt='" + getPasswordSalt() + '\'' +
+                ", active=" + isActive() +
+                '}';
     }
 }
