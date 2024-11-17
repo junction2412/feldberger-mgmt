@@ -1,7 +1,8 @@
 package de.code.junction.feldberger.mgmt.presentation.view.login;
 
+import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionLifecycleOrchestrator;
 import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionManager;
-import de.code.junction.feldberger.mgmt.presentation.model.Credentials;
+import de.code.junction.feldberger.mgmt.presentation.model.LoginForm;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
@@ -15,8 +16,8 @@ import java.util.ResourceBundle;
 
 public class LoginController extends FXController {
 
-    private final TransitionManager<Credentials> mainMenuTransitionManager;
-    private final TransitionManager<String> registrationTransitionManager;
+    private final TransitionManager<LoginForm> mainMenuTransitionManager;
+    private final TransitionLifecycleOrchestrator<String, String> registrationTransition;
 
     private final LoginViewModel viewModel;
 
@@ -35,13 +36,13 @@ public class LoginController extends FXController {
     @FXML
     private Button submit;
 
-    public LoginController(TransitionManager<Credentials> mainMenuTransitionManager,
-                           TransitionManager<String> registrationTransitionManager,
+    public LoginController(TransitionManager<LoginForm> mainMenuTransitionManager,
+                           TransitionLifecycleOrchestrator<String, String> registrationTransition,
                            LoginViewModel viewModel) {
 
         super("login-view.fxml");
         this.mainMenuTransitionManager = mainMenuTransitionManager;
-        this.registrationTransitionManager = registrationTransitionManager;
+        this.registrationTransition = registrationTransition;
         this.viewModel = viewModel;
     }
 
@@ -77,6 +78,6 @@ public class LoginController extends FXController {
 
         final String username = usernameField.getText();
 
-        registrationTransitionManager.transition(username);
+        registrationTransition.orchestrate(username);
     }
 }

@@ -1,6 +1,6 @@
 package de.code.junction.feldberger.mgmt.presentation.view.login;
 
-import de.code.junction.feldberger.mgmt.presentation.model.Credentials;
+import de.code.junction.feldberger.mgmt.presentation.model.LoginForm;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -36,8 +36,8 @@ public class LoginViewModel {
         return password;
     }
 
-    public Credentials toCredentials() {
+    public LoginForm toCredentials() {
 
-        return new Credentials(getUsername().trim(), getPassword());
+        return new LoginForm(getUsername().trim(), getPassword());
     }
 }

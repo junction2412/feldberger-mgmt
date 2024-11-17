@@ -1,6 +1,5 @@
 package de.code.junction.feldberger.mgmt.presentation.view.registration;
 
-import de.code.junction.feldberger.mgmt.presentation.model.Credentials;
 import de.code.junction.feldberger.mgmt.presentation.model.RegistrationForm;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;

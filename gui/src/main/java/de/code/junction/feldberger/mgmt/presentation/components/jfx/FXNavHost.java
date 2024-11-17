@@ -1,8 +1,9 @@
 package de.code.junction.feldberger.mgmt.presentation.components.jfx;
 
+import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionLifecycleOrchestrator;
 import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionManager;
 import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionManagerFactory;
-import de.code.junction.feldberger.mgmt.presentation.model.Credentials;
+import de.code.junction.feldberger.mgmt.presentation.model.LoginForm;
 import de.code.junction.feldberger.mgmt.presentation.model.RegistrationForm;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import javafx.scene.Parent;
@@ -22,7 +23,7 @@ public class FXNavHost {
     private Stage stage;
 
     public FXNavHost(FXControllerFactory fxControllerFactory,
-                     TransitionManagerFactory transitionManagerFactory){
+                     TransitionManagerFactory transitionManagerFactory) {
 
         this(fxControllerFactory, transitionManagerFactory, null);
     }
@@ -46,11 +47,6 @@ public class FXNavHost {
         stage.show();
     }
 
-    public Stage getStage() {
-
-        return stage;
-    }
-
     public void setStage(Stage stage) {
 
         this.stage = stage;
@@ -58,12 +54,12 @@ public class FXNavHost {
 
     private void login(String username) {
 
-        final TransitionManager<Credentials> mainMenuTransitionManager = transitionManagerFactory
+        final TransitionManager<LoginForm> mainMenuTransitionManager = transitionManagerFactory
                 .loginToMainMenu(_ -> System.out.println("NOOP"));
 
         final FXController controller = fxControllerFactory.login(
                 mainMenuTransitionManager,
-                this::registration,
+                TransitionLifecycleOrchestrator.immediate(this::registration),
                 username
         );
 
@@ -82,7 +78,7 @@ public class FXNavHost {
 
         final FXController controller = fxControllerFactory.registration(
                 mainMenuTransitionManager,
-                this::login,
+                TransitionLifecycleOrchestrator.immediate(this::login),
                 username
         );
 

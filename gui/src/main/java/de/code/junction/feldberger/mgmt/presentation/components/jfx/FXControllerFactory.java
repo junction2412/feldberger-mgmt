@@ -1,8 +1,9 @@
 package de.code.junction.feldberger.mgmt.presentation.components.jfx;
 
+import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionLifecycleOrchestrator;
 import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionManager;
 import de.code.junction.feldberger.mgmt.presentation.components.service.ServiceFactory;
-import de.code.junction.feldberger.mgmt.presentation.model.Credentials;
+import de.code.junction.feldberger.mgmt.presentation.model.LoginForm;
 import de.code.junction.feldberger.mgmt.presentation.model.RegistrationForm;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import de.code.junction.feldberger.mgmt.presentation.view.login.LoginController;
@@ -25,8 +26,8 @@ public class FXControllerFactory {
         this.serviceFactory = serviceFactory;
     }
 
-    public FXController login(TransitionManager<Credentials> mainMenuTransitionManager,
-                              TransitionManager<String> registrationTransitionManager,
+    public FXController login(TransitionManager<LoginForm> mainMenuTransitionManager,
+                              TransitionLifecycleOrchestrator<String, String> registrationTransitionManager,
                               String username) {
 
         return new LoginController(mainMenuTransitionManager,
@@ -35,8 +36,8 @@ public class FXControllerFactory {
     }
 
     public FXController registration(TransitionManager<RegistrationForm> mainMenuTransitionManager,
-                                               TransitionManager<String> registrationTransitionManager,
-                                               String username) {
+                                     TransitionLifecycleOrchestrator<String, String> registrationTransitionManager,
+                                     String username) {
 
         return new RegistrationController(mainMenuTransitionManager,
                 registrationTransitionManager,

@@ -1,5 +1,6 @@
 package de.code.junction.feldberger.mgmt.presentation.view.registration;
 
+import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionLifecycleOrchestrator;
 import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionManager;
 import de.code.junction.feldberger.mgmt.presentation.model.RegistrationForm;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
@@ -16,7 +17,7 @@ import java.util.ResourceBundle;
 public class RegistrationController extends FXController {
 
     private final TransitionManager<RegistrationForm> mainMenuTransitionManager;
-    private final TransitionManager<String> loginTransitionManager;
+    private final TransitionLifecycleOrchestrator<String, String> loginTransition;
     private final RegistrationViewModel viewModel;
 
     @FXML
@@ -40,13 +41,13 @@ public class RegistrationController extends FXController {
     private Button submit;
 
     public RegistrationController(TransitionManager<RegistrationForm> mainMenuTransitionManager,
-                                  TransitionManager<String> loginTransitionManager,
+                                  TransitionLifecycleOrchestrator<String, String> loginTransition,
                                   RegistrationViewModel viewModel) {
 
         super("registration-view.fxml");
 
         this.mainMenuTransitionManager = mainMenuTransitionManager;
-        this.loginTransitionManager = loginTransitionManager;
+        this.loginTransition = loginTransition;
         this.viewModel = viewModel;
     }
 
@@ -79,7 +80,7 @@ public class RegistrationController extends FXController {
 
     private void onBackClicked(ActionEvent event) {
 
-        loginTransitionManager.transition(usernameField.getText());
+        loginTransition.orchestrate(usernameField.getText());
     }
 
     private void onSubmitClicked(ActionEvent event) {

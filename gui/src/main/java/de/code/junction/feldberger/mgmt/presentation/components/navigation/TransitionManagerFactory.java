@@ -3,7 +3,7 @@ package de.code.junction.feldberger.mgmt.presentation.components.navigation;
 import de.code.junction.feldberger.mgmt.data.access.DataAccessObject;
 import de.code.junction.feldberger.mgmt.data.access.PersistenceManager;
 import de.code.junction.feldberger.mgmt.presentation.components.messaging.Messenger;
-import de.code.junction.feldberger.mgmt.presentation.model.Credentials;
+import de.code.junction.feldberger.mgmt.presentation.model.LoginForm;
 import de.code.junction.feldberger.mgmt.presentation.model.RegistrationForm;
 import de.code.junction.feldberger.mgmt.presentation.view.login.LoginMainMenuTransitionManager;
 import de.code.junction.feldberger.mgmt.presentation.view.registration.RegistrationMainMenuTransitionManager;
@@ -55,7 +55,7 @@ public class TransitionManagerFactory {
      * @param onTransition transition ui logic to be performed
      * @return login->mainMenu transition manager
      */
-    public TransitionManager<Credentials> loginToMainMenu(Consumer<Credentials> onTransition) {
+    public TransitionManager<LoginForm> loginToMainMenu(Consumer<LoginForm> onTransition) {
 
         return new LoginMainMenuTransitionManager(messenger, onTransition, persistenceManager.userDao());
     }
