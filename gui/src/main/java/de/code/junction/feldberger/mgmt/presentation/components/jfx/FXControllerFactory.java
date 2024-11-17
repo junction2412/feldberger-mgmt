@@ -3,11 +3,13 @@ package de.code.junction.feldberger.mgmt.presentation.components.jfx;
 import de.code.junction.feldberger.mgmt.data.access.user.User;
 import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionOrchestrator;
 import de.code.junction.feldberger.mgmt.presentation.components.service.ServiceFactory;
+import de.code.junction.feldberger.mgmt.presentation.domain.UserViewModel;
 import de.code.junction.feldberger.mgmt.presentation.model.LoginForm;
 import de.code.junction.feldberger.mgmt.presentation.model.RegistrationForm;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import de.code.junction.feldberger.mgmt.presentation.view.login.LoginController;
 import de.code.junction.feldberger.mgmt.presentation.view.login.LoginFormViewModel;
+import de.code.junction.feldberger.mgmt.presentation.view.main.menu.MainMenuController;
 import de.code.junction.feldberger.mgmt.presentation.view.registration.RegistrationController;
 import de.code.junction.feldberger.mgmt.presentation.view.registration.RegistrationFormViewModel;
 
@@ -42,5 +44,13 @@ public class FXControllerFactory {
         return new RegistrationController(registrationTransition,
                 loginTransition,
                 new RegistrationFormViewModel(username));
+    }
+
+    public FXController mainMenu(TransitionOrchestrator<String, String> logoutTransition,
+                                 TransitionOrchestrator<UserViewModel, UserViewModel> settingsTransition,
+                                 int userID,
+                                 String username) {
+
+        return new MainMenuController(logoutTransition, settingsTransition, new UserViewModel(userID, username));
     }
 }

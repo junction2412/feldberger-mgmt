@@ -1,10 +1,8 @@
 package de.code.junction.feldberger.mgmt.presentation.components.jfx;
 
-import de.code.junction.feldberger.mgmt.data.access.user.User;
 import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionFactory;
 import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionOrchestrator;
-import de.code.junction.feldberger.mgmt.presentation.model.LoginForm;
-import de.code.junction.feldberger.mgmt.presentation.model.RegistrationForm;
+import de.code.junction.feldberger.mgmt.presentation.domain.UserViewModel;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import javafx.application.Platform;
 import javafx.scene.Parent;
@@ -55,12 +53,15 @@ public class FXNavHost {
 
     private void login(String username) {
 
-        final TransitionOrchestrator<LoginForm, User> loginTransition = transitionFactory
-                .loginTransition(_ -> System.out.println("NOOP"));
+        final var loginTransition = transitionFactory
+                .loginTransition(user -> Platform.runLater(() -> mainMenu(user.getID(), user.getUsername())));
+
+        final var registrationTransition = TransitionOrchestrator.<String>immediate(_username -> Platform.runLater(() ->
+                registration(_username)));
 
         final FXController controller = fxControllerFactory.login(
                 loginTransition,
-                TransitionOrchestrator.immediate(_username -> Platform.runLater(() -> registration(_username))),
+                registrationTransition,
                 username
         );
 
@@ -74,13 +75,31 @@ public class FXNavHost {
 
     private void registration(String username) {
 
-        final TransitionOrchestrator<RegistrationForm, User> registrationTransition = transitionFactory
-                .registrationTransition(_ -> System.out.println("NOOP"));
+        final var registrationTransition = transitionFactory.registrationTransition(user -> Platform.runLater(() ->
+                mainMenu(user.getID(), user.getUsername())));
 
         final FXController controller = fxControllerFactory.registration(
                 registrationTransition,
                 TransitionOrchestrator.immediate(_username -> Platform.runLater(() -> login(_username))),
                 username
+        );
+
+        final Parent parent = controller.load();
+
+        stage.getScene().setRoot(parent);
+    }
+
+    private void mainMenu(int userID, String username) {
+
+        final var logoutTransition = TransitionOrchestrator.<String>immediate(_username -> Platform.runLater(() ->
+                login(_username)));
+
+        final var settingsTransition = TransitionOrchestrator.<UserViewModel>immediate(_ -> System.out.println("NOOP"));
+
+        final FXController controller = fxControllerFactory.mainMenu(
+                logoutTransition,
+                settingsTransition,
+                userID, username
         );
 
         final Parent parent = controller.load();

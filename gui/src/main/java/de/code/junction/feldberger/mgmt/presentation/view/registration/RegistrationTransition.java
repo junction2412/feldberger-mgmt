@@ -83,7 +83,7 @@ public class RegistrationTransition implements Transition<RegistrationForm, User
     public User convert(RegistrationForm registrationForm) {
 
         final String passwordSalt = salt();
-        final String passwordHash = hashPassword(registrationForm.password(), salt());
+        final String passwordHash = hashPassword(registrationForm.password(), passwordSalt);
 
         final User user = new User(registrationForm.username(), passwordHash, passwordSalt);
 
