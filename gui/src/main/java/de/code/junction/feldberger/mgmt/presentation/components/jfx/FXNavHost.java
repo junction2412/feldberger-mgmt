@@ -6,6 +6,7 @@ import de.code.junction.feldberger.mgmt.presentation.components.navigation.Trans
 import de.code.junction.feldberger.mgmt.presentation.model.LoginForm;
 import de.code.junction.feldberger.mgmt.presentation.model.RegistrationForm;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
+import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -59,7 +60,7 @@ public class FXNavHost {
 
         final FXController controller = fxControllerFactory.login(
                 loginTransition,
-                TransitionOrchestrator.immediate(this::registration),
+                TransitionOrchestrator.immediate(_username -> Platform.runLater(() -> registration(_username))),
                 username
         );
 
@@ -78,7 +79,7 @@ public class FXNavHost {
 
         final FXController controller = fxControllerFactory.registration(
                 registrationTransition,
-                TransitionOrchestrator.immediate(this::login),
+                TransitionOrchestrator.immediate(_username -> Platform.runLater(() -> login(_username))),
                 username
         );
 
