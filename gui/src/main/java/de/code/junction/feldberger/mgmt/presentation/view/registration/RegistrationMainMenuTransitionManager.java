@@ -1,13 +1,12 @@
 package de.code.junction.feldberger.mgmt.presentation.view.registration;
 
-import de.code.junction.feldberger.mgmt.data.access.user.User;
 import de.code.junction.feldberger.mgmt.data.access.user.UserDataAccessObject;
 import de.code.junction.feldberger.mgmt.presentation.components.messaging.Message;
 import de.code.junction.feldberger.mgmt.presentation.components.messaging.MessageType;
 import de.code.junction.feldberger.mgmt.presentation.components.messaging.Messenger;
 import de.code.junction.feldberger.mgmt.presentation.components.navigation.AbstractTransitionManager;
 import de.code.junction.feldberger.mgmt.presentation.model.RegistrationForm;
-import de.code.junction.feldberger.mgmt.presentation.util.ResourceUtil;
+import static de.code.junction.feldberger.mgmt.presentation.util.ResourceUtil.getMessageStringResources;
 
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
@@ -46,7 +45,7 @@ public class RegistrationMainMenuTransitionManager extends AbstractTransitionMan
         final boolean isUsernameNotTaken = userDao.findByUsername(username).isEmpty();
 
         final StringBuilder reasons = new StringBuilder();
-        final ResourceBundle bundle = ResourceUtil.getMessageStringResources();
+        final ResourceBundle bundle = getMessageStringResources();
 
         if (!arePasswordInputsEqual)
             reasons.append(bundle.getString("registration.failed.content.reason.password.inputs.not.equal"))

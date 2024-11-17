@@ -1,12 +1,13 @@
 package de.code.junction.feldberger.mgmt.presentation.view;
 
-import de.code.junction.feldberger.mgmt.presentation.util.ResourceUtil;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
+
+import static de.code.junction.feldberger.mgmt.presentation.util.ResourceUtil.getLabelStringResources;
 
 /**
  * The preferred class for JavaFX controllers as repetitive loading boilerplate is leveraged in a streamlined manner.
@@ -43,7 +44,7 @@ public abstract class FXController {
             throw new RuntimeException(e);
         }
 
-        translate(ResourceUtil.getLabelStringResources());
+        translate(getLabelStringResources());
 
         return parent;
     }
@@ -56,6 +57,7 @@ public abstract class FXController {
 
     /**
      * Translate UI labels.
+     *
      * @param bundle resource bundle for UI labels.
      */
     protected abstract void translate(ResourceBundle bundle);
