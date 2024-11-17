@@ -1,8 +1,8 @@
 package de.code.junction.feldberger.mgmt.presentation.components.jfx;
 
-import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionLifecycleOrchestrator;
-import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionManager;
-import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionManagerFactory;
+import de.code.junction.feldberger.mgmt.data.access.user.User;
+import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionFactory;
+import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionOrchestrator;
 import de.code.junction.feldberger.mgmt.presentation.model.LoginForm;
 import de.code.junction.feldberger.mgmt.presentation.model.RegistrationForm;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
@@ -19,21 +19,21 @@ import javafx.stage.Stage;
 public class FXNavHost {
 
     private final FXControllerFactory fxControllerFactory;
-    private final TransitionManagerFactory transitionManagerFactory;
+    private final TransitionFactory transitionFactory;
     private Stage stage;
 
     public FXNavHost(FXControllerFactory fxControllerFactory,
-                     TransitionManagerFactory transitionManagerFactory) {
+                     TransitionFactory transitionFactory) {
 
-        this(fxControllerFactory, transitionManagerFactory, null);
+        this(fxControllerFactory, transitionFactory, null);
     }
 
     public FXNavHost(FXControllerFactory fxControllerFactory,
-                     TransitionManagerFactory transitionManagerFactory,
+                     TransitionFactory transitionFactory,
                      Stage stage) {
 
         this.fxControllerFactory = fxControllerFactory;
-        this.transitionManagerFactory = transitionManagerFactory;
+        this.transitionFactory = transitionFactory;
         this.stage = stage;
     }
 
@@ -54,12 +54,12 @@ public class FXNavHost {
 
     private void login(String username) {
 
-        final TransitionManager<LoginForm> mainMenuTransitionManager = transitionManagerFactory
-                .loginToMainMenu(_ -> System.out.println("NOOP"));
+        final TransitionOrchestrator<LoginForm, User> loginTransition = transitionFactory
+                .loginTransition(_ -> System.out.println("NOOP"));
 
         final FXController controller = fxControllerFactory.login(
-                mainMenuTransitionManager,
-                TransitionLifecycleOrchestrator.immediate(this::registration),
+                loginTransition,
+                TransitionOrchestrator.immediate(this::registration),
                 username
         );
 
@@ -73,12 +73,12 @@ public class FXNavHost {
 
     private void registration(String username) {
 
-        final TransitionManager<RegistrationForm> mainMenuTransitionManager = transitionManagerFactory
-                .registrationToMainMenu(_ -> System.out.println("NOOP"));
+        final TransitionOrchestrator<RegistrationForm, User> registrationTransition = transitionFactory
+                .registrationTransition(_ -> System.out.println("NOOP"));
 
         final FXController controller = fxControllerFactory.registration(
-                mainMenuTransitionManager,
-                TransitionLifecycleOrchestrator.immediate(this::login),
+                registrationTransition,
+                TransitionOrchestrator.immediate(this::login),
                 username
         );
 

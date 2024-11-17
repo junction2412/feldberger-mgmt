@@ -10,7 +10,9 @@ package de.code.junction.feldberger.mgmt.presentation.components.navigation;
 public interface ImmediateTransition<T> extends Transition<T, T> {
 
     @Override
-    default void start(T t) {
+    default boolean validate(T t) {
+
+        return true;
     }
 
     @Override

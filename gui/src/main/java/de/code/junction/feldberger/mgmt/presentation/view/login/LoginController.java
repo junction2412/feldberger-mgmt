@@ -1,7 +1,7 @@
 package de.code.junction.feldberger.mgmt.presentation.view.login;
 
-import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionLifecycleOrchestrator;
-import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionManager;
+import de.code.junction.feldberger.mgmt.data.access.user.User;
+import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionOrchestrator;
 import de.code.junction.feldberger.mgmt.presentation.model.LoginForm;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import javafx.beans.binding.Bindings;
@@ -16,10 +16,10 @@ import java.util.ResourceBundle;
 
 public class LoginController extends FXController {
 
-    private final TransitionManager<LoginForm> mainMenuTransitionManager;
-    private final TransitionLifecycleOrchestrator<String, String> registrationTransition;
+    private final TransitionOrchestrator<LoginForm, User> loginTransition;
+    private final TransitionOrchestrator<String, String> registrationTransition;
 
-    private final LoginViewModel viewModel;
+    private final LoginFormViewModel viewModel;
 
     @FXML
     private Label usernameLabel;
@@ -36,12 +36,12 @@ public class LoginController extends FXController {
     @FXML
     private Button submit;
 
-    public LoginController(TransitionManager<LoginForm> mainMenuTransitionManager,
-                           TransitionLifecycleOrchestrator<String, String> registrationTransition,
-                           LoginViewModel viewModel) {
+    public LoginController(TransitionOrchestrator<LoginForm, User> loginTransition,
+                           TransitionOrchestrator<String, String> registrationTransition,
+                           LoginFormViewModel viewModel) {
 
         super("login-view.fxml");
-        this.mainMenuTransitionManager = mainMenuTransitionManager;
+        this.loginTransition = loginTransition;
         this.registrationTransition = registrationTransition;
         this.viewModel = viewModel;
     }
@@ -71,13 +71,11 @@ public class LoginController extends FXController {
 
     private void onSubmitClicked(ActionEvent event) {
 
-        mainMenuTransitionManager.transition(viewModel.toCredentials());
+        loginTransition.orchestrate(viewModel.toLoginForm());
     }
 
     private void onRegisterClicked(ActionEvent event) {
 
-        final String username = usernameField.getText();
-
-        registrationTransition.orchestrate(username);
+        registrationTransition.orchestrate(usernameField.getText());
     }
 }

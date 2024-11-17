@@ -7,7 +7,8 @@ import java.util.ResourceBundle;
 /**
  * ResourceUtil is a utility class to access specific application resources.
  */
-public class ResourceUtil {
+public final class ResourceUtil {
+
     private ResourceUtil() {
     }
 

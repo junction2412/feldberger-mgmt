@@ -4,13 +4,13 @@ import de.code.junction.feldberger.mgmt.presentation.model.RegistrationForm;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class RegistrationViewModel {
+public class RegistrationFormViewModel {
 
     private final StringProperty username;
     private final StringProperty password;
     private final StringProperty repeatPassword;
 
-    public RegistrationViewModel(String username) {
+    public RegistrationFormViewModel(String username) {
 
         this.username = new SimpleStringProperty(this, "username", username);
         password = new SimpleStringProperty(this, "password", "");

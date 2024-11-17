@@ -43,6 +43,11 @@ public class FXMessenger implements Messenger {
     @Override
     public void send(Message message) {
 
+        Platform.runLater(() -> showAlert(message));
+    }
+
+    private void showAlert(Message message) {
+
         final Alert alert = new Alert(determineAlertType(message.type()));
         alert.initOwner(stage);
         alert.setTitle(message.title());
@@ -55,16 +60,13 @@ public class FXMessenger implements Messenger {
         buttonType.ifPresent(type -> {
             final Consumer<MessageResponse> onResponse = message.onResponse();
             final MessageResponse response = determineResponseType(type);
-            final Runnable runnable = () -> onResponse.accept(response);
 
-            if (Platform.isFxApplicationThread())
-                runnable.run();
-            else
-                Platform.runLater(runnable);
+            onResponse.accept(response);
         });
     }
 
     public void setStage(Stage stage) {
+
         this.stage = stage;
     }
 
@@ -74,7 +76,7 @@ public class FXMessenger implements Messenger {
      * @param messageType message type
      * @return alert type
      */
-    private Alert.AlertType determineAlertType(MessageType messageType) {
+    private static Alert.AlertType determineAlertType(MessageType messageType) {
 
         return switch (messageType) {
             case ERROR -> Alert.AlertType.ERROR;
@@ -90,7 +92,7 @@ public class FXMessenger implements Messenger {
      * @param buttonType button type
      * @return message response
      */
-    private MessageResponse determineResponseType(ButtonType buttonType) {
+    private static MessageResponse determineResponseType(ButtonType buttonType) {
 
         return switch (buttonType) {
             case ButtonType type when type == ButtonType.OK || type == ButtonType.YES || type == ButtonType.APPLY ->

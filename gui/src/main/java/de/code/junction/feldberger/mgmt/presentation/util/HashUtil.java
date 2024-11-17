@@ -9,7 +9,7 @@ import java.security.SecureRandom;
  *
  * @author J. Murray
  */
-public class HashUtil {
+public final class HashUtil {
 
     private HashUtil() {
     }

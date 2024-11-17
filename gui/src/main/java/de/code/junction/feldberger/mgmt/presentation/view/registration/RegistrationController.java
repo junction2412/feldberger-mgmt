@@ -1,7 +1,7 @@
 package de.code.junction.feldberger.mgmt.presentation.view.registration;
 
-import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionLifecycleOrchestrator;
-import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionManager;
+import de.code.junction.feldberger.mgmt.data.access.user.User;
+import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionOrchestrator;
 import de.code.junction.feldberger.mgmt.presentation.model.RegistrationForm;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import javafx.beans.binding.Bindings;
@@ -16,9 +16,9 @@ import java.util.ResourceBundle;
 
 public class RegistrationController extends FXController {
 
-    private final TransitionManager<RegistrationForm> mainMenuTransitionManager;
-    private final TransitionLifecycleOrchestrator<String, String> loginTransition;
-    private final RegistrationViewModel viewModel;
+    private final TransitionOrchestrator<RegistrationForm, User> registrationTransition;
+    private final TransitionOrchestrator<String, String> loginTransition;
+    private final RegistrationFormViewModel viewModel;
 
     @FXML
     private Label usernameLabel;
@@ -40,13 +40,13 @@ public class RegistrationController extends FXController {
     @FXML
     private Button submit;
 
-    public RegistrationController(TransitionManager<RegistrationForm> mainMenuTransitionManager,
-                                  TransitionLifecycleOrchestrator<String, String> loginTransition,
-                                  RegistrationViewModel viewModel) {
+    public RegistrationController(TransitionOrchestrator<RegistrationForm, User> registrationTransition,
+                                  TransitionOrchestrator<String, String> loginTransition,
+                                  RegistrationFormViewModel viewModel) {
 
         super("registration-view.fxml");
 
-        this.mainMenuTransitionManager = mainMenuTransitionManager;
+        this.registrationTransition = registrationTransition;
         this.loginTransition = loginTransition;
         this.viewModel = viewModel;
     }
@@ -64,8 +64,11 @@ public class RegistrationController extends FXController {
         usernameField.textProperty().bindBidirectional(viewModel.usernameProperty());
         viewModel.passwordProperty().bind(Bindings.createStringBinding(() -> passwordField.getCharacters().toString(),
                 passwordField.textProperty()));
-        viewModel.repeatPasswordProperty().bind(Bindings.createStringBinding(() -> repeatPasswordField.getCharacters().toString(),
-                repeatPasswordLabel.textProperty()));
+
+        viewModel.repeatPasswordProperty().bind(Bindings.createStringBinding(
+                () -> repeatPasswordField.getCharacters().toString(),
+                repeatPasswordLabel.textProperty()
+        ));
     }
 
     @Override
@@ -85,6 +88,6 @@ public class RegistrationController extends FXController {
 
     private void onSubmitClicked(ActionEvent event) {
 
-        mainMenuTransitionManager.transition(viewModel.toRegistrationForm());
+        registrationTransition.orchestrate(viewModel.toRegistrationForm());
     }
 }
