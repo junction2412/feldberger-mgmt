@@ -4,17 +4,28 @@ import de.code.junction.feldberger.mgmt.presentation.components.navigation.Trans
 import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionManagerFactory;
 import de.code.junction.feldberger.mgmt.presentation.model.Credentials;
 import de.code.junction.feldberger.mgmt.presentation.model.RegistrationForm;
-import de.code.junction.feldberger.mgmt.presentation.view.login.LoginController;
-import de.code.junction.feldberger.mgmt.presentation.view.registration.RegistrationController;
+import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * The FXNavHost is the actual entry point of the application UI. Though I might reconsider it sooner or later.
+ * It mainly defines in-app navigation based on fixed routes.
+ *
+ * @author J. Murray
+ */
 public class FXNavHost {
 
     private final FXControllerFactory fxControllerFactory;
     private final TransitionManagerFactory transitionManagerFactory;
-    private final Stage stage;
+    private Stage stage;
+
+    public FXNavHost(FXControllerFactory fxControllerFactory,
+                     TransitionManagerFactory transitionManagerFactory){
+
+        this(fxControllerFactory, transitionManagerFactory, null);
+    }
 
     public FXNavHost(FXControllerFactory fxControllerFactory,
                      TransitionManagerFactory transitionManagerFactory,
@@ -27,17 +38,30 @@ public class FXNavHost {
 
     public void start() {
 
+        if (stage == null)
+            throw new NullPointerException("Cannot start because stage is null.");
+
         login("");
         stage.setMaximized(true);
         stage.show();
     }
 
+    public Stage getStage() {
+
+        return stage;
+    }
+
+    public void setStage(Stage stage) {
+
+        this.stage = stage;
+    }
+
     private void login(String username) {
 
-        final TransitionManager<Credentials> mainMenuTransitionManager = transitionManagerFactory.loginToMainMenu(_ ->
-                System.out.println("NOOP"));
+        final TransitionManager<Credentials> mainMenuTransitionManager = transitionManagerFactory
+                .loginToMainMenu(_ -> System.out.println("NOOP"));
 
-        final LoginController controller = fxControllerFactory.login(
+        final FXController controller = fxControllerFactory.login(
                 mainMenuTransitionManager,
                 this::registration,
                 username
@@ -53,10 +77,10 @@ public class FXNavHost {
 
     private void registration(String username) {
 
-        final TransitionManager<RegistrationForm> mainMenuTransitionManager = transitionManagerFactory.registrationToMainMenu(_ ->
-                System.out.println("NOOP"));
+        final TransitionManager<RegistrationForm> mainMenuTransitionManager = transitionManagerFactory
+                .registrationToMainMenu(_ -> System.out.println("NOOP"));
 
-        final RegistrationController controller = fxControllerFactory.registration(
+        final FXController controller = fxControllerFactory.registration(
                 mainMenuTransitionManager,
                 this::login,
                 username

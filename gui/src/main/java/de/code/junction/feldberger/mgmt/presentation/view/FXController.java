@@ -8,15 +8,28 @@ import javafx.scene.Parent;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
-public abstract class Controller {
+/**
+ * The preferred class for JavaFX controllers as repetitive loading boilerplate is leveraged in a streamlined manner.
+ *
+ * @author J. Murray
+ */
+public abstract class FXController {
 
+    /**
+     * The name of the adjacent fxml file.
+     */
     private final String fxmlFileName;
 
-    public Controller(String fxmlFileName) {
+    public FXController(String fxmlFileName) {
 
         this.fxmlFileName = fxmlFileName;
     }
 
+    /**
+     * Load the fxml contents, initialize the view and translate labels.
+     *
+     * @return initialized parent
+     */
     public final Parent load() {
 
         final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFileName));
@@ -26,6 +39,7 @@ public abstract class Controller {
         try {
             parent = fxmlLoader.load();
         } catch (IOException e) {
+            // pretty rare here
             throw new RuntimeException(e);
         }
 
@@ -34,8 +48,15 @@ public abstract class Controller {
         return parent;
     }
 
+    /**
+     * JavaFX specific initialization.
+     */
     @FXML
     protected abstract void initialize();
 
+    /**
+     * Translate UI labels.
+     * @param bundle resource bundle for UI labels.
+     */
     protected abstract void translate(ResourceBundle bundle);
 }

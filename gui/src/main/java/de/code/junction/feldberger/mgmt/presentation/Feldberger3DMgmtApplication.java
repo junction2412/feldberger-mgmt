@@ -13,18 +13,24 @@ import java.io.IOException;
 
 public class Feldberger3DMgmtApplication extends Application {
 
-    private static final PersistenceManager persistenceManager = PersistenceManager.INSTANCE;
+    private PersistenceManager persistenceManager;
 
-    private FXControllerFactory fxControllerFactory;
-    private TransitionManagerFactory transitionManagerFactory;
+    private FXMessenger messenger;
+    private FXNavHost navHost;
 
     @Override
     public void init() throws Exception {
 
         System.out.println("Application init");
 
-        fxControllerFactory = new FXControllerFactory(new ServiceFactory(persistenceManager));
-        transitionManagerFactory = new TransitionManagerFactory(persistenceManager);
+        persistenceManager = PersistenceManager.INSTANCE;
+
+        messenger = new FXMessenger();
+
+        FXControllerFactory fxControllerFactory = new FXControllerFactory(new ServiceFactory(persistenceManager));
+        TransitionManagerFactory transitionManagerFactory = new TransitionManagerFactory(persistenceManager, messenger);
+
+        navHost = new FXNavHost(fxControllerFactory, transitionManagerFactory);
     }
 
     @Override
@@ -32,10 +38,8 @@ public class Feldberger3DMgmtApplication extends Application {
 
         System.out.println("Application start");
 
-        final FXNavHost navHost = new FXNavHost(fxControllerFactory, transitionManagerFactory, stage);
-
-        final FXMessenger messenger = new FXMessenger(stage);
-        transitionManagerFactory.setMessenger(messenger);
+        messenger.setStage(stage);
+        navHost.setStage(stage);
 
         navHost.start();
     }

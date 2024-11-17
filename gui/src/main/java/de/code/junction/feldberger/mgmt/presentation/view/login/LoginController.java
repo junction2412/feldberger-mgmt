@@ -2,7 +2,7 @@ package de.code.junction.feldberger.mgmt.presentation.view.login;
 
 import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionManager;
 import de.code.junction.feldberger.mgmt.presentation.model.Credentials;
-import de.code.junction.feldberger.mgmt.presentation.view.Controller;
+import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,7 +13,7 @@ import javafx.scene.control.TextField;
 
 import java.util.ResourceBundle;
 
-public class LoginController extends Controller {
+public class LoginController extends FXController {
 
     private final TransitionManager<Credentials> mainMenuTransitionManager;
     private final TransitionManager<String> registrationTransitionManager;

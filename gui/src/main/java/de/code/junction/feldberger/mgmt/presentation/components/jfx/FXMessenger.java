@@ -7,21 +7,39 @@ import de.code.junction.feldberger.mgmt.presentation.components.messaging.Messen
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.util.Optional;
 import java.util.function.Consumer;
 
+/**
+ * The JavaFX specific {@link Messenger} implementation.
+ *
+ * @author J.Murray
+ */
 public class FXMessenger implements Messenger {
 
-    private final Stage stage;
+    /**
+     * The stage to be used as the owner.
+     */
+    private Stage stage;
+
+
+    public FXMessenger() {
+
+        this(null);
+    }
 
     public FXMessenger(Stage stage) {
 
         this.stage = stage;
     }
 
+    /**
+     * Display messages in a JavaFX compliant way, thus respecting the JavaFX-Application-Thread.
+     *
+     * @param message message details to be displayed
+     */
     @Override
     public void send(Message message) {
 
@@ -46,6 +64,16 @@ public class FXMessenger implements Messenger {
         });
     }
 
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+    /**
+     * Translate a {@link MessageType} to the corresponding {@link Alert.AlertType}.
+     *
+     * @param messageType message type
+     * @return alert type
+     */
     private Alert.AlertType determineAlertType(MessageType messageType) {
 
         return switch (messageType) {
@@ -56,6 +84,12 @@ public class FXMessenger implements Messenger {
         };
     }
 
+    /**
+     * Translate a {@link ButtonType} to the corresponding {@link MessageResponse}.
+     *
+     * @param buttonType button type
+     * @return message response
+     */
     private MessageResponse determineResponseType(ButtonType buttonType) {
 
         return switch (buttonType) {
