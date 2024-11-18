@@ -1,17 +1,16 @@
 package de.code.junction.feldberger.mgmt.presentation.components.jfx;
 
-import de.code.junction.feldberger.mgmt.data.access.user.User;
 import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionOrchestrator;
 import de.code.junction.feldberger.mgmt.presentation.components.service.ServiceFactory;
-import de.code.junction.feldberger.mgmt.presentation.domain.UserViewModel;
-import de.code.junction.feldberger.mgmt.presentation.model.LoginForm;
-import de.code.junction.feldberger.mgmt.presentation.model.RegistrationForm;
+import de.code.junction.feldberger.mgmt.presentation.domain.UserSessionViewModel;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import de.code.junction.feldberger.mgmt.presentation.view.login.LoginController;
 import de.code.junction.feldberger.mgmt.presentation.view.login.LoginFormViewModel;
 import de.code.junction.feldberger.mgmt.presentation.view.main.menu.MainMenuController;
 import de.code.junction.feldberger.mgmt.presentation.view.registration.RegistrationController;
 import de.code.junction.feldberger.mgmt.presentation.view.registration.RegistrationFormViewModel;
+
+import static de.code.junction.feldberger.mgmt.presentation.components.jfx.ApplicationNavRoute.*;
 
 /**
  * A factory class to construct {@link FXController} instances.
@@ -28,8 +27,8 @@ public class FXControllerFactory {
         this.serviceFactory = serviceFactory;
     }
 
-    public FXController login(TransitionOrchestrator<LoginForm, User> loginTransition,
-                              TransitionOrchestrator<String, String> registrationTransition,
+    public FXController login(TransitionOrchestrator<LoginForm, UserSession> loginTransition,
+                              TransitionOrchestrator<LoginForm, RegistrationForm> registrationTransition,
                               String username) {
 
         return new LoginController(loginTransition,
@@ -37,8 +36,8 @@ public class FXControllerFactory {
                 new LoginFormViewModel(username));
     }
 
-    public FXController registration(TransitionOrchestrator<RegistrationForm, User> registrationTransition,
-                                     TransitionOrchestrator<String, String> loginTransition,
+    public FXController registration(TransitionOrchestrator<RegistrationForm, UserSession> registrationTransition,
+                                     TransitionOrchestrator<RegistrationForm, LoginForm> loginTransition,
                                      String username) {
 
         return new RegistrationController(registrationTransition,
@@ -46,11 +45,13 @@ public class FXControllerFactory {
                 new RegistrationFormViewModel(username));
     }
 
-    public FXController mainMenu(TransitionOrchestrator<String, String> logoutTransition,
-                                 TransitionOrchestrator<UserViewModel, UserViewModel> settingsTransition,
+    public FXController mainMenu(TransitionOrchestrator<UserSession, LoginForm> logoutTransition,
+                                 TransitionOrchestrator<UserSession, UserSession> settingsTransition,
                                  int userID,
                                  String username) {
 
-        return new MainMenuController(logoutTransition, settingsTransition, new UserViewModel(userID, username));
+        return new MainMenuController(logoutTransition,
+                settingsTransition,
+                new UserSessionViewModel(userID, username));
     }
 }

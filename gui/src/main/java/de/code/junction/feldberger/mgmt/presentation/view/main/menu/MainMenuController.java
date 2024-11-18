@@ -1,7 +1,9 @@
 package de.code.junction.feldberger.mgmt.presentation.view.main.menu;
 
+import de.code.junction.feldberger.mgmt.presentation.components.jfx.ApplicationNavRoute.LoginForm;
+import de.code.junction.feldberger.mgmt.presentation.components.jfx.ApplicationNavRoute.UserSession;
 import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionOrchestrator;
-import de.code.junction.feldberger.mgmt.presentation.domain.UserViewModel;
+import de.code.junction.feldberger.mgmt.presentation.domain.UserSessionViewModel;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,9 +14,9 @@ import java.util.ResourceBundle;
 
 public class MainMenuController extends FXController {
 
-    private final TransitionOrchestrator<String, String> logoutTransition;
-    private final TransitionOrchestrator<UserViewModel, UserViewModel> settingsTransition;
-    private final UserViewModel viewModel;
+    private final TransitionOrchestrator<UserSession, LoginForm> logoutTransition;
+    private final TransitionOrchestrator<UserSession, UserSession> settingsTransition;
+    private final UserSessionViewModel viewModel;
 
     @FXML
     private Label userIDLabel;
@@ -31,9 +33,9 @@ public class MainMenuController extends FXController {
     @FXML
     private Button settings;
 
-    public MainMenuController(TransitionOrchestrator<String, String> logoutTransition,
-                              TransitionOrchestrator<UserViewModel, UserViewModel> settingsTransition,
-                              UserViewModel viewModel) {
+    public MainMenuController(TransitionOrchestrator<UserSession, LoginForm> logoutTransition,
+                              TransitionOrchestrator<UserSession, UserSession> settingsTransition,
+                              UserSessionViewModel viewModel) {
 
         super("main-menu-view.fxml");
 
@@ -66,11 +68,11 @@ public class MainMenuController extends FXController {
 
     private void onLogoutClicked(ActionEvent event) {
 
-        logoutTransition.orchestrate(viewModel.getUsername());
+        logoutTransition.orchestrate(viewModel.toUserSession());
     }
 
     private void onSettingsClicked(ActionEvent event) {
 
-        settingsTransition.orchestrate(viewModel);
+        settingsTransition.orchestrate(viewModel.toUserSession());
     }
 }

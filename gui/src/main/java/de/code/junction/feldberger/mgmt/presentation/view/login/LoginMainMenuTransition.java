@@ -6,26 +6,27 @@ import de.code.junction.feldberger.mgmt.presentation.components.messaging.Messag
 import de.code.junction.feldberger.mgmt.presentation.components.messaging.MessageType;
 import de.code.junction.feldberger.mgmt.presentation.components.messaging.Messenger;
 import de.code.junction.feldberger.mgmt.presentation.components.navigation.Transition;
-import de.code.junction.feldberger.mgmt.presentation.model.LoginForm;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
+import static de.code.junction.feldberger.mgmt.presentation.components.jfx.ApplicationNavRoute.LoginForm;
+import static de.code.junction.feldberger.mgmt.presentation.components.jfx.ApplicationNavRoute.UserSession;
 import static de.code.junction.feldberger.mgmt.presentation.util.HashUtil.hashPassword;
 import static de.code.junction.feldberger.mgmt.presentation.util.MessageUtil.transitionNotPerformed;
 import static de.code.junction.feldberger.mgmt.presentation.util.ResourceUtil.getMessageStringResources;
 
-public class LoginTransition implements Transition<LoginForm, User> {
+public class LoginMainMenuTransition implements Transition<LoginForm, UserSession> {
 
     private final Messenger messenger;
     private final UserDataAccessObject userDao;
-    private final Consumer<User> onEnd;
+    private final Consumer<UserSession> onEnd;
 
-    public LoginTransition(Messenger messenger,
-                           UserDataAccessObject userDao,
-                           Consumer<User> onEnd) {
+    public LoginMainMenuTransition(Messenger messenger,
+                                   UserDataAccessObject userDao,
+                                   Consumer<UserSession> onEnd) {
 
         this.messenger = messenger;
         this.userDao = userDao;
@@ -56,7 +57,7 @@ public class LoginTransition implements Transition<LoginForm, User> {
     }
 
     @Override
-    public User convert(LoginForm loginForm) {
+    public UserSession convert(LoginForm loginForm) {
 
         final Optional<User> optionalUser = userDao.findByUsername(loginForm.username());
 
@@ -66,14 +67,16 @@ public class LoginTransition implements Transition<LoginForm, User> {
             throw new NoSuchElementException();
         }
 
-        return optionalUser.get();
+        final User user = optionalUser.get();
+
+        return new UserSession(user.getID(), user.getUsername());
     }
 
     @Override
-    public void end(User user) {
+    public void end(UserSession userSession) {
 
         try {
-            onEnd.accept(user);
+            onEnd.accept(userSession);
         } catch (Exception e) {
             messenger.send(transitionNotPerformed());
             throw e;

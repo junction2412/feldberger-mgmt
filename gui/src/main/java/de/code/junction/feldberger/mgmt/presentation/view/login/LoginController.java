@@ -1,8 +1,6 @@
 package de.code.junction.feldberger.mgmt.presentation.view.login;
 
-import de.code.junction.feldberger.mgmt.data.access.user.User;
 import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionOrchestrator;
-import de.code.junction.feldberger.mgmt.presentation.model.LoginForm;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
@@ -14,10 +12,12 @@ import javafx.scene.control.TextField;
 
 import java.util.ResourceBundle;
 
+import static de.code.junction.feldberger.mgmt.presentation.components.jfx.ApplicationNavRoute.*;
+
 public class LoginController extends FXController {
 
-    private final TransitionOrchestrator<LoginForm, User> loginTransition;
-    private final TransitionOrchestrator<String, String> registrationTransition;
+    private final TransitionOrchestrator<LoginForm, UserSession> loginTransition;
+    private final TransitionOrchestrator<LoginForm, RegistrationForm> registrationTransition;
 
     private final LoginFormViewModel viewModel;
 
@@ -36,8 +36,8 @@ public class LoginController extends FXController {
     @FXML
     private Button submit;
 
-    public LoginController(TransitionOrchestrator<LoginForm, User> loginTransition,
-                           TransitionOrchestrator<String, String> registrationTransition,
+    public LoginController(TransitionOrchestrator<LoginForm, UserSession> loginTransition,
+                           TransitionOrchestrator<LoginForm, RegistrationForm> registrationTransition,
                            LoginFormViewModel viewModel) {
 
         super("login-view.fxml");
@@ -76,6 +76,6 @@ public class LoginController extends FXController {
 
     private void onRegisterClicked(ActionEvent event) {
 
-        registrationTransition.orchestrate(usernameField.getText());
+        registrationTransition.orchestrate(viewModel.toLoginForm());
     }
 }

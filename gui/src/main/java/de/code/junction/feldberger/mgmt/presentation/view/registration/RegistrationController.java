@@ -1,8 +1,9 @@
 package de.code.junction.feldberger.mgmt.presentation.view.registration;
 
-import de.code.junction.feldberger.mgmt.data.access.user.User;
+import de.code.junction.feldberger.mgmt.presentation.components.jfx.ApplicationNavRoute.LoginForm;
+import de.code.junction.feldberger.mgmt.presentation.components.jfx.ApplicationNavRoute.RegistrationForm;
+import de.code.junction.feldberger.mgmt.presentation.components.jfx.ApplicationNavRoute.UserSession;
 import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionOrchestrator;
-import de.code.junction.feldberger.mgmt.presentation.model.RegistrationForm;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
@@ -16,8 +17,8 @@ import java.util.ResourceBundle;
 
 public class RegistrationController extends FXController {
 
-    private final TransitionOrchestrator<RegistrationForm, User> registrationTransition;
-    private final TransitionOrchestrator<String, String> loginTransition;
+    private final TransitionOrchestrator<RegistrationForm, UserSession> registrationTransition;
+    private final TransitionOrchestrator<RegistrationForm, LoginForm> loginTransition;
     private final RegistrationFormViewModel viewModel;
 
     @FXML
@@ -40,8 +41,8 @@ public class RegistrationController extends FXController {
     @FXML
     private Button submit;
 
-    public RegistrationController(TransitionOrchestrator<RegistrationForm, User> registrationTransition,
-                                  TransitionOrchestrator<String, String> loginTransition,
+    public RegistrationController(TransitionOrchestrator<RegistrationForm, UserSession> registrationTransition,
+                                  TransitionOrchestrator<RegistrationForm, LoginForm> loginTransition,
                                   RegistrationFormViewModel viewModel) {
 
         super("registration-view.fxml");
@@ -83,7 +84,7 @@ public class RegistrationController extends FXController {
 
     private void onBackClicked(ActionEvent event) {
 
-        loginTransition.orchestrate(usernameField.getText());
+        loginTransition.orchestrate(viewModel.toRegistrationForm());
     }
 
     private void onSubmitClicked(ActionEvent event) {

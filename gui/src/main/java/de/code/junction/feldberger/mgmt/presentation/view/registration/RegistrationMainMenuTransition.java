@@ -6,25 +6,26 @@ import de.code.junction.feldberger.mgmt.presentation.components.messaging.Messag
 import de.code.junction.feldberger.mgmt.presentation.components.messaging.MessageType;
 import de.code.junction.feldberger.mgmt.presentation.components.messaging.Messenger;
 import de.code.junction.feldberger.mgmt.presentation.components.navigation.Transition;
-import de.code.junction.feldberger.mgmt.presentation.model.RegistrationForm;
 
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
+import static de.code.junction.feldberger.mgmt.presentation.components.jfx.ApplicationNavRoute.RegistrationForm;
+import static de.code.junction.feldberger.mgmt.presentation.components.jfx.ApplicationNavRoute.UserSession;
 import static de.code.junction.feldberger.mgmt.presentation.util.HashUtil.hashPassword;
 import static de.code.junction.feldberger.mgmt.presentation.util.HashUtil.salt;
 import static de.code.junction.feldberger.mgmt.presentation.util.MessageUtil.transitionNotPerformed;
 import static de.code.junction.feldberger.mgmt.presentation.util.ResourceUtil.getMessageStringResources;
 
-public class RegistrationTransition implements Transition<RegistrationForm, User> {
+public class RegistrationMainMenuTransition implements Transition<RegistrationForm, UserSession> {
 
     private final Messenger messenger;
     private final UserDataAccessObject userDao;
-    private final Consumer<User> onEnd;
+    private final Consumer<UserSession> onEnd;
 
-    public RegistrationTransition(Messenger messenger,
-                                  UserDataAccessObject userDao,
-                                  Consumer<User> onEnd) {
+    public RegistrationMainMenuTransition(Messenger messenger,
+                                          UserDataAccessObject userDao,
+                                          Consumer<UserSession> onEnd) {
 
         this.messenger = messenger;
         this.userDao = userDao;
@@ -80,7 +81,7 @@ public class RegistrationTransition implements Transition<RegistrationForm, User
     }
 
     @Override
-    public User convert(RegistrationForm registrationForm) {
+    public UserSession convert(RegistrationForm registrationForm) {
 
         final String passwordSalt = salt();
         final String passwordHash = hashPassword(registrationForm.password(), passwordSalt);
@@ -89,14 +90,14 @@ public class RegistrationTransition implements Transition<RegistrationForm, User
 
         userDao.persistUser(user);
 
-        return user;
+        return new UserSession(user.getID(), user.getUsername());
     }
 
     @Override
-    public void end(User user) {
+    public void end(UserSession userSession) {
 
         try {
-            onEnd.accept(user);
+            onEnd.accept(userSession);
         } catch (Exception e) {
             messenger.send(transitionNotPerformed());
             throw e;

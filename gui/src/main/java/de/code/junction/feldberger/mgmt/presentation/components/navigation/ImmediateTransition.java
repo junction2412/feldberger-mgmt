@@ -7,13 +7,7 @@ package de.code.junction.feldberger.mgmt.presentation.components.navigation;
  * @author J. Murray
  */
 @FunctionalInterface
-public interface ImmediateTransition<T> extends Transition<T, T> {
-
-    @Override
-    default boolean validate(T t) {
-
-        return true;
-    }
+public interface ImmediateTransition<T> extends BypassTransition<T, T> {
 
     @Override
     default T convert(T t) {

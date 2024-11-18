@@ -1,6 +1,6 @@
 package de.code.junction.feldberger.mgmt.presentation.view.login;
 
-import de.code.junction.feldberger.mgmt.presentation.model.LoginForm;
+import de.code.junction.feldberger.mgmt.presentation.components.jfx.ApplicationNavRoute;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -36,8 +36,8 @@ public class LoginFormViewModel {
         return password;
     }
 
-    public LoginForm toLoginForm() {
+    public ApplicationNavRoute.LoginForm toLoginForm() {
 
-        return new LoginForm(getUsername().trim(), getPassword());
+        return new ApplicationNavRoute.LoginForm(getUsername().trim(), getPassword());
     }
 }

@@ -1,10 +1,7 @@
 package de.code.junction.feldberger.mgmt.presentation;
 
 import de.code.junction.feldberger.mgmt.data.access.PersistenceManager;
-import de.code.junction.feldberger.mgmt.presentation.components.jfx.FXControllerFactory;
-import de.code.junction.feldberger.mgmt.presentation.components.jfx.FXMessenger;
-import de.code.junction.feldberger.mgmt.presentation.components.jfx.FXNavHost;
-import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionFactory;
+import de.code.junction.feldberger.mgmt.presentation.components.jfx.*;
 import de.code.junction.feldberger.mgmt.presentation.components.service.ServiceFactory;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -16,7 +13,7 @@ public class Feldberger3DMgmtApplication extends Application {
     private PersistenceManager persistenceManager;
 
     private FXMessenger messenger;
-    private FXNavHost navHost;
+    private ApplicationNavContext navContext;
 
     @Override
     public void init() throws Exception {
@@ -28,9 +25,9 @@ public class Feldberger3DMgmtApplication extends Application {
         messenger = new FXMessenger();
 
         FXControllerFactory fxControllerFactory = new FXControllerFactory(new ServiceFactory(persistenceManager));
-        TransitionFactory transitionFactory = new TransitionFactory(persistenceManager, messenger);
+        ApplicationTransitionFactory transitionFactory = new ApplicationTransitionFactory(persistenceManager, messenger);
 
-        navHost = new FXNavHost(fxControllerFactory, transitionFactory);
+        navContext = new ApplicationNavContext(fxControllerFactory, transitionFactory);
     }
 
     @Override
@@ -39,9 +36,12 @@ public class Feldberger3DMgmtApplication extends Application {
         System.out.println("Application start");
 
         messenger.setStage(stage);
-        navHost.setStage(stage);
+        navContext.setStage(stage);
 
-        navHost.start();
+        navContext.navigateTo(new ApplicationNavRoute.LoginForm(""));
+
+        stage.setMaximized(true);
+        stage.show();
     }
 
     @Override

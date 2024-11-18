@@ -1,0 +1,94 @@
+package de.code.junction.feldberger.mgmt.presentation.components.jfx;
+
+import de.code.junction.feldberger.mgmt.data.access.DataAccessObject;
+import de.code.junction.feldberger.mgmt.data.access.PersistenceManager;
+import de.code.junction.feldberger.mgmt.presentation.components.messaging.Messenger;
+import de.code.junction.feldberger.mgmt.presentation.components.navigation.Transition;
+import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionOrchestrator;
+import de.code.junction.feldberger.mgmt.presentation.view.login.LoginMainMenuTransition;
+import de.code.junction.feldberger.mgmt.presentation.view.login.LoginRegistrationTransition;
+import de.code.junction.feldberger.mgmt.presentation.view.main.menu.MainMenuLoginTransition;
+import de.code.junction.feldberger.mgmt.presentation.view.registration.RegistrationLoginTransition;
+import de.code.junction.feldberger.mgmt.presentation.view.registration.RegistrationMainMenuTransition;
+
+import java.util.function.Consumer;
+
+import static de.code.junction.feldberger.mgmt.presentation.components.jfx.ApplicationNavRoute.*;
+
+/**
+ * A factory class to be used to instantiate more complex {@link Transition} implementations.
+ *
+ * @author J. Murray
+ */
+public class ApplicationTransitionFactory {
+
+    /**
+     * A {@link PersistenceManager} that is used to inject necessary {@link DataAccessObject}s.
+     */
+    private final PersistenceManager persistenceManager;
+
+    /**
+     * The {@link Messenger} that is injected.
+     */
+    private final Messenger messenger;
+
+    public ApplicationTransitionFactory(PersistenceManager persistenceManager, Messenger messenger) {
+
+        this.persistenceManager = persistenceManager;
+        this.messenger = messenger;
+    }
+
+    /**
+     * Provides the login->mainMenu transition.
+     *
+     * @param onTransition transition ui logic to be performed
+     * @return login->mainMenu transition
+     */
+    public TransitionOrchestrator<LoginForm, UserSession> loginSession(Consumer<UserSession> onTransition) {
+
+        return new TransitionOrchestrator<>(new LoginMainMenuTransition(
+                messenger,
+                persistenceManager.userDao(),
+                onTransition
+        ));
+    }
+
+    /**
+     * Provides the login->registration transition.
+     *
+     * @param onTransition transition ui logic to be performed
+     * @return login->registration transition
+     */
+    public TransitionOrchestrator<LoginForm, RegistrationForm> loginRegistration(Consumer<RegistrationForm> onTransition) {
+
+        return new TransitionOrchestrator<>(new LoginRegistrationTransition(onTransition));
+    }
+
+    /**
+     * Provides the registration->login transition.
+     *
+     * @param onTransition transition ui logic to be performed
+     * @return registration->login transition
+     */
+    public TransitionOrchestrator<RegistrationForm, LoginForm> registrationLogin(Consumer<LoginForm> onTransition) {
+
+        return new TransitionOrchestrator<>(new RegistrationLoginTransition(onTransition));
+    }
+
+    /**
+     * Provides the registration->mainMenu transition.
+     *
+     * @param onTransition transition ui logic to be performed
+     * @return registration->mainMenu transition
+     */
+    public TransitionOrchestrator<RegistrationForm, UserSession> registrationSession(Consumer<UserSession> onTransition) {
+
+        return new TransitionOrchestrator<>(new RegistrationMainMenuTransition(messenger, persistenceManager.userDao(),
+                onTransition));
+    }
+
+    public TransitionOrchestrator<UserSession, LoginForm> sessionLogin(Consumer<LoginForm> onTransition) {
+
+        return new TransitionOrchestrator<>(new MainMenuLoginTransition(onTransition));
+    }
+}
