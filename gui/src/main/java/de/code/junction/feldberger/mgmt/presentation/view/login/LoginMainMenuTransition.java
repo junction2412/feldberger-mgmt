@@ -57,7 +57,7 @@ public class LoginMainMenuTransition implements Transition<LoginForm, UserSessio
     }
 
     @Override
-    public UserSession convert(LoginForm loginForm) {
+    public UserSession transform(LoginForm loginForm) {
 
         final Optional<User> optionalUser = userDao.findByUsername(loginForm.username());
 
@@ -73,7 +73,7 @@ public class LoginMainMenuTransition implements Transition<LoginForm, UserSessio
     }
 
     @Override
-    public void end(UserSession userSession) {
+    public void conclude(UserSession userSession) {
 
         try {
             onEnd.accept(userSession);

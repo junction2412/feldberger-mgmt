@@ -16,13 +16,13 @@ public class MainMenuLoginTransition implements BypassTransition<UserSession, Lo
     }
 
     @Override
-    public LoginForm convert(UserSession session) {
+    public LoginForm transform(UserSession session) {
 
         return new LoginForm(session.username());
     }
 
     @Override
-    public void end(LoginForm form) {
+    public void conclude(LoginForm form) {
 
         onEnd.accept(form);
     }

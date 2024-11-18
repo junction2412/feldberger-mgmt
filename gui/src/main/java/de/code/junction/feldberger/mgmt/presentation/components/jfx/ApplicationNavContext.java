@@ -44,13 +44,13 @@ public class ApplicationNavContext implements NavContext<ApplicationNavRoute> {
         if (stage == null)
             throw new NullPointerException("Cannot navigate because stage is null.");
 
-        var parent = switch (route) {
+        final var controller = switch (route) {
             case LoginForm form -> login(form.username());
             case RegistrationForm form -> registration(form.username());
             case UserSession session -> mainMenu(session.userID(), session.username());
         };
 
-        setSceneRoot(parent);
+        setSceneController(controller);
     }
 
     public void setStage(Stage stage) {
@@ -58,54 +58,38 @@ public class ApplicationNavContext implements NavContext<ApplicationNavRoute> {
         this.stage = stage;
     }
 
-    private Parent login(String username) {
+    private FXController login(String username) {
 
-        final var loginTransition = transitionFactory.loginSession(session -> Platform.runLater(() ->
-                navigateTo(session)));
+        final var loginTransition = transitionFactory.loginSession(this::navigateTo);
+        final var registrationTransition = transitionFactory.loginRegistration(this::navigateTo);
 
-        final var registrationTransition = transitionFactory.loginRegistration(form -> Platform.runLater(() ->
-                navigateTo(form)));
-
-        final FXController controller = fxControllerFactory.login(
-                loginTransition,
-                registrationTransition,
-                username
-        );
-
-        return controller.load();
+        return fxControllerFactory.login(loginTransition, registrationTransition, username);
     }
 
-    private Parent registration(String username) {
+    private FXController registration(String username) {
 
-        final var registrationTransition = transitionFactory.registrationSession(session -> Platform.runLater(() ->
-                navigateTo(session)));
+        final var registrationTransition = transitionFactory.registrationSession(this::navigateTo);
+        final var loginTransition = transitionFactory.registrationLogin(this::navigateTo);
 
-        final var loginTransition = transitionFactory.registrationLogin(form -> Platform.runLater(() ->
-                navigateTo(form)));
-
-        final FXController controller = fxControllerFactory.registration(
-                registrationTransition,
-                loginTransition,
-                username
-        );
-
-        return controller.load();
+        return fxControllerFactory.registration(registrationTransition, loginTransition, username);
     }
 
-    private Parent mainMenu(int userID, String username) {
+    private FXController mainMenu(int userID, String username) {
 
-        final var logoutTransition = transitionFactory.sessionLogin(form -> Platform.runLater(() ->
-                navigateTo(form)));
-
+        final var logoutTransition = transitionFactory.sessionLogin(this::navigateTo);
         final var settingsTransition = TransitionOrchestrator.<UserSession>immediate(_ -> System.out.println("NOOP"));
 
-        final FXController controller = fxControllerFactory.mainMenu(
-                logoutTransition,
-                settingsTransition,
-                userID, username
-        );
+        return fxControllerFactory.mainMenu(logoutTransition, settingsTransition, userID, username);
+    }
 
-        return controller.load();
+    private void setSceneController(FXController controller) {
+
+        final Runnable runnable = () -> setSceneRoot(controller.load());
+
+        if (Platform.isFxApplicationThread())
+            runnable.run();
+        else
+            Platform.runLater(runnable);
     }
 
     private void setSceneRoot(Parent parent) {

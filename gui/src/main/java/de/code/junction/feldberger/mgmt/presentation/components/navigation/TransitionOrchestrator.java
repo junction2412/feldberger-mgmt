@@ -1,6 +1,7 @@
 package de.code.junction.feldberger.mgmt.presentation.components.navigation;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 
 /**
  * The TransitionOrchestrator is the preferred approach of performing UI transitions.
@@ -29,8 +30,8 @@ public class TransitionOrchestrator<A, B> {
                 .thenAcceptAsync(isValid -> {
                     if (!isValid) return;
 
-                    final B b = transition.convert(a);
-                    transition.end(b);
+                    final B b = transition.transform(a);
+                    transition.conclude(b);
                 }).exceptionally(e -> {
                     e.printStackTrace(System.err);
                     return null;
@@ -38,15 +39,15 @@ public class TransitionOrchestrator<A, B> {
     }
 
     /**
-     * A convenience method of instantiating the {@link TransitionOrchestrator} with
-     * an {@link ImmediateTransition}. Therefore, a single parameter lambda can be passed as well.
+     * A convenience method of instantiating the {@link TransitionOrchestrator}.
+     * Therefore, a single parameter lambda can be passed as well.
      *
-     * @param transition immediate transition or lambda
+     * @param transition consumer
      * @param <T>        data the transition is performed upon
-     * @return transition lifecycle orchestrator
+     * @return transition orchestrator
      */
-    public static <T> TransitionOrchestrator<T, T> immediate(ImmediateTransition<T> transition) {
+    public static <T> TransitionOrchestrator<T, T> immediate(Consumer<T> transition) {
 
-        return new TransitionOrchestrator<>(transition);
+        return new TransitionOrchestrator<>(Transition.immediate(transition));
     }
 }

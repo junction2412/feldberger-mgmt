@@ -81,7 +81,7 @@ public class RegistrationMainMenuTransition implements Transition<RegistrationFo
     }
 
     @Override
-    public UserSession convert(RegistrationForm registrationForm) {
+    public UserSession transform(RegistrationForm registrationForm) {
 
         final String passwordSalt = salt();
         final String passwordHash = hashPassword(registrationForm.password(), passwordSalt);
@@ -94,7 +94,7 @@ public class RegistrationMainMenuTransition implements Transition<RegistrationFo
     }
 
     @Override
-    public void end(UserSession userSession) {
+    public void conclude(UserSession userSession) {
 
         try {
             onEnd.accept(userSession);

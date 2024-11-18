@@ -6,9 +6,7 @@ import de.code.junction.feldberger.mgmt.presentation.components.messaging.Messen
 import de.code.junction.feldberger.mgmt.presentation.components.navigation.Transition;
 import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionOrchestrator;
 import de.code.junction.feldberger.mgmt.presentation.view.login.LoginMainMenuTransition;
-import de.code.junction.feldberger.mgmt.presentation.view.login.LoginRegistrationTransition;
 import de.code.junction.feldberger.mgmt.presentation.view.main.menu.MainMenuLoginTransition;
-import de.code.junction.feldberger.mgmt.presentation.view.registration.RegistrationLoginTransition;
 import de.code.junction.feldberger.mgmt.presentation.view.registration.RegistrationMainMenuTransition;
 
 import java.util.function.Consumer;
@@ -61,7 +59,7 @@ public class ApplicationTransitionFactory {
      */
     public TransitionOrchestrator<LoginForm, RegistrationForm> loginRegistration(Consumer<RegistrationForm> onTransition) {
 
-        return new TransitionOrchestrator<>(new LoginRegistrationTransition(onTransition));
+        return new TransitionOrchestrator<>(Transition.bypass(form -> new RegistrationForm(form.username()), onTransition));
     }
 
     /**
@@ -72,7 +70,7 @@ public class ApplicationTransitionFactory {
      */
     public TransitionOrchestrator<RegistrationForm, LoginForm> registrationLogin(Consumer<LoginForm> onTransition) {
 
-        return new TransitionOrchestrator<>(new RegistrationLoginTransition(onTransition));
+        return new TransitionOrchestrator<>(Transition.bypass(form -> new LoginForm(form.username()), onTransition));
     }
 
     /**
