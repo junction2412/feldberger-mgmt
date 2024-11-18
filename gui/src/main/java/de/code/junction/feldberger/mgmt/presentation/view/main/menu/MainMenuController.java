@@ -1,9 +1,8 @@
 package de.code.junction.feldberger.mgmt.presentation.view.main.menu;
 
-import de.code.junction.feldberger.mgmt.presentation.components.jfx.ApplicationNavRoute.LoginForm;
-import de.code.junction.feldberger.mgmt.presentation.components.jfx.ApplicationNavRoute.UserSession;
+import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.LoginForm;
+import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.UserSession;
 import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionOrchestrator;
-import de.code.junction.feldberger.mgmt.presentation.domain.UserSessionViewModel;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

@@ -1,4 +1,4 @@
-package de.code.junction.feldberger.mgmt.presentation.domain;
+package de.code.junction.feldberger.mgmt.presentation.view.main.menu;
 
 import de.code.junction.feldberger.mgmt.data.access.user.User;
 import javafx.beans.property.IntegerProperty;
@@ -6,7 +6,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-import static de.code.junction.feldberger.mgmt.presentation.components.jfx.ApplicationNavRoute.UserSession;
+import static de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.UserSession;
 
 public class UserSessionViewModel {
 

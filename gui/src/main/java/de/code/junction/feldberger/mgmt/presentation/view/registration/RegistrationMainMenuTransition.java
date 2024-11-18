@@ -4,17 +4,17 @@ import de.code.junction.feldberger.mgmt.data.access.user.User;
 import de.code.junction.feldberger.mgmt.data.access.user.UserDataAccessObject;
 import de.code.junction.feldberger.mgmt.presentation.components.messaging.Message;
 import de.code.junction.feldberger.mgmt.presentation.components.messaging.MessageType;
+import de.code.junction.feldberger.mgmt.presentation.components.messaging.Messages;
 import de.code.junction.feldberger.mgmt.presentation.components.messaging.Messenger;
 import de.code.junction.feldberger.mgmt.presentation.components.navigation.Transition;
 
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
-import static de.code.junction.feldberger.mgmt.presentation.components.jfx.ApplicationNavRoute.RegistrationForm;
-import static de.code.junction.feldberger.mgmt.presentation.components.jfx.ApplicationNavRoute.UserSession;
+import static de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.RegistrationForm;
+import static de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.UserSession;
 import static de.code.junction.feldberger.mgmt.presentation.util.HashUtil.hashPassword;
 import static de.code.junction.feldberger.mgmt.presentation.util.HashUtil.salt;
-import static de.code.junction.feldberger.mgmt.presentation.util.MessageUtil.transitionNotPerformed;
 import static de.code.junction.feldberger.mgmt.presentation.util.ResourceUtil.getMessageStringResources;
 
 public class RegistrationMainMenuTransition implements Transition<RegistrationForm, UserSession> {
@@ -98,7 +98,7 @@ public class RegistrationMainMenuTransition implements Transition<RegistrationFo
         try {
             onEnd.accept(userSession);
         } catch (Exception e) {
-            messenger.send(transitionNotPerformed());
+            messenger.send(Messages.TRANSITION_NOT_PERFORMED);
             throw e;
         }
     }

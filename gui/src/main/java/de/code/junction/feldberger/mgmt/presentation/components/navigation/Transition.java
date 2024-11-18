@@ -5,9 +5,8 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**
- * The Transition defines the transition lifecycle of UI view components.
- * As such it must not make use of components that may only exist in the UI layer, as it's intended to be orchestrated
- * asynchronously.
+ * Defines the transition lifecycle of UI view components.
+ * As such it must not be invoked manually, as it's intended to be orchestrated asynchronously.
  *
  * @param <A> transition input type
  * @param <B> the type the transition is performed upon
@@ -32,7 +31,7 @@ public interface Transition<A, B> {
     B transform(A a);
 
     /**
-     * Perform the actual UI transition with the necessary data.
+     * Conclude the actual UI transition.
      *
      * @param b data the transition is performed upon
      */

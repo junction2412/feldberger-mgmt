@@ -1,6 +1,6 @@
 package de.code.junction.feldberger.mgmt.presentation.view.registration;
 
-import de.code.junction.feldberger.mgmt.presentation.components.jfx.ApplicationNavRoute;
+import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 

@@ -1,4 +1,4 @@
-package de.code.junction.feldberger.mgmt.presentation.components.jfx;
+package de.code.junction.feldberger.mgmt.presentation.components.application;
 
 public sealed interface ApplicationNavRoute {
 

@@ -1,28 +1,28 @@
-package de.code.junction.feldberger.mgmt.presentation.components.jfx;
+package de.code.junction.feldberger.mgmt.presentation.components.application;
 
 import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionOrchestrator;
 import de.code.junction.feldberger.mgmt.presentation.components.service.ServiceFactory;
-import de.code.junction.feldberger.mgmt.presentation.domain.UserSessionViewModel;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import de.code.junction.feldberger.mgmt.presentation.view.login.LoginController;
 import de.code.junction.feldberger.mgmt.presentation.view.login.LoginFormViewModel;
 import de.code.junction.feldberger.mgmt.presentation.view.main.menu.MainMenuController;
+import de.code.junction.feldberger.mgmt.presentation.view.main.menu.UserSessionViewModel;
 import de.code.junction.feldberger.mgmt.presentation.view.registration.RegistrationController;
 import de.code.junction.feldberger.mgmt.presentation.view.registration.RegistrationFormViewModel;
 
-import static de.code.junction.feldberger.mgmt.presentation.components.jfx.ApplicationNavRoute.*;
+import static de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.*;
 
 /**
  * A factory class to construct {@link FXController} instances.
  */
-public class FXControllerFactory {
+public class ApplicationControllerFactory {
 
     /**
      * A factory to eventually inject services into the controllers.
      */
     private final ServiceFactory serviceFactory;
 
-    public FXControllerFactory(ServiceFactory serviceFactory) {
+    public ApplicationControllerFactory(ServiceFactory serviceFactory) {
 
         this.serviceFactory = serviceFactory;
     }

@@ -4,11 +4,12 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 /**
- * The TransitionOrchestrator is the preferred approach of performing UI transitions.
+ * The preferred approach of performing UI transitions.
  *
  * @param <A> transition input type
  * @param <B> data the transition is performed upon
  * @author J. Murray
+ * @see Transition
  */
 public class TransitionOrchestrator<A, B> {
 

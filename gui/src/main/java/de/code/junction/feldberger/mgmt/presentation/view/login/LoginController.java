@@ -12,7 +12,7 @@ import javafx.scene.control.TextField;
 
 import java.util.ResourceBundle;
 
-import static de.code.junction.feldberger.mgmt.presentation.components.jfx.ApplicationNavRoute.*;
+import static de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.*;
 
 public class LoginController extends FXController {
 

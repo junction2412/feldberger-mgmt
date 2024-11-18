@@ -1,8 +1,8 @@
-package de.code.junction.feldberger.mgmt.presentation.components.jfx;
+package de.code.junction.feldberger.mgmt.presentation.components.application;
 
-import de.code.junction.feldberger.mgmt.presentation.components.jfx.ApplicationNavRoute.LoginForm;
-import de.code.junction.feldberger.mgmt.presentation.components.jfx.ApplicationNavRoute.RegistrationForm;
-import de.code.junction.feldberger.mgmt.presentation.components.jfx.ApplicationNavRoute.UserSession;
+import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.LoginForm;
+import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.RegistrationForm;
+import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.UserSession;
 import de.code.junction.feldberger.mgmt.presentation.components.navigation.NavContext;
 import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionOrchestrator;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
@@ -19,21 +19,21 @@ import javafx.stage.Stage;
  */
 public class ApplicationNavContext implements NavContext<ApplicationNavRoute> {
 
-    private final FXControllerFactory fxControllerFactory;
+    private final ApplicationControllerFactory controllerFactory;
     private final ApplicationTransitionFactory transitionFactory;
     private Stage stage;
 
-    public ApplicationNavContext(FXControllerFactory fxControllerFactory,
+    public ApplicationNavContext(ApplicationControllerFactory controllerFactory,
                                  ApplicationTransitionFactory transitionFactory) {
 
-        this(fxControllerFactory, transitionFactory, null);
+        this(controllerFactory, transitionFactory, null);
     }
 
-    public ApplicationNavContext(FXControllerFactory fxControllerFactory,
+    public ApplicationNavContext(ApplicationControllerFactory controllerFactory,
                                  ApplicationTransitionFactory transitionFactory,
                                  Stage stage) {
 
-        this.fxControllerFactory = fxControllerFactory;
+        this.controllerFactory = controllerFactory;
         this.transitionFactory = transitionFactory;
         this.stage = stage;
     }
@@ -63,7 +63,7 @@ public class ApplicationNavContext implements NavContext<ApplicationNavRoute> {
         final var loginTransition = transitionFactory.loginSession(this::navigateTo);
         final var registrationTransition = transitionFactory.loginRegistration(this::navigateTo);
 
-        return fxControllerFactory.login(loginTransition, registrationTransition, username);
+        return controllerFactory.login(loginTransition, registrationTransition, username);
     }
 
     private FXController registration(String username) {
@@ -71,7 +71,7 @@ public class ApplicationNavContext implements NavContext<ApplicationNavRoute> {
         final var registrationTransition = transitionFactory.registrationSession(this::navigateTo);
         final var loginTransition = transitionFactory.registrationLogin(this::navigateTo);
 
-        return fxControllerFactory.registration(registrationTransition, loginTransition, username);
+        return controllerFactory.registration(registrationTransition, loginTransition, username);
     }
 
     private FXController mainMenu(int userID, String username) {
@@ -79,7 +79,7 @@ public class ApplicationNavContext implements NavContext<ApplicationNavRoute> {
         final var logoutTransition = transitionFactory.sessionLogin(this::navigateTo);
         final var settingsTransition = TransitionOrchestrator.<UserSession>immediate(_ -> System.out.println("NOOP"));
 
-        return fxControllerFactory.mainMenu(logoutTransition, settingsTransition, userID, username);
+        return controllerFactory.mainMenu(logoutTransition, settingsTransition, userID, username);
     }
 
     private void setSceneController(FXController controller) {

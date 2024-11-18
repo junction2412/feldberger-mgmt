@@ -1,8 +1,8 @@
 package de.code.junction.feldberger.mgmt.presentation.view.registration;
 
-import de.code.junction.feldberger.mgmt.presentation.components.jfx.ApplicationNavRoute.LoginForm;
-import de.code.junction.feldberger.mgmt.presentation.components.jfx.ApplicationNavRoute.RegistrationForm;
-import de.code.junction.feldberger.mgmt.presentation.components.jfx.ApplicationNavRoute.UserSession;
+import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.LoginForm;
+import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.RegistrationForm;
+import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.UserSession;
 import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionOrchestrator;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import javafx.beans.binding.Bindings;

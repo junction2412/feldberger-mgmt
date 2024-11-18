@@ -1,4 +1,4 @@
-package de.code.junction.feldberger.mgmt.presentation.components.jfx;
+package de.code.junction.feldberger.mgmt.presentation.components.application;
 
 import de.code.junction.feldberger.mgmt.data.access.DataAccessObject;
 import de.code.junction.feldberger.mgmt.data.access.PersistenceManager;
@@ -10,7 +10,7 @@ import de.code.junction.feldberger.mgmt.presentation.view.registration.Registrat
 
 import java.util.function.Consumer;
 
-import static de.code.junction.feldberger.mgmt.presentation.components.jfx.ApplicationNavRoute.*;
+import static de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.*;
 
 /**
  * A factory class to be used to instantiate more complex {@link Transition} implementations.
@@ -82,6 +82,12 @@ public class ApplicationTransitionFactory {
                 onTransition));
     }
 
+    /**
+     * Provides the mainMenu->login transition.
+     *
+     * @param onTransition transition ui logic to be performed
+     * @return mainMenu->login transition
+     */
     public TransitionOrchestrator<UserSession, LoginForm> sessionLogin(Consumer<LoginForm> onTransition) {
 
         return new TransitionOrchestrator<>(Transition.bypass(session -> new LoginForm(session.username()),
