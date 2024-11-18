@@ -48,20 +48,19 @@ public class RegistrationMainMenuTransition implements Transition<RegistrationFo
         final ResourceBundle bundle = getMessageStringResources();
 
         if (!arePasswordInputsEqual)
-            reasons.append(bundle.getString("registration.failed.content.reason.password.inputs.not.equal"))
-                    .append("\n");
+            reasons.append("\n").append(bundle.getString("registration.failed.content.reason.password.inputs.not.equal"));
 
         if (!isPasswordMinimumLength)
-            reasons.append(bundle.getString("registration.failed.content.reason.password.too.short")).append("\n");
+            reasons.append("\n").append(bundle.getString("registration.failed.content.reason.password.too.short"));
 
         if (!isPasswordNotMaxLength)
-            reasons.append(bundle.getString("registration.failed.content.reason.password.too.long")).append("\n");
+            reasons.append("\n").append(bundle.getString("registration.failed.content.reason.password.too.long"));
 
         if (!isUsernameNotEmpty)
-            reasons.append(bundle.getString("registration.failed.content.reason.username.empty")).append("\n");
+            reasons.append("\n").append(bundle.getString("registration.failed.content.reason.username.empty"));
 
         if (!isUsernameNotTaken)
-            reasons.append(bundle.getString("registration.failed.content.reason.username.taken")).append("\n");
+            reasons.append("\n").append(bundle.getString("registration.failed.content.reason.username.taken"));
 
         final boolean isPasswordValid = arePasswordInputsEqual && isPasswordMinimumLength && isPasswordNotMaxLength;
         final boolean isUsernameValid = isUsernameNotEmpty && isUsernameNotTaken;
