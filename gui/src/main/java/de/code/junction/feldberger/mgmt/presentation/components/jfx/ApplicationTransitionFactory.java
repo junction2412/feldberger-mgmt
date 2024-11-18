@@ -6,7 +6,6 @@ import de.code.junction.feldberger.mgmt.presentation.components.messaging.Messen
 import de.code.junction.feldberger.mgmt.presentation.components.navigation.Transition;
 import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionOrchestrator;
 import de.code.junction.feldberger.mgmt.presentation.view.login.LoginMainMenuTransition;
-import de.code.junction.feldberger.mgmt.presentation.view.main.menu.MainMenuLoginTransition;
 import de.code.junction.feldberger.mgmt.presentation.view.registration.RegistrationMainMenuTransition;
 
 import java.util.function.Consumer;
@@ -44,11 +43,8 @@ public class ApplicationTransitionFactory {
      */
     public TransitionOrchestrator<LoginForm, UserSession> loginSession(Consumer<UserSession> onTransition) {
 
-        return new TransitionOrchestrator<>(new LoginMainMenuTransition(
-                messenger,
-                persistenceManager.userDao(),
-                onTransition
-        ));
+        return new TransitionOrchestrator<>(new LoginMainMenuTransition(messenger, persistenceManager.userDao(),
+                onTransition));
     }
 
     /**
@@ -59,7 +55,8 @@ public class ApplicationTransitionFactory {
      */
     public TransitionOrchestrator<LoginForm, RegistrationForm> loginRegistration(Consumer<RegistrationForm> onTransition) {
 
-        return new TransitionOrchestrator<>(Transition.bypass(form -> new RegistrationForm(form.username()), onTransition));
+        return new TransitionOrchestrator<>(Transition.bypass(form -> new RegistrationForm(form.username()),
+                onTransition));
     }
 
     /**
@@ -87,6 +84,7 @@ public class ApplicationTransitionFactory {
 
     public TransitionOrchestrator<UserSession, LoginForm> sessionLogin(Consumer<LoginForm> onTransition) {
 
-        return new TransitionOrchestrator<>(new MainMenuLoginTransition(onTransition));
+        return new TransitionOrchestrator<>(Transition.bypass(session -> new LoginForm(session.username()),
+                onTransition));
     }
 }
