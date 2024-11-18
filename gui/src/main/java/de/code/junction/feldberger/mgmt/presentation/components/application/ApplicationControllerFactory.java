@@ -1,7 +1,9 @@
 package de.code.junction.feldberger.mgmt.presentation.components.application;
 
-import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionOrchestrator;
-import de.code.junction.feldberger.mgmt.presentation.components.service.ServiceFactory;
+import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuControllerFactory;
+import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuNavContext;
+import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuTransitionFactory;
+import de.code.junction.feldberger.mgmt.presentation.navigation.TransitionOrchestrator;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import de.code.junction.feldberger.mgmt.presentation.view.login.LoginController;
 import de.code.junction.feldberger.mgmt.presentation.view.login.LoginFormViewModel;
@@ -17,14 +19,8 @@ import static de.code.junction.feldberger.mgmt.presentation.components.applicati
  */
 public class ApplicationControllerFactory {
 
-    /**
-     * A factory to eventually inject services into the controllers.
-     */
-    private final ServiceFactory serviceFactory;
 
-    public ApplicationControllerFactory(ServiceFactory serviceFactory) {
-
-        this.serviceFactory = serviceFactory;
+    public ApplicationControllerFactory() {
     }
 
     public FXController login(TransitionOrchestrator<LoginForm, UserSession> loginTransition,
@@ -45,13 +41,17 @@ public class ApplicationControllerFactory {
                 new RegistrationFormViewModel(username));
     }
 
-    public FXController mainMenu(TransitionOrchestrator<UserSession, LoginForm> logoutTransition,
+    public FXController mainMenu(MainMenuTransitionFactory transitionFactory,
+                                 TransitionOrchestrator<UserSession, LoginForm> logoutTransition,
                                  TransitionOrchestrator<UserSession, UserSession> settingsTransition,
                                  int userID,
                                  String username) {
 
-        return new MainMenuController(logoutTransition,
+        return new MainMenuController(
+                logoutTransition,
                 settingsTransition,
-                new UserSessionViewModel(userID, username));
+                new UserSessionViewModel(userID, username),
+                new MainMenuNavContext(transitionFactory, new MainMenuControllerFactory())
+        );
     }
 }

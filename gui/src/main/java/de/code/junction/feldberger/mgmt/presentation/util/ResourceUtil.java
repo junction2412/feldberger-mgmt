@@ -1,6 +1,6 @@
 package de.code.junction.feldberger.mgmt.presentation.util;
 
-import de.code.junction.feldberger.mgmt.presentation.components.messaging.Message;
+import de.code.junction.feldberger.mgmt.presentation.messaging.Message;
 
 import java.util.ResourceBundle;
 

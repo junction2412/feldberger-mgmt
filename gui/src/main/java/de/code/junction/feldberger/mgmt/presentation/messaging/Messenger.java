@@ -1,4 +1,4 @@
-package de.code.junction.feldberger.mgmt.presentation.components.messaging;
+package de.code.junction.feldberger.mgmt.presentation.messaging;
 
 /**
  * A Messenger is used to prompt the user for input.

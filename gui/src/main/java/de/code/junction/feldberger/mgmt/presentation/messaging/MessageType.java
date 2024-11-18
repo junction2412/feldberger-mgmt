@@ -1,4 +1,4 @@
-package de.code.junction.feldberger.mgmt.presentation.components.messaging;
+package de.code.junction.feldberger.mgmt.presentation.messaging;
 
 public enum MessageType {
     WARNING,

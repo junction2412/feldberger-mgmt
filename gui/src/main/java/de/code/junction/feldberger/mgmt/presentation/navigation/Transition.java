@@ -1,4 +1,4 @@
-package de.code.junction.feldberger.mgmt.presentation.components.navigation;
+package de.code.junction.feldberger.mgmt.presentation.navigation;
 
 import java.util.function.Consumer;
 import java.util.function.Function;

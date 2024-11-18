@@ -1,10 +1,10 @@
 package de.code.junction.feldberger.mgmt.presentation.components.application;
 
-import de.code.junction.feldberger.mgmt.data.access.DataAccessObject;
 import de.code.junction.feldberger.mgmt.data.access.PersistenceManager;
-import de.code.junction.feldberger.mgmt.presentation.components.messaging.Messenger;
-import de.code.junction.feldberger.mgmt.presentation.components.navigation.Transition;
-import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionOrchestrator;
+import de.code.junction.feldberger.mgmt.presentation.components.common.TransitionFactory;
+import de.code.junction.feldberger.mgmt.presentation.messaging.Messenger;
+import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
+import de.code.junction.feldberger.mgmt.presentation.navigation.TransitionOrchestrator;
 import de.code.junction.feldberger.mgmt.presentation.view.login.LoginMainMenuTransition;
 import de.code.junction.feldberger.mgmt.presentation.view.registration.RegistrationMainMenuTransition;
 
@@ -17,22 +17,11 @@ import static de.code.junction.feldberger.mgmt.presentation.components.applicati
  *
  * @author J. Murray
  */
-public class ApplicationTransitionFactory {
-
-    /**
-     * A {@link PersistenceManager} that is used to inject necessary {@link DataAccessObject}s.
-     */
-    private final PersistenceManager persistenceManager;
-
-    /**
-     * The {@link Messenger} that is injected.
-     */
-    private final Messenger messenger;
+public class ApplicationTransitionFactory extends TransitionFactory {
 
     public ApplicationTransitionFactory(PersistenceManager persistenceManager, Messenger messenger) {
 
-        this.persistenceManager = persistenceManager;
-        this.messenger = messenger;
+        super(persistenceManager, messenger);
     }
 
     /**

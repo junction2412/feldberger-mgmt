@@ -78,4 +78,24 @@
             </children>
         </GridPane>
     </top>
+    <left>
+        <StackPane BorderPane.alignment="CENTER">
+            <children>
+                <ListView fx:id="navigation" prefHeight="200.0" prefWidth="200.0"/>
+            </children>
+            <padding>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </padding>
+        </StackPane>
+    </left>
+    <center>
+        <StackPane BorderPane.alignment="CENTER">
+            <children>
+                <AnchorPane fx:id="subview"/>
+            </children>
+            <padding>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </padding>
+        </StackPane>
+    </center>
 </BorderPane>

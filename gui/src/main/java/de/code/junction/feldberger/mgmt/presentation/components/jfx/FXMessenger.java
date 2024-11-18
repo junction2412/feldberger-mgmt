@@ -1,9 +1,9 @@
 package de.code.junction.feldberger.mgmt.presentation.components.jfx;
 
-import de.code.junction.feldberger.mgmt.presentation.components.messaging.Message;
-import de.code.junction.feldberger.mgmt.presentation.components.messaging.MessageResponse;
-import de.code.junction.feldberger.mgmt.presentation.components.messaging.MessageType;
-import de.code.junction.feldberger.mgmt.presentation.components.messaging.Messenger;
+import de.code.junction.feldberger.mgmt.presentation.messaging.Message;
+import de.code.junction.feldberger.mgmt.presentation.messaging.MessageResponse;
+import de.code.junction.feldberger.mgmt.presentation.messaging.MessageType;
+import de.code.junction.feldberger.mgmt.presentation.messaging.Messenger;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;

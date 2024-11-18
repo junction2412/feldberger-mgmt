@@ -4,9 +4,8 @@ import de.code.junction.feldberger.mgmt.data.access.PersistenceManager;
 import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationControllerFactory;
 import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavContext;
 import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute;
-import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationTransitionFactory;
+import de.code.junction.feldberger.mgmt.presentation.components.common.TransitionFactoryProvider;
 import de.code.junction.feldberger.mgmt.presentation.components.jfx.FXMessenger;
-import de.code.junction.feldberger.mgmt.presentation.components.service.ServiceFactory;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -25,13 +24,14 @@ public class Feldberger3DMgmtApplication extends Application {
         System.out.println("Application init");
 
         persistenceManager = PersistenceManager.INSTANCE;
-
         messenger = new FXMessenger();
 
-        ApplicationControllerFactory controllerFactory = new ApplicationControllerFactory(new ServiceFactory(persistenceManager));
-        ApplicationTransitionFactory transitionFactory = new ApplicationTransitionFactory(persistenceManager, messenger);
+        final TransitionFactoryProvider transitionFactoryProvider = new TransitionFactoryProvider(persistenceManager,
+                messenger);
 
-        navContext = new ApplicationNavContext(controllerFactory, transitionFactory);
+        ApplicationControllerFactory controllerFactory = new ApplicationControllerFactory();
+
+        navContext = new ApplicationNavContext(controllerFactory, transitionFactoryProvider);
     }
 
     @Override

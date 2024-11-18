@@ -10,12 +10,12 @@ import static de.code.junction.feldberger.mgmt.presentation.components.applicati
 
 public class UserSessionViewModel {
 
-    private final IntegerProperty id;
+    private final IntegerProperty userID;
     private final StringProperty username;
 
-    public UserSessionViewModel(Integer id, String username) {
+    public UserSessionViewModel(Integer userID, String username) {
 
-        this.id = new SimpleIntegerProperty(this, "id", id);
+        this.userID = new SimpleIntegerProperty(this, "id", userID);
         this.username = new SimpleStringProperty(this, "username", username);
     }
 
@@ -24,14 +24,14 @@ public class UserSessionViewModel {
         this(user.getID(), user.getUsername());
     }
 
-    public int getID() {
+    public int getUserID() {
 
-        return id.get();
+        return userID.get();
     }
 
-    public IntegerProperty idProperty() {
+    public IntegerProperty userIDProperty() {
 
-        return id;
+        return userID;
     }
 
     public String getUsername() {
@@ -46,6 +46,6 @@ public class UserSessionViewModel {
 
     public UserSession toUserSession() {
 
-        return new UserSession(getID(), getUsername());
+        return new UserSession(getUserID(), getUsername());
     }
 }

@@ -1,6 +1,6 @@
 package de.code.junction.feldberger.mgmt.presentation.view.login;
 
-import de.code.junction.feldberger.mgmt.presentation.components.navigation.TransitionOrchestrator;
+import de.code.junction.feldberger.mgmt.presentation.navigation.TransitionOrchestrator;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;

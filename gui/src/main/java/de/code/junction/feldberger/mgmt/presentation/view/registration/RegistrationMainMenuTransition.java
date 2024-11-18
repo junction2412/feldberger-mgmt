@@ -2,11 +2,11 @@ package de.code.junction.feldberger.mgmt.presentation.view.registration;
 
 import de.code.junction.feldberger.mgmt.data.access.user.User;
 import de.code.junction.feldberger.mgmt.data.access.user.UserDataAccessObject;
-import de.code.junction.feldberger.mgmt.presentation.components.messaging.Message;
-import de.code.junction.feldberger.mgmt.presentation.components.messaging.MessageType;
-import de.code.junction.feldberger.mgmt.presentation.components.messaging.Messages;
-import de.code.junction.feldberger.mgmt.presentation.components.messaging.Messenger;
-import de.code.junction.feldberger.mgmt.presentation.components.navigation.Transition;
+import de.code.junction.feldberger.mgmt.presentation.messaging.Message;
+import de.code.junction.feldberger.mgmt.presentation.messaging.MessageType;
+import de.code.junction.feldberger.mgmt.presentation.messaging.Messages;
+import de.code.junction.feldberger.mgmt.presentation.messaging.Messenger;
+import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
 
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
