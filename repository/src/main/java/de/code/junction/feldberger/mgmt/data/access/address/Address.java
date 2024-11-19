@@ -22,11 +22,11 @@ public class Address implements DataTransferObject<Integer> {
     @Convert(converter = StringColumnEncryptor.class)
     private String postalCode;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 4096)
     @Convert(converter = StringColumnEncryptor.class)
     private String city;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 4096)
     @Convert(converter = StringColumnEncryptor.class)
     private String street;
 
@@ -34,6 +34,7 @@ public class Address implements DataTransferObject<Integer> {
     @Convert(converter = StringColumnEncryptor.class)
     private String streetNumber;
 
+    @Column(length = 4096)
     @Convert(converter = StringColumnEncryptor.class)
     private String suffix;
 
