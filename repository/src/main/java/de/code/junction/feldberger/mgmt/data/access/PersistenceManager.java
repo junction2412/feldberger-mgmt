@@ -1,8 +1,13 @@
 package de.code.junction.feldberger.mgmt.data.access;
 
+import de.code.junction.feldberger.mgmt.data.access.address.AddressDataAccessObject;
+import de.code.junction.feldberger.mgmt.data.access.customer.CustomerDataAccessObject;
+import de.code.junction.feldberger.mgmt.data.access.hibernate.HibernateAddressDao;
+import de.code.junction.feldberger.mgmt.data.access.hibernate.HibernateCustomerDao;
 import de.code.junction.feldberger.mgmt.data.access.hibernate.HibernateUserDao;
 import de.code.junction.feldberger.mgmt.data.access.user.User;
 import de.code.junction.feldberger.mgmt.data.access.user.UserDataAccessObject;
+import de.code.junction.feldberger.mgmt.data.service.CustomerService;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -27,6 +32,21 @@ public class PersistenceManager {
     public UserDataAccessObject userDao() {
 
         return new HibernateUserDao(sessionFactory);
+    }
+
+    public AddressDataAccessObject addressDao() {
+
+        return new HibernateAddressDao(sessionFactory);
+    }
+
+    public CustomerDataAccessObject customerDao() {
+
+        return new HibernateCustomerDao(sessionFactory);
+    }
+
+    public CustomerService customerService() {
+
+        return new CustomerService(customerDao(), addressDao());
     }
 
     public void shutdown() {

@@ -2,6 +2,7 @@ package de.code.junction.feldberger.mgmt.data.access.hibernate;
 
 import de.code.junction.feldberger.mgmt.data.access.user.User;
 import de.code.junction.feldberger.mgmt.data.access.user.UserDataAccessObject;
+import de.code.junction.feldberger.mgmt.data.access.user.User_;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.criteria.CriteriaDefinition;
 import org.hibernate.query.criteria.JpaPredicate;
@@ -41,7 +42,7 @@ public class HibernateUserDao
         final CriteriaDefinition<User> query = new CriteriaDefinition<>(sessionFactory, User.class) {
             {
                 final JpaRoot<User> user = from(User.class);
-                where(isTrue(user.get("active")));
+                where(isTrue(user.get(User_.active)));
             }
         };
 

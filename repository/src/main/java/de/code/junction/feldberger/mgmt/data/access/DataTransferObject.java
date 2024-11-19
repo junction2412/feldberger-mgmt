@@ -3,19 +3,18 @@ package de.code.junction.feldberger.mgmt.data.access;
 /**
  * An object to represent a specific set of related data.
  *
- * @param <ID> identifier type
+ * @param <T> identifier type
  * @author J. Murray
  */
-@SuppressWarnings("unused")
-public interface DataTransferObject<ID> {
+public interface DataTransferObject<T> {
 
     /**
      * @return identifier value
      */
-    ID getID();
+    T getID();
 
     /**
      * @param id identifier value
      */
-    void setID(ID id);
+    void setID(T id);
 }
