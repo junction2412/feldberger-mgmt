@@ -4,7 +4,6 @@ import de.code.junction.feldberger.mgmt.presentation.components.application.Appl
 import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.UserSession;
 import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuNavContext;
 import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuNavRoute;
-import de.code.junction.feldberger.mgmt.presentation.components.main.menu.Subview;
 import de.code.junction.feldberger.mgmt.presentation.navigation.TransitionOrchestrator;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import javafx.beans.Observable;
@@ -47,7 +46,7 @@ public final class MainMenuController extends FXController {
     private Button settings;
 
     @FXML
-    private ListView<Subview> navigation;
+    private ListView<MainMenuNavRoute.Subview> navigation;
     @FXML
     private AnchorPane subview;
 
@@ -79,7 +78,7 @@ public final class MainMenuController extends FXController {
 
         navigation.setCellFactory(_ -> new ListCell<>() {
             @Override
-            protected void updateItem(Subview subview, boolean empty) {
+            protected void updateItem(MainMenuNavRoute.Subview subview, boolean empty) {
                 super.updateItem(subview, empty);
 
                 if (!empty) {
@@ -94,8 +93,8 @@ public final class MainMenuController extends FXController {
         userID.textProperty().bind(viewModel.userIDProperty().asString());
         username.textProperty().bind(viewModel.usernameProperty());
 
-        final var subviews = Arrays.stream(Subview.values())
-                .filter(subview -> subview != Subview.NONE) // Exclude Subview.NONE
+        final var subviews = Arrays.stream(MainMenuNavRoute.Subview.values())
+                .filter(subview -> subview != MainMenuNavRoute.Subview.NONE) // Exclude Subview.NONE
                 .toList();
 
         navigation.getItems().setAll(subviews);
@@ -120,9 +119,7 @@ public final class MainMenuController extends FXController {
         settingsTransition.orchestrate(viewModel.toUserSession());
     }
 
-    private void onNavigationSelectionChanged(Observable observable,
-                                              Subview oldValue,
-                                              Subview newValue) {
+    private void onNavigationSelectionChanged(Observable observable, MainMenuNavRoute.Subview oldValue, MainMenuNavRoute.Subview newValue) {
 
         navContext.navigateTo(new MainMenuNavRoute(viewModel.getUserID(), newValue));
     }

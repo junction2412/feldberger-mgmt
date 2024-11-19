@@ -51,7 +51,7 @@ public class ApplicationControllerFactory {
                 logoutTransition,
                 settingsTransition,
                 new UserSessionViewModel(userID, username),
-                new MainMenuNavContext(transitionFactory, new MainMenuControllerFactory())
+                new MainMenuNavContext(transitionFactory, new MainMenuControllerFactory(), userID)
         );
     }
 }

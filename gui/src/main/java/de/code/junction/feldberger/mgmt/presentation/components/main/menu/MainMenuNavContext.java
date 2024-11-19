@@ -1,20 +1,27 @@
 package de.code.junction.feldberger.mgmt.presentation.components.main.menu;
 
 import de.code.junction.feldberger.mgmt.presentation.navigation.NavContext;
-import javafx.scene.Parent;
+import de.code.junction.feldberger.mgmt.presentation.view.FXController;
+import javafx.application.Platform;
+import javafx.scene.layout.Pane;
+
+import static de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuNavRoute.Subview;
 
 public class MainMenuNavContext implements NavContext<MainMenuNavRoute> {
 
-
     private final MainMenuTransitionFactory transitionFactory;
     private final MainMenuControllerFactory controllerFactory;
+    private final int userID;
 
-    private Parent parent;
+    private Pane parent;
 
-    public MainMenuNavContext(MainMenuTransitionFactory transitionFactory, MainMenuControllerFactory controllerFactory) {
+    public MainMenuNavContext(MainMenuTransitionFactory transitionFactory,
+                              MainMenuControllerFactory controllerFactory,
+                              int userID) {
 
         this.transitionFactory = transitionFactory;
         this.controllerFactory = controllerFactory;
+        this.userID = userID;
     }
 
     @Override
@@ -23,16 +30,14 @@ public class MainMenuNavContext implements NavContext<MainMenuNavRoute> {
         if (parent == null)
             throw new NullPointerException("Cannot navigate if parent is null.");
 
-        switch (route.destination()) {
+        final var controller = switch (route) {
+            case Subview subview -> switch (subview) {
+                case CUSTOMERS -> controllerFactory.customers(userID);
+                default -> null;
+            };
+        };
 
-            case Subview subview -> {
-                switch (subview) {
-                    case CUSTOMERS -> controllerFactory.customers(route.userID());
-                    default -> {
-                    }
-                }
-            }
-        }
+        setChildController(controller);
     }
 
     /**
@@ -41,8 +46,18 @@ public class MainMenuNavContext implements NavContext<MainMenuNavRoute> {
      *
      * @param parent controlled parent
      */
-    public void setParent(Parent parent) {
+    public void setParent(Pane parent) {
 
         this.parent = parent;
+    }
+
+    private void setChildController(FXController controller) {
+
+        final Runnable runnable = () -> parent.getChildren().setAll(controller.load());
+
+        if (Platform.isFxApplicationThread())
+            runnable.run();
+        else
+            Platform.runLater(runnable);
     }
 }
