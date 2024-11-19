@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public class Customer implements DataTransferObject<Integer> {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "last_name")

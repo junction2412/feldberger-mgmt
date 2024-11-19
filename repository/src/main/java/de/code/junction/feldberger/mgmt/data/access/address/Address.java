@@ -11,7 +11,7 @@ import jakarta.persistence.*;
 public class Address implements DataTransferObject<Integer> {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "country_code", nullable = false)

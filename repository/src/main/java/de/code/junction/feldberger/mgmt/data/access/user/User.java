@@ -1,17 +1,14 @@
 package de.code.junction.feldberger.mgmt.data.access.user;
 
 import de.code.junction.feldberger.mgmt.data.access.DataTransferObject;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity(name = "users")
 @SuppressWarnings("unused")
 public class User implements DataTransferObject<Integer> {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(unique = true, nullable = false)
