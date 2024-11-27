@@ -66,7 +66,7 @@ public final class MainMenuController extends FXController {
     @Override
     protected void initialize() {
 
-        navContext.setParent(subview);
+        navContext.setScope(subview);
 
         userIDLabel.setLabelFor(userID);
         usernameLabel.setLabelFor(username);

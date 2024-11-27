@@ -15,12 +15,6 @@ java {
 
 
 hibernate {
-    enhancement {
-        enableLazyInitialization
-        enableDirtyTracking
-        enableAssociationManagement
-        enableExtendedEnhancement
-    }
 }
 
 dependencies {

@@ -31,4 +31,6 @@ public interface CustomerDataAccessObject extends DataAccessObject<Integer, Cust
      * @param customer customer
      */
     void persistCustomer(Customer customer);
+
+    List<Customer> getByNameOrCompanyName(String nameOrCompanyName);
 }

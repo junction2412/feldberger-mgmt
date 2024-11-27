@@ -1,19 +1,17 @@
 package de.code.junction.feldberger.mgmt.presentation.components.main.menu;
 
-import de.code.junction.feldberger.mgmt.presentation.navigation.NavContext;
+import de.code.junction.feldberger.mgmt.presentation.navigation.ScopedNavContext;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import javafx.application.Platform;
 import javafx.scene.layout.Pane;
 
 import static de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuNavRoute.Subview;
 
-public class MainMenuNavContext implements NavContext<MainMenuNavRoute> {
+public class MainMenuNavContext extends ScopedNavContext<Pane, MainMenuNavRoute> {
 
     private final MainMenuTransitionFactory transitionFactory;
     private final MainMenuControllerFactory controllerFactory;
     private final int userID;
-
-    private Pane parent;
 
     public MainMenuNavContext(MainMenuTransitionFactory transitionFactory,
                               MainMenuControllerFactory controllerFactory,
@@ -27,7 +25,7 @@ public class MainMenuNavContext implements NavContext<MainMenuNavRoute> {
     @Override
     public void navigateTo(MainMenuNavRoute route) {
 
-        if (parent == null)
+        if (scope == null)
             throw new NullPointerException("Cannot navigate if parent is null.");
 
         final var controller = switch (route) {
@@ -40,20 +38,9 @@ public class MainMenuNavContext implements NavContext<MainMenuNavRoute> {
         setChildController(controller);
     }
 
-    /**
-     * Use to inject a parent the navContext takes control of.
-     * Setting a parent won't trigger a UI transition.
-     *
-     * @param parent controlled parent
-     */
-    public void setParent(Pane parent) {
-
-        this.parent = parent;
-    }
-
     private void setChildController(FXController controller) {
 
-        final Runnable runnable = () -> parent.getChildren().setAll(controller.load());
+        final Runnable runnable = () -> scope.getChildren().setAll(controller.load());
 
         if (Platform.isFxApplicationThread())
             runnable.run();

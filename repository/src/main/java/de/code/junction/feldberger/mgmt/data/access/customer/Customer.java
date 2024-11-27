@@ -14,13 +14,20 @@ public class Customer implements DataTransferObject<Integer> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "last_name", length = 2048)
+    @Column(name = "idno", unique = true, length = 64)
+    private String idNo;
+
+    @Column(name = "last_name", length = 1024)
     @Convert(converter = StringColumnEncryptor.class)
     private String lastName;
 
-    @Column(name = "first_name", length = 2048)
+    @Column(name = "first_name", length = 1024)
     @Convert(converter = StringColumnEncryptor.class)
     private String firstName;
+
+    @Column(name = "company_name", length = 1024)
+    @Convert(converter = StringColumnEncryptor.class)
+    private String companyName;
 
     @Column(name = "email_address", length = 1024)
     @Convert(converter = StringColumnEncryptor.class)
@@ -38,36 +45,60 @@ public class Customer implements DataTransferObject<Integer> {
     @JoinColumn(name = "address_id", referencedColumnName = "id", nullable = false)
     private Address address;
 
+    @Column(length = 2048)
+    @Convert(converter = StringColumnEncryptor.class)
+    private String notes;
+
     @Column(nullable = false)
     private boolean archived;
 
     @Column(name = "archive_date")
     private LocalDateTime archiveDate;
 
-    public Customer() {
-        this(0, "", "", "", "", "", null,
-                false, null);
-    }
-
     public Customer(int id,
+                    String idNo,
                     String lastName,
                     String firstName,
+                    String companyName,
                     String emailAddress,
                     String landlinePhoneNumber,
                     String mobilePhoneNumber,
                     Address address,
+                    String notes,
                     boolean archived,
                     LocalDateTime archiveDate) {
 
         this.id = id;
+        this.idNo = idNo;
         this.lastName = lastName;
         this.firstName = firstName;
+        this.companyName = companyName;
         this.emailAddress = emailAddress;
         this.landlinePhoneNumber = landlinePhoneNumber;
         this.mobilePhoneNumber = mobilePhoneNumber;
         this.address = address;
+        this.notes = notes;
         this.archived = archived;
         this.archiveDate = archiveDate;
+    }
+
+    public Customer(String idNo,
+                    String lastName,
+                    String firstName,
+                    String companyName,
+                    String emailAddress,
+                    String landlinePhoneNumber,
+                    String mobilePhoneNumber,
+                    Address address) {
+
+        this(0, idNo, lastName, firstName, companyName, emailAddress, landlinePhoneNumber, mobilePhoneNumber, address,
+                "", false, null);
+    }
+
+    public Customer() {
+
+        this("", "", "", "", "", "", "",
+                null);
     }
 
     @Override
@@ -80,6 +111,16 @@ public class Customer implements DataTransferObject<Integer> {
     public void setID(Integer id) {
 
         this.id = id;
+    }
+
+    public String getIdNo() {
+
+        return idNo;
+    }
+
+    public void setIdNo(String idNo) {
+
+        this.idNo = idNo;
     }
 
     public String getLastName() {
@@ -100,6 +141,16 @@ public class Customer implements DataTransferObject<Integer> {
     public void setFirstName(String firstName) {
 
         this.firstName = firstName;
+    }
+
+    public String getCompanyName() {
+
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+
+        this.companyName = companyName;
     }
 
     public String getEmailAddress() {
@@ -140,6 +191,16 @@ public class Customer implements DataTransferObject<Integer> {
     public void setAddress(Address address) {
 
         this.address = address;
+    }
+
+    public String getNotes() {
+
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+
+        this.notes = notes;
     }
 
     public boolean isArchived() {

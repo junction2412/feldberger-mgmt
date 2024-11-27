@@ -1,5 +1,6 @@
 package de.code.junction.feldberger.mgmt.presentation.components.application;
 
+import de.code.junction.feldberger.mgmt.data.access.PersistenceManager;
 import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuControllerFactory;
 import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuNavContext;
 import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuTransitionFactory;
@@ -20,7 +21,11 @@ import static de.code.junction.feldberger.mgmt.presentation.components.applicati
 public class ApplicationControllerFactory {
 
 
-    public ApplicationControllerFactory() {
+    private final PersistenceManager persistenceManager;
+
+    public ApplicationControllerFactory(PersistenceManager persistenceManager) {
+
+        this.persistenceManager = persistenceManager;
     }
 
     public FXController login(Transition<LoginForm, UserSession> loginTransition,
@@ -51,7 +56,7 @@ public class ApplicationControllerFactory {
                 logoutTransition,
                 settingsTransition,
                 new UserSessionViewModel(userID, username),
-                new MainMenuNavContext(transitionFactory, new MainMenuControllerFactory(), userID)
+                new MainMenuNavContext(transitionFactory, new MainMenuControllerFactory(persistenceManager), userID)
         );
     }
 }

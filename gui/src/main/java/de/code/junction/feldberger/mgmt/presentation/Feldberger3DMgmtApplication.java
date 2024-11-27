@@ -29,7 +29,7 @@ public class Feldberger3DMgmtApplication extends Application {
         final TransitionFactoryProvider transitionFactoryProvider = new TransitionFactoryProvider(persistenceManager,
                 messenger);
 
-        ApplicationControllerFactory controllerFactory = new ApplicationControllerFactory();
+        ApplicationControllerFactory controllerFactory = new ApplicationControllerFactory(persistenceManager);
 
         navContext = new ApplicationNavContext(controllerFactory, transitionFactoryProvider);
     }
@@ -40,7 +40,7 @@ public class Feldberger3DMgmtApplication extends Application {
         System.out.println("Application start");
 
         messenger.setStage(stage);
-        navContext.setStage(stage);
+        navContext.setScope(stage);
 
         navContext.navigateTo(new ApplicationNavRoute.LoginForm(""));
 

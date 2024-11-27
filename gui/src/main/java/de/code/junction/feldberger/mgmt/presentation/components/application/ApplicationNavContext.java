@@ -4,7 +4,7 @@ import de.code.junction.feldberger.mgmt.presentation.components.application.Appl
 import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.RegistrationForm;
 import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.UserSession;
 import de.code.junction.feldberger.mgmt.presentation.components.common.TransitionFactoryProvider;
-import de.code.junction.feldberger.mgmt.presentation.navigation.NavContext;
+import de.code.junction.feldberger.mgmt.presentation.navigation.ScopedNavContext;
 import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import javafx.application.Platform;
@@ -18,35 +18,25 @@ import javafx.stage.Stage;
  *
  * @author J. Murray
  */
-public class ApplicationNavContext implements NavContext<ApplicationNavRoute> {
+public class ApplicationNavContext extends ScopedNavContext<Stage, ApplicationNavRoute> {
 
     private final ApplicationControllerFactory controllerFactory;
     private final TransitionFactoryProvider transitionFactoryProvider;
     private final ApplicationTransitionFactory transitionFactory;
-    private Stage stage;
 
     public ApplicationNavContext(ApplicationControllerFactory controllerFactory,
                                  TransitionFactoryProvider transitionFactoryProvider) {
 
-        this(controllerFactory, transitionFactoryProvider, null);
-
-    }
-
-    public ApplicationNavContext(ApplicationControllerFactory controllerFactory,
-                                 TransitionFactoryProvider transitionFactoryProvider,
-                                 Stage stage) {
-
         this.controllerFactory = controllerFactory;
         this.transitionFactoryProvider = transitionFactoryProvider;
-        this.transitionFactory = transitionFactoryProvider.applicationTransitionFactory();
-        this.stage = stage;
+        transitionFactory = transitionFactoryProvider.applicationTransitionFactory();
     }
 
     @Override
     public void navigateTo(ApplicationNavRoute route) {
 
-        if (stage == null)
-            throw new NullPointerException("Cannot navigate because stage is null.");
+        if (scope == null)
+            throw new NullPointerException("Cannot navigate because scope is null.");
 
         final var controller = switch (route) {
             case LoginForm form -> login(form.username());
@@ -55,11 +45,6 @@ public class ApplicationNavContext implements NavContext<ApplicationNavRoute> {
         };
 
         setSceneController(controller);
-    }
-
-    public void setStage(Stage stage) {
-
-        this.stage = stage;
     }
 
     private FXController login(String username) {
@@ -104,9 +89,9 @@ public class ApplicationNavContext implements NavContext<ApplicationNavRoute> {
 
     private void setSceneRoot(Parent parent) {
 
-        if (stage.getScene() == null)
-            stage.setScene(new Scene(parent));
+        if (scope.getScene() == null)
+            scope.setScene(new Scene(parent));
         else
-            stage.getScene().setRoot(parent);
+            scope.getScene().setRoot(parent);
     }
 }

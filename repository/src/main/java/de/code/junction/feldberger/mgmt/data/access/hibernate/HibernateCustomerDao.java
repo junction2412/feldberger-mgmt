@@ -70,4 +70,31 @@ public class HibernateCustomerDao
 
         return sessionFactory.fromSession(session -> session.createSelectionQuery(query).list());
     }
+
+    @Override
+    public List<Customer> getByNameOrCompanyName(String nameOrCompanyName) {
+
+        final String pattern = '*' + nameOrCompanyName + '*';
+
+        final var query = new CriteriaDefinition<>(sessionFactory, Customer.class) {
+            {
+                final var customers = from(Customer.class);
+
+                where(
+                        or(
+                                like(
+                                        concat(
+                                                customers.get(Customer_.firstName),
+                                                customers.get(Customer_.lastName)
+                                        ),
+                                        pattern
+                                ),
+                                like(customers.get(Customer_.companyName), pattern)
+                        )
+                );
+            }
+        };
+
+        return sessionFactory.fromSession(session -> session.createSelectionQuery(query).list());
+    }
 }
