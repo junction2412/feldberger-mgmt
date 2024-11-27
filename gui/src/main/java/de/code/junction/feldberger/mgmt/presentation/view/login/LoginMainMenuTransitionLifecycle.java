@@ -4,7 +4,7 @@ import de.code.junction.feldberger.mgmt.data.access.user.User;
 import de.code.junction.feldberger.mgmt.data.access.user.UserDataAccessObject;
 import de.code.junction.feldberger.mgmt.presentation.messaging.Messages;
 import de.code.junction.feldberger.mgmt.presentation.messaging.Messenger;
-import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
+import de.code.junction.feldberger.mgmt.presentation.navigation.TransitionLifecycle;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -14,15 +14,15 @@ import static de.code.junction.feldberger.mgmt.presentation.components.applicati
 import static de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.UserSession;
 import static de.code.junction.feldberger.mgmt.presentation.util.HashUtil.hashPassword;
 
-public class LoginMainMenuTransition implements Transition<LoginForm, UserSession> {
+public class LoginMainMenuTransitionLifecycle implements TransitionLifecycle<LoginForm, UserSession> {
 
     private final Messenger messenger;
     private final UserDataAccessObject userDao;
     private final Consumer<UserSession> onEnd;
 
-    public LoginMainMenuTransition(Messenger messenger,
-                                   UserDataAccessObject userDao,
-                                   Consumer<UserSession> onEnd) {
+    public LoginMainMenuTransitionLifecycle(Messenger messenger,
+                                            UserDataAccessObject userDao,
+                                            Consumer<UserSession> onEnd) {
 
         this.messenger = messenger;
         this.userDao = userDao;

@@ -3,7 +3,7 @@ package de.code.junction.feldberger.mgmt.presentation.view.registration;
 import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.LoginForm;
 import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.RegistrationForm;
 import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.UserSession;
-import de.code.junction.feldberger.mgmt.presentation.navigation.TransitionOrchestrator;
+import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
@@ -17,8 +17,8 @@ import java.util.ResourceBundle;
 
 public class RegistrationController extends FXController {
 
-    private final TransitionOrchestrator<RegistrationForm, UserSession> registrationTransition;
-    private final TransitionOrchestrator<RegistrationForm, LoginForm> loginTransition;
+    private final Transition<RegistrationForm, UserSession> registrationTransition;
+    private final Transition<RegistrationForm, LoginForm> loginTransition;
     private final RegistrationFormViewModel viewModel;
 
     @FXML
@@ -41,8 +41,8 @@ public class RegistrationController extends FXController {
     @FXML
     private Button submit;
 
-    public RegistrationController(TransitionOrchestrator<RegistrationForm, UserSession> registrationTransition,
-                                  TransitionOrchestrator<RegistrationForm, LoginForm> loginTransition,
+    public RegistrationController(Transition<RegistrationForm, UserSession> registrationTransition,
+                                  Transition<RegistrationForm, LoginForm> loginTransition,
                                   RegistrationFormViewModel viewModel) {
 
         super("registration-view.fxml");

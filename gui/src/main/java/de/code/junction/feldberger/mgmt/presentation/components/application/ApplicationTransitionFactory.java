@@ -4,16 +4,16 @@ import de.code.junction.feldberger.mgmt.data.access.PersistenceManager;
 import de.code.junction.feldberger.mgmt.presentation.components.common.TransitionFactory;
 import de.code.junction.feldberger.mgmt.presentation.messaging.Messenger;
 import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
-import de.code.junction.feldberger.mgmt.presentation.navigation.TransitionOrchestrator;
-import de.code.junction.feldberger.mgmt.presentation.view.login.LoginMainMenuTransition;
-import de.code.junction.feldberger.mgmt.presentation.view.registration.RegistrationMainMenuTransition;
+import de.code.junction.feldberger.mgmt.presentation.navigation.TransitionLifecycle;
+import de.code.junction.feldberger.mgmt.presentation.view.login.LoginMainMenuTransitionLifecycle;
+import de.code.junction.feldberger.mgmt.presentation.view.registration.RegistrationMainMenuTransitionLifecycle;
 
 import java.util.function.Consumer;
 
 import static de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.*;
 
 /**
- * A factory class to be used to instantiate more complex {@link Transition} implementations.
+ * A factory class to be used to instantiate more complex {@link TransitionLifecycle} implementations.
  *
  * @author J. Murray
  */
@@ -30,9 +30,9 @@ public class ApplicationTransitionFactory extends TransitionFactory {
      * @param onTransition transition ui logic to be performed
      * @return login->mainMenu transition
      */
-    public TransitionOrchestrator<LoginForm, UserSession> loginSession(Consumer<UserSession> onTransition) {
+    public Transition<LoginForm, UserSession> loginSession(Consumer<UserSession> onTransition) {
 
-        return new TransitionOrchestrator<>(new LoginMainMenuTransition(messenger, persistenceManager.userDao(),
+        return new Transition<>(new LoginMainMenuTransitionLifecycle(messenger, persistenceManager.userDao(),
                 onTransition));
     }
 
@@ -42,9 +42,9 @@ public class ApplicationTransitionFactory extends TransitionFactory {
      * @param onTransition transition ui logic to be performed
      * @return login->registration transition
      */
-    public TransitionOrchestrator<LoginForm, RegistrationForm> loginRegistration(Consumer<RegistrationForm> onTransition) {
+    public Transition<LoginForm, RegistrationForm> loginRegistration(Consumer<RegistrationForm> onTransition) {
 
-        return new TransitionOrchestrator<>(Transition.bypass(form -> new RegistrationForm(form.username()),
+        return new Transition<>(TransitionLifecycle.bypass(form -> new RegistrationForm(form.username()),
                 onTransition));
     }
 
@@ -54,9 +54,9 @@ public class ApplicationTransitionFactory extends TransitionFactory {
      * @param onTransition transition ui logic to be performed
      * @return registration->login transition
      */
-    public TransitionOrchestrator<RegistrationForm, LoginForm> registrationLogin(Consumer<LoginForm> onTransition) {
+    public Transition<RegistrationForm, LoginForm> registrationLogin(Consumer<LoginForm> onTransition) {
 
-        return new TransitionOrchestrator<>(Transition.bypass(form -> new LoginForm(form.username()), onTransition));
+        return new Transition<>(TransitionLifecycle.bypass(form -> new LoginForm(form.username()), onTransition));
     }
 
     /**
@@ -65,9 +65,9 @@ public class ApplicationTransitionFactory extends TransitionFactory {
      * @param onTransition transition ui logic to be performed
      * @return registration->mainMenu transition
      */
-    public TransitionOrchestrator<RegistrationForm, UserSession> registrationSession(Consumer<UserSession> onTransition) {
+    public Transition<RegistrationForm, UserSession> registrationSession(Consumer<UserSession> onTransition) {
 
-        return new TransitionOrchestrator<>(new RegistrationMainMenuTransition(messenger, persistenceManager.userDao(),
+        return new Transition<>(new RegistrationMainMenuTransitionLifecycle(messenger, persistenceManager.userDao(),
                 onTransition));
     }
 
@@ -77,9 +77,9 @@ public class ApplicationTransitionFactory extends TransitionFactory {
      * @param onTransition transition ui logic to be performed
      * @return mainMenu->login transition
      */
-    public TransitionOrchestrator<UserSession, LoginForm> sessionLogin(Consumer<LoginForm> onTransition) {
+    public Transition<UserSession, LoginForm> sessionLogin(Consumer<LoginForm> onTransition) {
 
-        return new TransitionOrchestrator<>(Transition.bypass(session -> new LoginForm(session.username()),
+        return new Transition<>(TransitionLifecycle.bypass(session -> new LoginForm(session.username()),
                 onTransition));
     }
 }

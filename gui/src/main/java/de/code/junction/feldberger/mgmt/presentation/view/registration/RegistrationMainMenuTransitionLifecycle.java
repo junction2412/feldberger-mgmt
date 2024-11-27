@@ -6,7 +6,7 @@ import de.code.junction.feldberger.mgmt.presentation.messaging.Message;
 import de.code.junction.feldberger.mgmt.presentation.messaging.MessageType;
 import de.code.junction.feldberger.mgmt.presentation.messaging.Messages;
 import de.code.junction.feldberger.mgmt.presentation.messaging.Messenger;
-import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
+import de.code.junction.feldberger.mgmt.presentation.navigation.TransitionLifecycle;
 
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
@@ -17,15 +17,15 @@ import static de.code.junction.feldberger.mgmt.presentation.util.HashUtil.hashPa
 import static de.code.junction.feldberger.mgmt.presentation.util.HashUtil.salt;
 import static de.code.junction.feldberger.mgmt.presentation.util.ResourceUtil.getMessageStringResources;
 
-public class RegistrationMainMenuTransition implements Transition<RegistrationForm, UserSession> {
+public class RegistrationMainMenuTransitionLifecycle implements TransitionLifecycle<RegistrationForm, UserSession> {
 
     private final Messenger messenger;
     private final UserDataAccessObject userDao;
     private final Consumer<UserSession> onEnd;
 
-    public RegistrationMainMenuTransition(Messenger messenger,
-                                          UserDataAccessObject userDao,
-                                          Consumer<UserSession> onEnd) {
+    public RegistrationMainMenuTransitionLifecycle(Messenger messenger,
+                                                   UserDataAccessObject userDao,
+                                                   Consumer<UserSession> onEnd) {
 
         this.messenger = messenger;
         this.userDao = userDao;

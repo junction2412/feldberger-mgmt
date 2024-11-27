@@ -1,6 +1,6 @@
 package de.code.junction.feldberger.mgmt.presentation.view.login;
 
-import de.code.junction.feldberger.mgmt.presentation.navigation.TransitionOrchestrator;
+import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
@@ -16,8 +16,8 @@ import static de.code.junction.feldberger.mgmt.presentation.components.applicati
 
 public class LoginController extends FXController {
 
-    private final TransitionOrchestrator<LoginForm, UserSession> loginTransition;
-    private final TransitionOrchestrator<LoginForm, RegistrationForm> registrationTransition;
+    private final Transition<LoginForm, UserSession> loginTransition;
+    private final Transition<LoginForm, RegistrationForm> registrationTransition;
 
     private final LoginFormViewModel viewModel;
 
@@ -36,8 +36,8 @@ public class LoginController extends FXController {
     @FXML
     private Button submit;
 
-    public LoginController(TransitionOrchestrator<LoginForm, UserSession> loginTransition,
-                           TransitionOrchestrator<LoginForm, RegistrationForm> registrationTransition,
+    public LoginController(Transition<LoginForm, UserSession> loginTransition,
+                           Transition<LoginForm, RegistrationForm> registrationTransition,
                            LoginFormViewModel viewModel) {
 
         super("login-view.fxml");

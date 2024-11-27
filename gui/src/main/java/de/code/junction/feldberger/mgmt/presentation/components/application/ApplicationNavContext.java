@@ -5,7 +5,7 @@ import de.code.junction.feldberger.mgmt.presentation.components.application.Appl
 import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.UserSession;
 import de.code.junction.feldberger.mgmt.presentation.components.common.TransitionFactoryProvider;
 import de.code.junction.feldberger.mgmt.presentation.navigation.NavContext;
-import de.code.junction.feldberger.mgmt.presentation.navigation.TransitionOrchestrator;
+import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import javafx.application.Platform;
 import javafx.scene.Parent;
@@ -81,7 +81,7 @@ public class ApplicationNavContext implements NavContext<ApplicationNavRoute> {
     private FXController mainMenu(int userID, String username) {
 
         final var logoutTransition = transitionFactory.sessionLogin(this::navigateTo);
-        final var settingsTransition = TransitionOrchestrator.<UserSession>immediate(_ -> System.out.println("NOOP"));
+        final var settingsTransition = Transition.<UserSession>immediate(_ -> System.out.println("NOOP"));
 
         return controllerFactory.mainMenu(
                 transitionFactoryProvider.mainMenuTransitionFactory(),

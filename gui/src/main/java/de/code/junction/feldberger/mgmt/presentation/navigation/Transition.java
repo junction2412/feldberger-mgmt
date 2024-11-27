@@ -1,99 +1,54 @@
 package de.code.junction.feldberger.mgmt.presentation.navigation;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
 
 /**
- * Defines the transition lifecycle of UI view components.
- * As such it must not be invoked manually, as it's intended to be orchestrated asynchronously.
+ * The preferred approach of performing UI transitions.
  *
  * @param <A> transition input type
- * @param <B> the type the transition is performed upon
+ * @param <B> data the transition is performed upon
  * @author J. Murray
+ * @see TransitionLifecycle
  */
-public interface Transition<A, B> {
+public class Transition<A, B> {
 
-    /**
-     * Start the transition, You can validate the input here if necessary.
-     *
-     * @param a transition input
-     * @return whether the input is valid
-     */
-    boolean validate(A a);
+    private final TransitionLifecycle<A, B> transitionLifecycle;
 
-    /**
-     * Convert the transition input.
-     *
-     * @param a transition input
-     * @return data the transition is performed upon
-     */
-    B transform(A a);
+    public Transition(TransitionLifecycle<A, B> transitionLifecycle) {
 
-    /**
-     * Conclude the actual UI transition.
-     *
-     * @param b data the transition is performed upon
-     */
-    void conclude(B b);
-
-    /**
-     * A factory method to instantiate a fully fledged transition on a whim.
-     *
-     * @param validator   validator
-     * @param transformer transformer
-     * @param consumer    consumer
-     * @param <A>         transition input
-     * @param <B>         data the transition is performed upon
-     * @return transition
-     */
-    static <A, B> Transition<A, B> of(Predicate<A> validator, Function<A, B> transformer, Consumer<B> consumer) {
-
-        return new Transition<>() {
-
-            @Override
-            public boolean validate(A a) {
-
-                return validator.test(a);
-            }
-
-            @Override
-            public B transform(A a) {
-
-                return transformer.apply(a);
-            }
-
-            @Override
-            public void conclude(B b) {
-
-                consumer.accept(b);
-            }
-        };
+        this.transitionLifecycle = transitionLifecycle;
     }
 
     /**
-     * A factory method to instantiate a transition without input validation.
+     * Asynchronously orchestrates the pre-defined UI transition.
      *
-     * @param transformer transformer
-     * @param consumer    consumer
-     * @param <A>         transition input
-     * @param <B>         data the transition is performed upon
-     * @return transition without input validation
+     * @param a transition input data
      */
-    static <A, B> Transition<A, B> bypass(Function<A, B> transformer, Consumer<B> consumer) {
+    public void orchestrate(A a) {
 
-        return of(_ -> true, transformer, consumer);
+        CompletableFuture.supplyAsync(() -> transitionLifecycle.validate(a))
+                .thenAcceptAsync(isValid -> {
+                    if (!isValid) return;
+
+                    final B b = transitionLifecycle.transform(a);
+                    transitionLifecycle.conclude(b);
+                }).exceptionally(e -> {
+                    e.printStackTrace(System.err);
+                    return null;
+                });
     }
 
     /**
-     * A factory method to instantiate a transition without input validation and type conversion.
+     * A convenience method of instantiating the {@link Transition}.
+     * Therefore, a single parameter lambda can be passed as well.
      *
-     * @param consumer consumer
-     * @param <T>      data the transition is performed upon
-     * @return transition without input validation and type conversion
+     * @param transition consumer
+     * @param <T>        data the transition is performed upon
+     * @return transition orchestrator
      */
-    static <T> Transition<T, T> immediate(Consumer<T> consumer) {
+    public static <T> Transition<T, T> immediate(Consumer<T> transition) {
 
-        return bypass(t -> t, consumer);
+        return new Transition<>(TransitionLifecycle.immediate(transition));
     }
 }
