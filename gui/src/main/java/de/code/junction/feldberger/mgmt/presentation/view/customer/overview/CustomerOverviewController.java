@@ -1,9 +1,11 @@
 package de.code.junction.feldberger.mgmt.presentation.view.customer.overview;
 
 import de.code.junction.feldberger.mgmt.data.access.customer.Customer;
+import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -33,11 +35,15 @@ public class CustomerOverviewController extends FXController {
 
     private final CustomerListService customerListService;
 
-    public CustomerOverviewController(CustomerListService customerListService) {
+    private final Transition<Void, Customer> newCustomerTransition;
+
+    public CustomerOverviewController(CustomerListService customerListService,
+                                      Transition<Void, Customer> newCustomerTransition) {
 
         super("customer-overview.fxml");
 
         this.customerListService = customerListService;
+        this.newCustomerTransition = newCustomerTransition;
     }
 
     @Override
@@ -62,7 +68,14 @@ public class CustomerOverviewController extends FXController {
 
         filter.textProperty().addListener(this::onFilterTextChanged);
 
+        newCustomer.setOnAction(this::onNewCustomerClicked);
+
         customerListService.start();
+    }
+
+    private void onNewCustomerClicked(ActionEvent event) {
+
+        newCustomerTransition.orchestrate(null);
     }
 
     private void onFilterTextChanged(Observable observable, String oldValue, String newValue) {

@@ -49,7 +49,7 @@ public class User implements DataTransferObject<Integer> {
     }
 
     @Override
-    public Integer getID() {
+    public Integer getId() {
 
         return id;
     }

@@ -60,13 +60,13 @@ class HibernateUserDaoTest {
     void persistUserInsertsNewUser() {
         // given: new user
         final User user = new User("username", "my_hash", "some salt");
-        final Integer id = user.getID();
+        final Integer id = user.getId();
 
         // when: user is persisted
         userDao.persistUser(user);
 
         // then: user has received an id
-        assertNotEquals(id, user.getID());
+        assertNotEquals(id, user.getId());
     }
 
     @Test
@@ -76,7 +76,7 @@ class HibernateUserDaoTest {
         userDao.persistUser(user);
 
         // when: user is retrieved by id
-        final Optional<User> optionalUser = userDao.findByID(user.getID());
+        final Optional<User> optionalUser = userDao.findByID(user.getId());
 
         // then: optional is present
         assertTrue(optionalUser.isPresent());

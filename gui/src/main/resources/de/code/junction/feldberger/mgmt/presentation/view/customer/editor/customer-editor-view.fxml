@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+          xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/22">
+    <columnConstraints>
+        <ColumnConstraints hgrow="ALWAYS" minWidth="10.0"/>
+        <ColumnConstraints minWidth="10.0"/>
+        <ColumnConstraints minWidth="10.0"/>
+        <ColumnConstraints minWidth="10.0"/>
+        <ColumnConstraints hgrow="ALWAYS" minWidth="10.0"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0"/>
+        <RowConstraints minHeight="10.0"/>
+        <RowConstraints minHeight="10.0"/>
+        <RowConstraints minHeight="10.0"/>
+        <RowConstraints minHeight="10.0"/>
+        <RowConstraints minHeight="10.0"/>
+        <RowConstraints minHeight="10.0"/>
+        <RowConstraints minHeight="10.0"/>
+        <RowConstraints minHeight="10.0"/>
+        <RowConstraints minHeight="10.0"/>
+        <RowConstraints minHeight="10.0"/>
+        <RowConstraints minHeight="10.0"/>
+        <RowConstraints minHeight="10.0"/>
+    </rowConstraints>
+    <children>
+        <StackPane alignment="CENTER_RIGHT" GridPane.rowIndex="2">
+            <children>
+                <Label fx:id="idLabel" text="id"/>
+            </children>
+            <padding>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </padding>
+        </StackPane>
+        <StackPane alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <children>
+                <Label fx:id="id" text="Label"/>
+            </children>
+            <padding>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </padding>
+        </StackPane>
+        <StackPane alignment="CENTER_RIGHT" GridPane.rowIndex="3">
+            <children>
+                <Label fx:id="idNoLabel" text="idNo"/>
+            </children>
+            <padding>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </padding>
+        </StackPane>
+        <StackPane alignment="CENTER_RIGHT" GridPane.rowIndex="4">
+            <children>
+                <Label fx:id="lastNameLabel" text="lastName"/>
+            </children>
+            <padding>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </padding>
+        </StackPane>
+        <StackPane alignment="CENTER_RIGHT" GridPane.rowIndex="5">
+            <children>
+                <Label fx:id="firstNameLabel" text="firstName"/>
+            </children>
+            <padding>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </padding>
+        </StackPane>
+        <StackPane alignment="CENTER_RIGHT" GridPane.rowIndex="6">
+            <children>
+                <Label fx:id="companyNameLabel" text="companyName"/>
+            </children>
+            <padding>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </padding>
+        </StackPane>
+        <StackPane alignment="CENTER_RIGHT" GridPane.rowIndex="7">
+            <children>
+                <Label fx:id="emailAddressLabel" text="emailAddress"/>
+            </children>
+            <padding>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </padding>
+        </StackPane>
+        <StackPane alignment="CENTER_RIGHT" GridPane.rowIndex="8">
+            <children>
+                <Label fx:id="landlinePhoneNumberLabel" text="landlinePhoneNumber"/>
+            </children>
+            <padding>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </padding>
+        </StackPane>
+        <StackPane alignment="CENTER_RIGHT" GridPane.rowIndex="9">
+            <children>
+                <Label fx:id="mobilePhoneNumberLabel" text="mobilePhoneNumber"/>
+            </children>
+            <padding>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </padding>
+        </StackPane>
+        <StackPane alignment="CENTER_RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="3">
+            <children>
+                <Label fx:id="countryCodeLabel" text="countryCode"/>
+            </children>
+            <padding>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </padding>
+        </StackPane>
+        <StackPane alignment="CENTER_RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="4">
+            <children>
+                <Label fx:id="postalCodeLabel" text="postalCode"/>
+            </children>
+            <padding>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </padding>
+        </StackPane>
+        <StackPane alignment="CENTER_RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="5">
+            <children>
+                <Label fx:id="cityLabel" text="city"/>
+            </children>
+            <padding>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </padding>
+        </StackPane>
+        <StackPane alignment="CENTER_RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="6">
+            <children>
+                <Label fx:id="streetLabel" text="street"/>
+            </children>
+            <padding>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </padding>
+        </StackPane>
+        <StackPane alignment="CENTER_RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="7">
+            <children>
+                <Label fx:id="streetNumberLabel" text="streetNumber"/>
+            </children>
+            <padding>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </padding>
+        </StackPane>
+        <StackPane alignment="CENTER_RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="8">
+            <children>
+                <Label fx:id="suffixLabel" text="suffix"/>
+            </children>
+            <padding>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </padding>
+        </StackPane>
+        <StackPane alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <children>
+                <TextField fx:id="idNo"/>
+            </children>
+            <padding>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </padding>
+        </StackPane>
+        <StackPane alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <children>
+                <TextField fx:id="lastName"/>
+            </children>
+            <padding>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </padding>
+        </StackPane>
+        <StackPane alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <children>
+                <TextField fx:id="firstName"/>
+            </children>
+            <padding>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </padding>
+        </StackPane>
+        <StackPane alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="6">
+            <children>
+                <TextField fx:id="companyName"/>
+            </children>
+            <padding>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </padding>
+        </StackPane>
+        <StackPane alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="7">
+            <children>
+                <TextField fx:id="emailAddress"/>
+            </children>
+            <padding>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </padding>
+        </StackPane>
+        <StackPane alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="8">
+            <children>
+                <TextField fx:id="landlinePhoneNumber"/>
+            </children>
+            <padding>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </padding>
+        </StackPane>
+        <StackPane alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="9">
+            <children>
+                <TextField fx:id="mobilePhoneNumber"/>
+            </children>
+            <padding>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </padding>
+        </StackPane>
+        <StackPane alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="11">
+            <children>
+                <TextArea fx:id="notes"/>
+            </children>
+            <padding>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </padding>
+        </StackPane>
+        <StackPane alignment="CENTER_LEFT" GridPane.columnIndex="3" GridPane.rowIndex="3">
+            <children>
+                <TextField fx:id="countryCode"/>
+            </children>
+            <padding>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </padding>
+        </StackPane>
+        <StackPane alignment="CENTER_LEFT" GridPane.columnIndex="3" GridPane.rowIndex="4">
+            <children>
+                <TextField fx:id="postalCode"/>
+            </children>
+            <padding>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </padding>
+        </StackPane>
+        <StackPane alignment="CENTER_LEFT" GridPane.columnIndex="3" GridPane.rowIndex="5">
+            <children>
+                <TextField fx:id="city"/>
+            </children>
+            <padding>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </padding>
+        </StackPane>
+        <StackPane alignment="CENTER_LEFT" GridPane.columnIndex="3" GridPane.rowIndex="6">
+            <children>
+                <TextField fx:id="street"/>
+            </children>
+            <padding>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </padding>
+        </StackPane>
+        <StackPane alignment="CENTER_LEFT" GridPane.columnIndex="3" GridPane.rowIndex="7">
+            <children>
+                <TextField fx:id="streetNumber"/>
+            </children>
+            <padding>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </padding>
+        </StackPane>
+        <StackPane alignment="CENTER_LEFT" GridPane.columnIndex="3" GridPane.rowIndex="8">
+            <children>
+                <TextField fx:id="suffix"/>
+            </children>
+            <padding>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </padding>
+        </StackPane>
+        <StackPane alignment="TOP_RIGHT" GridPane.rowIndex="11">
+            <children>
+                <Label fx:id="notesLabel" text="notes"/>
+            </children>
+            <padding>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </padding>
+        </StackPane>
+        <HBox GridPane.columnSpan="2147483647">
+            <children>
+                <StackPane>
+                    <children>
+                        <Button fx:id="back" mnemonicParsing="false" text="back"/>
+                    </children>
+                    <padding>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+                    </padding>
+                </StackPane>
+                <StackPane>
+                    <children>
+                        <Button fx:id="save" mnemonicParsing="false" text="save"/>
+                    </children>
+                    <padding>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+                    </padding>
+                </StackPane>
+            </children>
+        </HBox>
+    </children>
+</GridPane>

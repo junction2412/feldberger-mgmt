@@ -11,7 +11,7 @@ public interface DataTransferObject<T> {
     /**
      * @return identifier value
      */
-    T getID();
+    T getId();
 
     /**
      * @param id identifier value

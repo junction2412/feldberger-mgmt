@@ -89,7 +89,27 @@ class HibernateCustomerDaoTest {
     }
 
     @Test
-    void catGetAllWhenEmpty() {
+    void findByID_AlsoLoadsAddress() {
+
+        final Address address = new Address();
+        addressDao.persistAddress(address);
+
+        final Customer customer = new Customer("12345", "Biden", "Joe", "U:S:A", "joe@biden.com", "0815", "0816",
+                address);
+
+        customerDao.persistCustomer(customer);
+
+        final Integer customerID = customer.getId();
+
+        final Optional<Customer> optionalCustomer = customerDao.findByID(customerID);
+        assertTrue(optionalCustomer.isPresent());
+
+        final Customer customerFromDb = optionalCustomer.get();
+        assertNotNull(customerFromDb.getAddress());
+    }
+
+    @Test
+    void cantGetAllWhenEmpty() {
 
         final List<Customer> customers = customerDao.getAll();
 

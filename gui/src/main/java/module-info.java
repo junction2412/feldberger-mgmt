@@ -13,4 +13,5 @@ module de.code.junction.feldberger.mgmt.gui {
     opens de.code.junction.feldberger.mgmt.presentation.view.registration to javafx.fxml;
     opens de.code.junction.feldberger.mgmt.presentation.view.main.menu to javafx.fxml;
     opens de.code.junction.feldberger.mgmt.presentation.view.customer.overview to javafx.fxml;
+    opens de.code.junction.feldberger.mgmt.presentation.view.customer.editor to javafx.fxml;
 }

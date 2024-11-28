@@ -71,7 +71,7 @@ public class Address implements DataTransferObject<Integer> {
     }
 
     @Override
-    public Integer getID() {
+    public Integer getId() {
 
         return id;
     }
@@ -147,7 +147,7 @@ public class Address implements DataTransferObject<Integer> {
     public String toString() {
 
         return "Address{" +
-                "id=" + getID() +
+                "id=" + getId() +
                 ", countryCode='" + getCountryCode() + '\'' +
                 ", postalCode='" + getPostalCode() + '\'' +
                 ", city='" + getCity() + '\'' +

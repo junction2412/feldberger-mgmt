@@ -21,7 +21,7 @@ public class UserSessionViewModel {
 
     public UserSessionViewModel(User user) {
 
-        this(user.getID(), user.getUsername());
+        this(user.getId(), user.getUsername());
     }
 
     public int getUserID() {

@@ -1,5 +1,7 @@
 package de.code.junction.feldberger.mgmt.presentation.components.main.menu;
 
+import de.code.junction.feldberger.mgmt.data.access.customer.Customer;
+
 public sealed interface MainMenuNavRoute {
 
     enum Subview implements MainMenuNavRoute {
@@ -21,5 +23,8 @@ public sealed interface MainMenuNavRoute {
 
             return labelKey;
         }
+    }
+
+    record CustomerEditor(Customer customer) implements MainMenuNavRoute {
     }
 }

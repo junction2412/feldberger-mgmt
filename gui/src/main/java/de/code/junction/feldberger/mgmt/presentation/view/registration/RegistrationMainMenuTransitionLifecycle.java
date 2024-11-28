@@ -89,7 +89,7 @@ public class RegistrationMainMenuTransitionLifecycle implements TransitionLifecy
 
         userDao.persistUser(user);
 
-        return new UserSession(user.getID(), user.getUsername());
+        return new UserSession(user.getId(), user.getUsername());
     }
 
     @Override

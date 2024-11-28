@@ -67,7 +67,7 @@ class HibernateAddressDaoTest {
 
         addressDao.persistAddress(address);
 
-        assertNotEquals(0, address.getID());
+        assertNotEquals(0, address.getId());
     }
 
     @Test

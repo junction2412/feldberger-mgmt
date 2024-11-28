@@ -66,7 +66,7 @@ public class LoginMainMenuTransitionLifecycle implements TransitionLifecycle<Log
 
         final User user = optionalUser.get();
 
-        return new UserSession(user.getID(), user.getUsername());
+        return new UserSession(user.getId(), user.getUsername());
     }
 
     @Override
