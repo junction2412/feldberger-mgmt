@@ -7,9 +7,7 @@ public sealed interface MainMenuNavRoute {
     enum Subview implements MainMenuNavRoute {
         NONE(null),
         CUSTOMERS("enum.main.menu.nav.route.customers"),
-        ORDERS("enum.main.menu.nav.route.orders"),
-        INVOICES("enum.main.menu.nav.route.invoices"),
-        PACKING_SLIPS("enum.main.menu.nav.route.packing_slips"),
+        TRANSACTIONS("enum.main.menu.nav.route.transactions"),
         ;
 
         private final String labelKey;
