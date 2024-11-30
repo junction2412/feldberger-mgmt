@@ -5,6 +5,7 @@ import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -12,6 +13,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 
 import java.util.ResourceBundle;
 
@@ -51,6 +53,9 @@ public class CustomerOverviewController extends FXController {
         this.viewCustomerTransition = viewCustomerTransition;
         this.editCustomerTransition = editCustomerTransition;
         this.newCustomerTransition = newCustomerTransition;
+
+        this.customerListService.setOnSucceeded(this::onCustomerListServiceSucceeded);
+        this.customerListService.setOnFailed(this::onCustomerListServiceFailed);
     }
 
     @Override
@@ -79,6 +84,8 @@ public class CustomerOverviewController extends FXController {
         editCustomer.setOnAction(this::onEditCustomerClicked);
         newCustomer.setOnAction(this::onNewCustomerClicked);
 
+        customers.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onCustomersClicked);
+
         customerListService.start();
     }
 
@@ -91,6 +98,16 @@ public class CustomerOverviewController extends FXController {
         filter.setPromptText(bundle.getString("view.customer_overview.filter"));
         customerIdNo.setText(bundle.getString("view.customer_overview.table.idno"));
         customerName.setText(bundle.getString("view.customer_overview.table.name"));
+    }
+
+    private void onCustomerListServiceSucceeded(WorkerStateEvent event) {
+
+        customers.getItems().setAll(customerListService.getValue());
+    }
+
+    private void onCustomerListServiceFailed(WorkerStateEvent event) {
+
+        throw new RuntimeException(customerListService.getException());
     }
 
     private void onViewCustomerClicked(ActionEvent event) {
@@ -106,6 +123,17 @@ public class CustomerOverviewController extends FXController {
     private void onNewCustomerClicked(ActionEvent event) {
 
         newCustomerTransition.orchestrate(null);
+    }
+
+    private void onCustomersClicked(MouseEvent event) {
+
+        if (event.getClickCount() != 2) return;
+
+        final Customer customer = customers.getSelectionModel().getSelectedItem();
+
+        if (customer == null) return;
+
+        viewCustomerTransition.orchestrate(customer);
     }
 
     private void onFilterTextChanged(Observable observable, String oldValue, String newValue) {

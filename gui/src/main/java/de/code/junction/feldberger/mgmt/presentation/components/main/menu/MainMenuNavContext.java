@@ -9,6 +9,8 @@ import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 
+import java.util.function.Consumer;
+
 import static de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuNavRoute.*;
 
 public class MainMenuNavContext extends ScopedNavContext<Pane, MainMenuNavRoute> {
@@ -48,15 +50,13 @@ public class MainMenuNavContext extends ScopedNavContext<Pane, MainMenuNavRoute>
     private FXController customerOverview() {
 
         final Transition<Customer, Customer> viewCustomerTransition = Transition.immediate(
-                _ -> System.out.println("NOOP"));
+                customer -> navigateTo(new CustomerDashboard(customer)));
 
+        final Consumer<Customer> editorConsumer = customer -> navigateTo(new CustomerEditor(customer));
         final Transition<Customer, Customer> editCustomerTransition = Transition.immediate(
-                _ -> System.out.println("NOOP"));
-
-        final TransitionLifecycle<Void, Customer> bypass = TransitionLifecycle.bypass(
-                _ -> new Customer(),
-                customer -> navigateTo(new CustomerEditor(customer))
-        );
+                editorConsumer);
+        final TransitionLifecycle<Void, Customer> bypass = TransitionLifecycle.bypass(_ -> new Customer(),
+                editorConsumer);
 
         final Transition<Void, Customer> newCustomerTransition = new Transition<>(bypass);
 

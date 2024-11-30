@@ -28,7 +28,12 @@ public class CustomerListService extends Service<List<Customer>> {
             @Override
             protected List<Customer> call() throws Exception {
 
-                return customerDao.getByNameOrCompanyName(getNameOrCompanyName());
+                final String nameOrCompanyName = getNameOrCompanyName();
+
+                if (nameOrCompanyName.isBlank())
+                    return customerDao.getActiveCustomers();
+
+                return customerDao.getByNameOrCompanyName(nameOrCompanyName);
             }
         };
     }
