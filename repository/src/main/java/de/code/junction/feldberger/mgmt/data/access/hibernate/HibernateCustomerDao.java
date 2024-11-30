@@ -50,11 +50,17 @@ public class HibernateCustomerDao
     @Override
     public void persistCustomer(Customer customer) {
 
-        sessionFactory.inTransaction(session -> session.persist(customer));
+        sessionFactory.inTransaction(session -> {
+
+            if (customer.getId() == 0)
+                session.persist(customer);
+            else
+                session.merge(customer);
+        });
     }
 
     @Override
-    public Optional<Customer> findByID(Integer id) {
+    public Optional<Customer> findById(Integer id) {
 
         return Optional.ofNullable(sessionFactory.fromSession(session -> session.find(Customer.class, id)));
     }
@@ -69,6 +75,19 @@ public class HibernateCustomerDao
         };
 
         return sessionFactory.fromSession(session -> session.createSelectionQuery(query).list());
+    }
+
+    @Override
+    public Optional<Customer> findCustomerByIdNo(String idNo) {
+
+        final var query = new CriteriaDefinition<>(sessionFactory, Customer.class) {
+            {
+                final var customers = from(Customer.class);
+                where(equal(customers.get(Customer_.idNo), idNo));
+            }
+        };
+
+        return sessionFactory.fromSession(session -> session.createSelectionQuery(query).uniqueResultOptional());
     }
 
     @Override

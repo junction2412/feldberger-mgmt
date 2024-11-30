@@ -16,5 +16,5 @@ public interface DataTransferObject<T> {
     /**
      * @param id identifier value
      */
-    void setID(T id);
+    void setId(T id);
 }

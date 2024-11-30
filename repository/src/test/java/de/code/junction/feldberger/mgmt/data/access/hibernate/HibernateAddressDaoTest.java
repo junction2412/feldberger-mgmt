@@ -45,9 +45,9 @@ class HibernateAddressDaoTest {
     }
 
     @Test
-    void cantFindByIDWhenEmpty() {
+    void cantFindByIdWhenEmpty() {
 
-        final Optional<Address> optionalAddress = addressDao.findByID(2);
+        final Optional<Address> optionalAddress = addressDao.findById(2);
 
         assertTrue(optionalAddress.isEmpty());
     }
@@ -76,7 +76,7 @@ class HibernateAddressDaoTest {
         final Address address = new Address();
 
         addressDao.persistAddress(address);
-        address.setID(0);
+        address.setId(0);
 
         final Executable whenPersistExisting = () -> addressDao.persistAddress(address);
 

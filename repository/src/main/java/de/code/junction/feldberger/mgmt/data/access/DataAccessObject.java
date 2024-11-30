@@ -18,7 +18,7 @@ public interface DataAccessObject<T, DTO extends DataTransferObject<T>> {
      * @param id identifier
      * @return optional data
      */
-    Optional<DTO> findByID(T id);
+    Optional<DTO> findById(T id);
 
     /**
      * Find all data objects.

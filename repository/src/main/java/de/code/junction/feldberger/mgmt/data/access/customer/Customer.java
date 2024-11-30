@@ -108,7 +108,7 @@ public class Customer implements DataTransferObject<Integer> {
     }
 
     @Override
-    public void setID(Integer id) {
+    public void setId(Integer id) {
 
         this.id = id;
     }

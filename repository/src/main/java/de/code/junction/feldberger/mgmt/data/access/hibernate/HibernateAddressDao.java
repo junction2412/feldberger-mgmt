@@ -22,7 +22,13 @@ public class HibernateAddressDao
     @Override
     public void persistAddress(Address address) {
 
-        sessionFactory.inTransaction(session -> session.persist(address));
+        sessionFactory.inTransaction(session -> {
+
+            if (address.getId() == 0)
+                session.persist(address);
+            else
+                session.merge(address);
+        });
     }
 
     @Override
@@ -51,7 +57,7 @@ public class HibernateAddressDao
     }
 
     @Override
-    public Optional<Address> findByID(Integer id) {
+    public Optional<Address> findById(Integer id) {
 
         return Optional.ofNullable(sessionFactory.fromSession(session -> session.find(Address.class, id)));
     }

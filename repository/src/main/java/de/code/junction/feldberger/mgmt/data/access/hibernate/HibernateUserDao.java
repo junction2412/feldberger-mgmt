@@ -56,7 +56,7 @@ public class HibernateUserDao
     }
 
     @Override
-    public Optional<User> findByID(Integer id) {
+    public Optional<User> findById(Integer id) {
 
         return sessionFactory.fromSession(session -> Optional.ofNullable(session.find(User.class, id)));
     }

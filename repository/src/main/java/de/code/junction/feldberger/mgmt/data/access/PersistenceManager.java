@@ -1,6 +1,8 @@
 package de.code.junction.feldberger.mgmt.data.access;
 
+import de.code.junction.feldberger.mgmt.data.access.address.Address;
 import de.code.junction.feldberger.mgmt.data.access.address.AddressDataAccessObject;
+import de.code.junction.feldberger.mgmt.data.access.customer.Customer;
 import de.code.junction.feldberger.mgmt.data.access.customer.CustomerDataAccessObject;
 import de.code.junction.feldberger.mgmt.data.access.hibernate.HibernateAddressDao;
 import de.code.junction.feldberger.mgmt.data.access.hibernate.HibernateCustomerDao;
@@ -21,6 +23,8 @@ public class PersistenceManager {
 
         this.sessionFactory = new Configuration()
                 .addAnnotatedClass(User.class)
+                .addAnnotatedClass(Customer.class)
+                .addAnnotatedClass(Address.class)
                 .buildSessionFactory();
     }
 

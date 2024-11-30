@@ -81,15 +81,15 @@ class HibernateCustomerDaoTest {
     }
 
     @Test
-    void cantFindByIDWhenEmpty() {
+    void cantFindByIdWhenEmpty() {
 
-        final Optional<Customer> optionalCustomer = customerDao.findByID(2);
+        final Optional<Customer> optionalCustomer = customerDao.findById(2);
 
         assertTrue(optionalCustomer.isEmpty());
     }
 
     @Test
-    void findByID_AlsoLoadsAddress() {
+    void findById_AlsoLoadsAddress() {
 
         final Address address = new Address();
         addressDao.persistAddress(address);
@@ -101,7 +101,7 @@ class HibernateCustomerDaoTest {
 
         final Integer customerID = customer.getId();
 
-        final Optional<Customer> optionalCustomer = customerDao.findByID(customerID);
+        final Optional<Customer> optionalCustomer = customerDao.findById(customerID);
         assertTrue(optionalCustomer.isPresent());
 
         final Customer customerFromDb = optionalCustomer.get();

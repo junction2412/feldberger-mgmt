@@ -70,13 +70,13 @@ class HibernateUserDaoTest {
     }
 
     @Test
-    void findByIDWithPersistedUserReturnsPresentOptional() {
+    void findByIdWithPersistedUserReturnsPresentOptional() {
         // given: persisted user
         final User user = new User("username", "my_hash", "some salt");
         userDao.persistUser(user);
 
         // when: user is retrieved by id
-        final Optional<User> optionalUser = userDao.findByID(user.getId());
+        final Optional<User> optionalUser = userDao.findById(user.getId());
 
         // then: optional is present
         assertTrue(optionalUser.isPresent());

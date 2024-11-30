@@ -3,6 +3,7 @@ package de.code.junction.feldberger.mgmt.data.access.customer;
 import de.code.junction.feldberger.mgmt.data.access.DataAccessObject;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * The {@link DataAccessObject} definition for {@link Customer}s.
@@ -31,6 +32,8 @@ public interface CustomerDataAccessObject extends DataAccessObject<Integer, Cust
      * @param customer customer
      */
     void persistCustomer(Customer customer);
+
+    Optional<Customer> findCustomerByIdNo(String idNo);
 
     List<Customer> getByNameOrCompanyName(String nameOrCompanyName);
 }

@@ -10,32 +10,12 @@ import java.util.Optional;
 
 public class CustomerService {
 
-    private CustomerDataAccessObject customerDao;
-    private AddressDataAccessObject addressDao;
+    private final CustomerDataAccessObject customerDao;
+    private final AddressDataAccessObject addressDao;
 
     public CustomerService(CustomerDataAccessObject customerDao, AddressDataAccessObject addressDao) {
 
         this.customerDao = customerDao;
-        this.addressDao = addressDao;
-    }
-
-    public CustomerDataAccessObject getCustomerDao() {
-
-        return customerDao;
-    }
-
-    public void setCustomerDao(CustomerDataAccessObject customerDao) {
-
-        this.customerDao = customerDao;
-    }
-
-    public AddressDataAccessObject getAddressDao() {
-
-        return addressDao;
-    }
-
-    public void setAddressDao(AddressDataAccessObject addressDao) {
-
         this.addressDao = addressDao;
     }
 
@@ -69,7 +49,12 @@ public class CustomerService {
 
     public Optional<Customer> findCustomer(Integer id) {
 
-        return customerDao.findByID(id);
+        return customerDao.findById(id);
+    }
+
+    public Optional<Customer> findCustomerByIdNo(String idNo) {
+
+        return customerDao.findCustomerByIdNo(idNo);
     }
 
     public List<Customer> getAllCustomers() {
