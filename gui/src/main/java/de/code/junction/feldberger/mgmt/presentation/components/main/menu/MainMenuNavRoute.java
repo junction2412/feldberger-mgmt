@@ -25,4 +25,7 @@ public sealed interface MainMenuNavRoute {
 
     record CustomerEditor(Customer customer) implements MainMenuNavRoute {
     }
+
+    record CustomerDashboard(Customer customer) implements MainMenuNavRoute {
+    }
 }

@@ -48,7 +48,7 @@
             <children>
                 <TableView fx:id="customers" prefHeight="200.0" prefWidth="200.0">
                     <columns>
-                        <TableColumn fx:id="customerIDNo" editable="false" maxWidth="125.0" prefWidth="125.0"
+                        <TableColumn fx:id="customerIdNo" editable="false" maxWidth="125.0" prefWidth="125.0"
                                      resizable="false" text="C1"/>
                         <TableColumn fx:id="customerName" editable="false" prefWidth="75.0" text="C2"/>
                     </columns>

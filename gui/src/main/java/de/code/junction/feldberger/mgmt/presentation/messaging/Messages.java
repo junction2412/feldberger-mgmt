@@ -17,6 +17,7 @@ public final class Messages {
     public static final Message TRANSITION_NOT_PERFORMED;
 
     public static final Message LOGIN_FAILED_WRONG_CREDENTIALS;
+    public static final Message CUSTOMER_EDITOR_FAILED_IDNO_CONSTRAINT_VIOLATION;
 
     static {
 
@@ -34,6 +35,13 @@ public final class Messages {
                 bundle.getString("login.failed.wrong.credentials.title"),
                 bundle.getString("login.failed.wrong.credentials.header"),
                 bundle.getString("login.failed.wrong.credentials.content")
+        );
+
+        CUSTOMER_EDITOR_FAILED_IDNO_CONSTRAINT_VIOLATION = new Message(
+                MessageType.WARNING,
+                bundle.getString("customer_editor.failed.idno.constraint.violation.title"),
+                bundle.getString("customer_editor.failed.idno.constraint.violation.header"),
+                bundle.getString("customer_editor.failed.idno.constraint.violation.content")
         );
     }
 }

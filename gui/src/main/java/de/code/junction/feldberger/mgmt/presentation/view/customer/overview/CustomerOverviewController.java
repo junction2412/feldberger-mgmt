@@ -29,7 +29,7 @@ public class CustomerOverviewController extends FXController {
     @FXML
     private TableView<Customer> customers;
     @FXML
-    private TableColumn<Customer, String> customerIDNo;
+    private TableColumn<Customer, String> customerIdNo;
     @FXML
     private TableColumn<Customer, String> customerName;
 
@@ -62,7 +62,7 @@ public class CustomerOverviewController extends FXController {
         editCustomer.disableProperty().bind(noCustomerSelected);
 
         customerListService.nameOrCompanyNameProperty().bind(filter.textProperty());
-        customerIDNo.setCellValueFactory(new PropertyValueFactory<>("idNo"));
+        customerIdNo.setCellValueFactory(new PropertyValueFactory<>("idNo"));
         customerName.setCellValueFactory(cell -> Bindings.createStringBinding(
                 () -> {
                     final Customer customer = cell.getValue();
@@ -89,7 +89,7 @@ public class CustomerOverviewController extends FXController {
         editCustomer.setText(bundle.getString("view.customer_overview.edit_customer"));
         newCustomer.setText(bundle.getString("view.customer_overview.new_customer"));
         filter.setPromptText(bundle.getString("view.customer_overview.filter"));
-        customerIDNo.setText(bundle.getString("view.customer_overview.table.idno"));
+        customerIdNo.setText(bundle.getString("view.customer_overview.table.idno"));
         customerName.setText(bundle.getString("view.customer_overview.table.name"));
     }
 

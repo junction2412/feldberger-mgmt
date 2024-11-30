@@ -4,6 +4,7 @@ import de.code.junction.feldberger.mgmt.data.access.PersistenceManager;
 import de.code.junction.feldberger.mgmt.data.access.customer.Customer;
 import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
+import de.code.junction.feldberger.mgmt.presentation.view.customer.dashboard.CustomerDashboardController;
 import de.code.junction.feldberger.mgmt.presentation.view.customer.editor.CustomerEditorController;
 import de.code.junction.feldberger.mgmt.presentation.view.customer.editor.CustomerViewModel;
 import de.code.junction.feldberger.mgmt.presentation.view.customer.overview.CustomerListService;
@@ -18,9 +19,9 @@ public class MainMenuControllerFactory {
         this.persistenceManager = persistenceManager;
     }
 
-    public FXController customers(Transition<Customer, ?> viewCustomerTransition,
-                                  Transition<Customer, ?> editCustomerTransition,
-                                  Transition<Void, ?> newCustomerTransition) {
+    public FXController customerOverview(Transition<Customer, ?> viewCustomerTransition,
+                                         Transition<Customer, ?> editCustomerTransition,
+                                         Transition<Void, ?> newCustomerTransition) {
 
         final var customerListService = new CustomerListService(persistenceManager.customerDao());
 
@@ -32,5 +33,18 @@ public class MainMenuControllerFactory {
                                        Transition<Customer, ?> saveTransition) {
 
         return new CustomerEditorController(new CustomerViewModel(customer), backTransition, saveTransition);
+    }
+
+    public FXController customerDashboard(Customer customer,
+                                          Transition<Customer, ?> backTransition,
+                                          Transition<Customer, ?> editCustomerTransition,
+                                          Transition<Customer, ?> newTransactionTransition) {
+
+        return new CustomerDashboardController(
+                new CustomerViewModel(customer),
+                backTransition,
+                editCustomerTransition,
+                newTransactionTransition
+        );
     }
 }

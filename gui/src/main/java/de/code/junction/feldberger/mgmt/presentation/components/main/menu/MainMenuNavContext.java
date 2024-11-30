@@ -9,8 +9,7 @@ import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 
-import static de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuNavRoute.CustomerEditor;
-import static de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuNavRoute.Subview;
+import static de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuNavRoute.*;
 
 public class MainMenuNavContext extends ScopedNavContext<Pane, MainMenuNavRoute> {
 
@@ -35,30 +34,58 @@ public class MainMenuNavContext extends ScopedNavContext<Pane, MainMenuNavRoute>
 
         final var controller = switch (route) {
             case Subview subview -> switch (subview) {
-                case CUSTOMERS -> {
-                    final TransitionLifecycle<Void, Customer> bypass = TransitionLifecycle.bypass(
-                            _ -> new Customer(),
-                            customer -> navigateTo(new CustomerEditor(customer))
-                    );
-
-                    yield controllerFactory.customers(Transition.immediate(_ -> System.out.println("NOOP")), Transition.immediate(_ -> System.out.println("NOOP")), new Transition<>(bypass));
-                }
-
+                case CUSTOMERS -> customerOverview();
                 default -> null;
             };
 
             case CustomerEditor editorRoute -> customerEditor(editorRoute);
+            case CustomerDashboard dashboardRoute -> customerDashboard(dashboardRoute);
         };
 
         setChildController(controller);
     }
 
-    private FXController customerEditor(CustomerEditor editorRoute) {
+    private FXController customerOverview() {
+
+        final Transition<Customer, Customer> viewCustomerTransition = Transition.immediate(
+                _ -> System.out.println("NOOP"));
+
+        final Transition<Customer, Customer> editCustomerTransition = Transition.immediate(
+                _ -> System.out.println("NOOP"));
+
+        final TransitionLifecycle<Void, Customer> bypass = TransitionLifecycle.bypass(
+                _ -> new Customer(),
+                customer -> navigateTo(new CustomerEditor(customer))
+        );
+
+        final Transition<Void, Customer> newCustomerTransition = new Transition<>(bypass);
+
+        return controllerFactory.customerOverview(viewCustomerTransition, editCustomerTransition, newCustomerTransition);
+    }
+
+    private FXController customerEditor(CustomerEditor route) {
+
+        final Transition<Customer, Customer> backTransition = Transition.immediate(
+                _ -> navigateTo(Subview.CUSTOMERS));
+
+        final Transition<Customer, Customer> saveTransition = transitionFactory.customerEditorCustomerDashboard(
+                customer -> navigateTo(new CustomerDashboard(customer)));
+
+        return controllerFactory.customerEditor(route.customer(), backTransition, saveTransition);
+    }
+
+    private FXController customerDashboard(CustomerDashboard route) {
 
         final Transition<Customer, Customer> backTransition = Transition.immediate(_ -> navigateTo(Subview.CUSTOMERS));
-        final Transition<Customer, Customer> saveTransition = Transition.immediate(_ -> System.out.println("NOOP"));
+        final Transition<Customer, Customer> editCustomerTransition = Transition.immediate(customer -> navigateTo(new CustomerEditor(customer)));
+        final Transition<Customer, Customer> newTransactionTransition = Transition.immediate(_ -> System.out.println("NOOP"));
 
-        return controllerFactory.customerEditor(editorRoute.customer(), backTransition, saveTransition);
+        return controllerFactory.customerDashboard(
+                route.customer(),
+                backTransition,
+                editCustomerTransition,
+                newTransactionTransition
+        );
     }
 
     private void setChildController(FXController controller) {
