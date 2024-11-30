@@ -35,14 +35,21 @@ public class CustomerOverviewController extends FXController {
 
     private final CustomerListService customerListService;
 
-    private final Transition<Void, Customer> newCustomerTransition;
+    private final Transition<Customer, ?> viewCustomerTransition;
+    private final Transition<Customer, ?> editCustomerTransition;
+    private final Transition<Void, ?> newCustomerTransition;
+
 
     public CustomerOverviewController(CustomerListService customerListService,
-                                      Transition<Void, Customer> newCustomerTransition) {
+                                      Transition<Customer, ?> viewCustomerTransition,
+                                      Transition<Customer, ?> editCustomerTransition,
+                                      Transition<Void, ?> newCustomerTransition) {
 
         super("customer-overview.fxml");
 
         this.customerListService = customerListService;
+        this.viewCustomerTransition = viewCustomerTransition;
+        this.editCustomerTransition = editCustomerTransition;
         this.newCustomerTransition = newCustomerTransition;
     }
 
@@ -68,19 +75,11 @@ public class CustomerOverviewController extends FXController {
 
         filter.textProperty().addListener(this::onFilterTextChanged);
 
+        viewCustomer.setOnAction(this::onViewCustomerClicked);
+        editCustomer.setOnAction(this::onEditCustomerClicked);
         newCustomer.setOnAction(this::onNewCustomerClicked);
 
         customerListService.start();
-    }
-
-    private void onNewCustomerClicked(ActionEvent event) {
-
-        newCustomerTransition.orchestrate(null);
-    }
-
-    private void onFilterTextChanged(Observable observable, String oldValue, String newValue) {
-
-        customerListService.restart();
     }
 
     @Override
@@ -92,5 +91,25 @@ public class CustomerOverviewController extends FXController {
         filter.setPromptText(bundle.getString("view.customer_overview.filter"));
         customerIDNo.setText(bundle.getString("view.customer_overview.table.idno"));
         customerName.setText(bundle.getString("view.customer_overview.table.name"));
+    }
+
+    private void onViewCustomerClicked(ActionEvent event) {
+
+        viewCustomerTransition.orchestrate(customers.getSelectionModel().getSelectedItem());
+    }
+
+    private void onEditCustomerClicked(ActionEvent event) {
+
+        editCustomerTransition.orchestrate(customers.getSelectionModel().getSelectedItem());
+    }
+
+    private void onNewCustomerClicked(ActionEvent event) {
+
+        newCustomerTransition.orchestrate(null);
+    }
+
+    private void onFilterTextChanged(Observable observable, String oldValue, String newValue) {
+
+        customerListService.restart();
     }
 }

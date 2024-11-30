@@ -18,16 +18,18 @@ public class MainMenuControllerFactory {
         this.persistenceManager = persistenceManager;
     }
 
-    public FXController customers(Transition<Void, Customer> newCustomerTransition) {
+    public FXController customers(Transition<Customer, ?> viewCustomerTransition,
+                                  Transition<Customer, ?> editCustomerTransition,
+                                  Transition<Void, ?> newCustomerTransition) {
 
         final var customerListService = new CustomerListService(persistenceManager.customerDao());
 
-        return new CustomerOverviewController(customerListService, newCustomerTransition);
+        return new CustomerOverviewController(customerListService, viewCustomerTransition, editCustomerTransition, newCustomerTransition);
     }
 
     public FXController customerEditor(Customer customer,
-                                       Transition<Integer, Integer> backTransition,
-                                       Transition<Customer, Customer> saveTransition) {
+                                       Transition<Customer, ?> backTransition,
+                                       Transition<Customer, ?> saveTransition) {
 
         return new CustomerEditorController(new CustomerViewModel(customer), backTransition, saveTransition);
     }

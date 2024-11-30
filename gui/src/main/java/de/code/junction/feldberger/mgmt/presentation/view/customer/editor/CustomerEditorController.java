@@ -82,12 +82,12 @@ public class CustomerEditorController extends FXController {
     private Button save;
 
     private final CustomerViewModel viewModel;
-    private final Transition<Integer, Integer> backTransition;
-    private final Transition<Customer, Customer> saveTransition;
+    private final Transition<Customer, ?> backTransition;
+    private final Transition<Customer, ?> saveTransition;
 
     public CustomerEditorController(CustomerViewModel viewModel,
-                                    Transition<Integer, Integer> backTransition,
-                                    Transition<Customer, Customer> saveTransition) {
+                                    Transition<Customer, ?> backTransition,
+                                    Transition<Customer, ?> saveTransition) {
 
         super("customer-editor-view.fxml");
 
@@ -164,7 +164,7 @@ public class CustomerEditorController extends FXController {
 
     private void onBackClicked(ActionEvent event) {
 
-        backTransition.orchestrate(viewModel.getId());
+        backTransition.orchestrate(viewModel.toCustomer());
     }
 
     private void onSaveClicked(ActionEvent event) {

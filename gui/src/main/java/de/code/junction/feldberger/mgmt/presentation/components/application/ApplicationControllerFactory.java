@@ -28,8 +28,8 @@ public class ApplicationControllerFactory {
         this.persistenceManager = persistenceManager;
     }
 
-    public FXController login(Transition<LoginForm, UserSession> loginTransition,
-                              Transition<LoginForm, RegistrationForm> registrationTransition,
+    public FXController login(Transition<LoginForm, ?> loginTransition,
+                              Transition<LoginForm, ?> registrationTransition,
                               String username) {
 
         return new LoginController(loginTransition,
@@ -37,8 +37,8 @@ public class ApplicationControllerFactory {
                 new LoginFormViewModel(username));
     }
 
-    public FXController registration(Transition<RegistrationForm, UserSession> registrationTransition,
-                                     Transition<RegistrationForm, LoginForm> loginTransition,
+    public FXController registration(Transition<RegistrationForm, ?> registrationTransition,
+                                     Transition<RegistrationForm, ?> loginTransition,
                                      String username) {
 
         return new RegistrationController(registrationTransition,
@@ -47,8 +47,8 @@ public class ApplicationControllerFactory {
     }
 
     public FXController mainMenu(MainMenuTransitionFactory transitionFactory,
-                                 Transition<UserSession, LoginForm> logoutTransition,
-                                 Transition<UserSession, UserSession> settingsTransition,
+                                 Transition<UserSession, ?> logoutTransition,
+                                 Transition<UserSession, ?> settingsTransition,
                                  int userID,
                                  String username) {
 

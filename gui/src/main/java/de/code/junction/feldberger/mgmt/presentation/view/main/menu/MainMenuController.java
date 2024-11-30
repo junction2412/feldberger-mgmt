@@ -1,6 +1,5 @@
 package de.code.junction.feldberger.mgmt.presentation.view.main.menu;
 
-import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.LoginForm;
 import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.UserSession;
 import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuNavContext;
 import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuNavRoute;
@@ -24,8 +23,8 @@ import static de.code.junction.feldberger.mgmt.presentation.util.ResourceUtil.ge
 
 public final class MainMenuController extends FXController {
 
-    private final Transition<UserSession, LoginForm> logoutTransition;
-    private final Transition<UserSession, UserSession> settingsTransition;
+    private final Transition<UserSession, ?> logoutTransition;
+    private final Transition<UserSession, ?> settingsTransition;
     private final UserSessionViewModel viewModel;
 
     private final MainMenuNavContext navContext;
@@ -50,8 +49,8 @@ public final class MainMenuController extends FXController {
     @FXML
     private AnchorPane subview;
 
-    public MainMenuController(Transition<UserSession, LoginForm> logoutTransition,
-                              Transition<UserSession, UserSession> settingsTransition,
+    public MainMenuController(Transition<UserSession, ?> logoutTransition,
+                              Transition<UserSession, ?> settingsTransition,
                               UserSessionViewModel viewModel,
                               MainMenuNavContext navContext) {
 

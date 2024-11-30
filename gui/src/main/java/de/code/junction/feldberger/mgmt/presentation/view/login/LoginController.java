@@ -12,12 +12,12 @@ import javafx.scene.control.TextField;
 
 import java.util.ResourceBundle;
 
-import static de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.*;
+import static de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.LoginForm;
 
 public class LoginController extends FXController {
 
-    private final Transition<LoginForm, UserSession> loginTransition;
-    private final Transition<LoginForm, RegistrationForm> registrationTransition;
+    private final Transition<LoginForm, ?> loginTransition;
+    private final Transition<LoginForm, ?> registrationTransition;
 
     private final LoginFormViewModel viewModel;
 
@@ -36,8 +36,8 @@ public class LoginController extends FXController {
     @FXML
     private Button submit;
 
-    public LoginController(Transition<LoginForm, UserSession> loginTransition,
-                           Transition<LoginForm, RegistrationForm> registrationTransition,
+    public LoginController(Transition<LoginForm, ?> loginTransition,
+                           Transition<LoginForm, ?> registrationTransition,
                            LoginFormViewModel viewModel) {
 
         super("login-view.fxml");

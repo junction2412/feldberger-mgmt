@@ -41,7 +41,7 @@ public class MainMenuNavContext extends ScopedNavContext<Pane, MainMenuNavRoute>
                             customer -> navigateTo(new CustomerEditor(customer))
                     );
 
-                    yield controllerFactory.customers(new Transition<>(bypass));
+                    yield controllerFactory.customers(Transition.immediate(_ -> System.out.println("NOOP")), Transition.immediate(_ -> System.out.println("NOOP")), new Transition<>(bypass));
                 }
 
                 default -> null;
@@ -55,7 +55,7 @@ public class MainMenuNavContext extends ScopedNavContext<Pane, MainMenuNavRoute>
 
     private FXController customerEditor(CustomerEditor editorRoute) {
 
-        final Transition<Integer, Integer> backTransition = Transition.immediate(_ -> navigateTo(Subview.CUSTOMERS));
+        final Transition<Customer, Customer> backTransition = Transition.immediate(_ -> navigateTo(Subview.CUSTOMERS));
         final Transition<Customer, Customer> saveTransition = Transition.immediate(_ -> System.out.println("NOOP"));
 
         return controllerFactory.customerEditor(editorRoute.customer(), backTransition, saveTransition);
