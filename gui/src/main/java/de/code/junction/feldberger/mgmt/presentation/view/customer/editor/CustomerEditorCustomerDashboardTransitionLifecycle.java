@@ -4,20 +4,22 @@ import de.code.junction.feldberger.mgmt.data.access.customer.Customer;
 import de.code.junction.feldberger.mgmt.data.service.CustomerService;
 import de.code.junction.feldberger.mgmt.presentation.messaging.Messages;
 import de.code.junction.feldberger.mgmt.presentation.messaging.Messenger;
-import de.code.junction.feldberger.mgmt.presentation.navigation.PassThroughLifecycle;
+import de.code.junction.feldberger.mgmt.presentation.navigation.TransitionLifecycle;
 
 import java.util.Optional;
 import java.util.function.Consumer;
 
-public class CustomerEditorCustomerDashboardTransitionLifecycle implements PassThroughLifecycle<Customer> {
+import static de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuNavRoute.CustomerDashboard;
+
+public class CustomerEditorCustomerDashboardTransitionLifecycle implements TransitionLifecycle<Customer, CustomerDashboard> {
 
     private final CustomerService customerService;
     private final Messenger messenger;
-    private final Consumer<Customer> onConclude;
+    private final Consumer<CustomerDashboard> onConclude;
 
     public CustomerEditorCustomerDashboardTransitionLifecycle(CustomerService customerService,
                                                               Messenger messenger,
-                                                              Consumer<Customer> onConclude) {
+                                                              Consumer<CustomerDashboard> onConclude) {
 
         this.customerService = customerService;
         this.messenger = messenger;
@@ -44,9 +46,15 @@ public class CustomerEditorCustomerDashboardTransitionLifecycle implements PassT
     }
 
     @Override
-    public void conclude(Customer customer) {
+    public CustomerDashboard transform(Customer customer) {
 
-        customerService.persistCustomer(customer);
-        onConclude.accept(customer);
+        return new CustomerDashboard(customer);
+    }
+
+    @Override
+    public void conclude(CustomerDashboard route) {
+
+        customerService.persistCustomer(route.customer());
+        onConclude.accept(route);
     }
 }

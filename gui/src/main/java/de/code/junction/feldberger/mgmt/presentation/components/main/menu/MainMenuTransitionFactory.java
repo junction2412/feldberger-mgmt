@@ -10,6 +10,8 @@ import de.code.junction.feldberger.mgmt.presentation.view.customer.editor.Custom
 
 import java.util.function.Consumer;
 
+import static de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuNavRoute.CustomerDashboard;
+
 public class MainMenuTransitionFactory extends TransitionFactory {
 
 
@@ -18,13 +20,19 @@ public class MainMenuTransitionFactory extends TransitionFactory {
         super(persistenceManager, messenger);
     }
 
-    public Transition<Customer, Customer> customerEditorCustomerDashboard(Consumer<Customer> onConclude) {
+    public Transition<Customer, CustomerDashboard> customerEditorCustomerDashboard(Consumer<CustomerDashboard> onConclude) {
 
         final var customerService = new CustomerService(
                 persistenceManager.customerDao(),
                 persistenceManager.addressDao()
         );
 
-        return new Transition<>(new CustomerEditorCustomerDashboardTransitionLifecycle(customerService, messenger, onConclude));
+        final var lifecycle = new CustomerEditorCustomerDashboardTransitionLifecycle(
+                customerService,
+                messenger,
+                onConclude
+        );
+
+        return new Transition<>(lifecycle);
     }
 }

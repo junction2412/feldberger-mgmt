@@ -3,12 +3,11 @@ package de.code.junction.feldberger.mgmt.presentation.components.main.menu;
 import de.code.junction.feldberger.mgmt.data.access.customer.Customer;
 import de.code.junction.feldberger.mgmt.presentation.navigation.ScopedNavContext;
 import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
-import de.code.junction.feldberger.mgmt.presentation.navigation.TransitionLifecycle;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import javafx.application.Platform;
 import javafx.scene.layout.Pane;
 
-import java.util.function.Consumer;
+import java.util.function.Function;
 
 import static de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuNavRoute.*;
 import static de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuNavRoute.CustomerEditor.BackAction;
@@ -54,16 +53,20 @@ public class MainMenuNavContext extends ScopedNavContext<Pane, MainMenuNavRoute>
             navigateTo(navRoute);
         });
 
-        final Consumer<Customer> editorConsumer = customer -> {
-            final CustomerEditor navRoute = new CustomerEditor(customer, BackAction.OVERVIEW);
-            navigateTo(navRoute);
-        };
+        final Function<Customer, CustomerEditor> editor = customer -> new CustomerEditor(
+                customer,
+                BackAction.OVERVIEW
+        );
 
-        final var editCustomerTransition = Transition.immediate(editorConsumer);
-        final var bypass = TransitionLifecycle.<Void, Customer>bypass(_ -> new Customer(),
-                editorConsumer);
+        final var editCustomerTransition = Transition.<Customer, CustomerEditor>bypass(
+                customer -> new CustomerEditor(customer, BackAction.OVERVIEW),
+                this::navigateTo
+        );
 
-        final var newCustomerTransition = new Transition<>(bypass);
+        final var newCustomerTransition = Transition.<Void, CustomerEditor>bypass(
+                _ -> editor.apply(new Customer()),
+                this::navigateTo
+        );
 
         return controllerFactory.customerOverview(
                 viewCustomerTransition,
@@ -78,8 +81,8 @@ public class MainMenuNavContext extends ScopedNavContext<Pane, MainMenuNavRoute>
                 ? Transition.immediate(_ -> navigateTo(Subview.CUSTOMERS))
                 : Transition.immediate(_customer -> navigateTo(new CustomerDashboard(_customer)));
 
-        final Transition<Customer, Customer> saveTransition = transitionFactory.customerEditorCustomerDashboard(
-                _customer -> navigateTo(new CustomerDashboard(_customer)));
+        final Transition<Customer, CustomerDashboard> saveTransition = transitionFactory.customerEditorCustomerDashboard(
+                this::navigateTo);
 
         return controllerFactory.customerEditor(customer, backTransition, saveTransition);
     }
@@ -87,11 +90,10 @@ public class MainMenuNavContext extends ScopedNavContext<Pane, MainMenuNavRoute>
     private FXController customerDashboard(Customer customer) {
 
         final var backTransition = Transition.<Customer>immediate(_ -> navigateTo(Subview.CUSTOMERS));
-
-        final var editCustomerTransition = Transition.<Customer>immediate(_customer -> {
-            final CustomerEditor navRoute = new CustomerEditor(_customer, BackAction.DASHBOARD);
-            navigateTo(navRoute);
-        });
+        final var editCustomerTransition = Transition.<Customer, CustomerEditor>bypass(
+                _customer -> new CustomerEditor(_customer, BackAction.DASHBOARD),
+                this::navigateTo
+        );
 
         final var newTransactionTransition = Transition.<Customer>immediate(_ -> System.out.println("NOOP"));
 
