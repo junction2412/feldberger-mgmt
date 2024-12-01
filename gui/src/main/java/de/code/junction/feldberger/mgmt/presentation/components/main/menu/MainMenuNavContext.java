@@ -40,8 +40,8 @@ public class MainMenuNavContext extends ScopedNavContext<Pane, MainMenuNavRoute>
                 default -> null;
             };
 
-            case CustomerEditor editorRoute -> customerEditor(editorRoute);
-            case CustomerDashboard dashboardRoute -> customerDashboard(dashboardRoute);
+            case CustomerEditor editorRoute -> customerEditor(editorRoute.customer(), editorRoute.backAction());
+            case CustomerDashboard dashboardRoute -> customerDashboard(dashboardRoute.customer());
         };
 
         setChildController(controller);
@@ -72,31 +72,31 @@ public class MainMenuNavContext extends ScopedNavContext<Pane, MainMenuNavRoute>
         );
     }
 
-    private FXController customerEditor(CustomerEditor route) {
+    private FXController customerEditor(Customer customer, BackAction backAction) {
 
-        final Transition<Customer, Customer> backTransition = route.backAction() == BackAction.OVERVIEW
+        final Transition<Customer, Customer> backTransition = backAction == BackAction.OVERVIEW
                 ? Transition.immediate(_ -> navigateTo(Subview.CUSTOMERS))
-                : Transition.immediate(customer -> navigateTo(new CustomerDashboard(customer)));
+                : Transition.immediate(_customer -> navigateTo(new CustomerDashboard(_customer)));
 
         final Transition<Customer, Customer> saveTransition = transitionFactory.customerEditorCustomerDashboard(
-                customer -> navigateTo(new CustomerDashboard(customer)));
+                _customer -> navigateTo(new CustomerDashboard(_customer)));
 
-        return controllerFactory.customerEditor(route.customer(), backTransition, saveTransition);
+        return controllerFactory.customerEditor(customer, backTransition, saveTransition);
     }
 
-    private FXController customerDashboard(CustomerDashboard route) {
+    private FXController customerDashboard(Customer customer) {
 
         final var backTransition = Transition.<Customer>immediate(_ -> navigateTo(Subview.CUSTOMERS));
 
-        final var editCustomerTransition = Transition.<Customer>immediate(customer -> {
-            final CustomerEditor navRoute = new CustomerEditor(customer, BackAction.DASHBOARD);
+        final var editCustomerTransition = Transition.<Customer>immediate(_customer -> {
+            final CustomerEditor navRoute = new CustomerEditor(_customer, BackAction.DASHBOARD);
             navigateTo(navRoute);
         });
 
         final var newTransactionTransition = Transition.<Customer>immediate(_ -> System.out.println("NOOP"));
 
         return controllerFactory.customerDashboard(
-                route.customer(),
+                customer,
                 backTransition,
                 editCustomerTransition,
                 newTransactionTransition
