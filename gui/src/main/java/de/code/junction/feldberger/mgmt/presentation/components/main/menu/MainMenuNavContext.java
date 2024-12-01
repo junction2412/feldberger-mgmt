@@ -49,19 +49,27 @@ public class MainMenuNavContext extends ScopedNavContext<Pane, MainMenuNavRoute>
 
     private FXController customerOverview() {
 
-        final Transition<Customer, Customer> viewCustomerTransition = Transition.immediate(
-                customer -> navigateTo(new CustomerDashboard(customer)));
+        final var viewCustomerTransition = Transition.<Customer>immediate(customer -> {
+            final CustomerDashboard navRoute = new CustomerDashboard(customer);
+            navigateTo(navRoute);
+        });
 
-        final Consumer<Customer> editorConsumer = customer -> navigateTo(new CustomerEditor(customer, BackAction.OVERVIEW));
+        final Consumer<Customer> editorConsumer = customer -> {
+            final CustomerEditor navRoute = new CustomerEditor(customer, BackAction.OVERVIEW);
+            navigateTo(navRoute);
+        };
 
-        final Transition<Customer, Customer> editCustomerTransition = Transition.immediate(
+        final var editCustomerTransition = Transition.immediate(editorConsumer);
+        final var bypass = TransitionLifecycle.<Void, Customer>bypass(_ -> new Customer(),
                 editorConsumer);
-        final TransitionLifecycle<Void, Customer> bypass = TransitionLifecycle.bypass(_ -> new Customer(),
-                editorConsumer);
 
-        final Transition<Void, Customer> newCustomerTransition = new Transition<>(bypass);
+        final var newCustomerTransition = new Transition<>(bypass);
 
-        return controllerFactory.customerOverview(viewCustomerTransition, editCustomerTransition, newCustomerTransition);
+        return controllerFactory.customerOverview(
+                viewCustomerTransition,
+                editCustomerTransition,
+                newCustomerTransition
+        );
     }
 
     private FXController customerEditor(CustomerEditor route) {
@@ -78,13 +86,14 @@ public class MainMenuNavContext extends ScopedNavContext<Pane, MainMenuNavRoute>
 
     private FXController customerDashboard(CustomerDashboard route) {
 
-        final Transition<Customer, Customer> backTransition = Transition.immediate(_ -> navigateTo(Subview.CUSTOMERS));
-        final Transition<Customer, Customer> editCustomerTransition = Transition.immediate(customer -> {
-            final CustomerEditor editorRoute = new CustomerEditor(customer, BackAction.DASHBOARD);
-            navigateTo(editorRoute);
+        final var backTransition = Transition.<Customer>immediate(_ -> navigateTo(Subview.CUSTOMERS));
+
+        final var editCustomerTransition = Transition.<Customer>immediate(customer -> {
+            final CustomerEditor navRoute = new CustomerEditor(customer, BackAction.DASHBOARD);
+            navigateTo(navRoute);
         });
 
-        final Transition<Customer, Customer> newTransactionTransition = Transition.immediate(_ -> System.out.println("NOOP"));
+        final var newTransactionTransition = Transition.<Customer>immediate(_ -> System.out.println("NOOP"));
 
         return controllerFactory.customerDashboard(
                 route.customer(),
@@ -98,7 +107,7 @@ public class MainMenuNavContext extends ScopedNavContext<Pane, MainMenuNavRoute>
 
         final Runnable runnable = () -> {
             final var node = controller == null
-                    ? null
+                    ? new Pane()
                     : controller.load();
 
             scope.getChildren().setAll(node);

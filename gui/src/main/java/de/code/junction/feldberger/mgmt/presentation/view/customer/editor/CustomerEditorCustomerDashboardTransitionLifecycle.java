@@ -4,12 +4,12 @@ import de.code.junction.feldberger.mgmt.data.access.customer.Customer;
 import de.code.junction.feldberger.mgmt.data.service.CustomerService;
 import de.code.junction.feldberger.mgmt.presentation.messaging.Messages;
 import de.code.junction.feldberger.mgmt.presentation.messaging.Messenger;
-import de.code.junction.feldberger.mgmt.presentation.navigation.PassthroughLifecycle;
+import de.code.junction.feldberger.mgmt.presentation.navigation.PassThroughLifecycle;
 
 import java.util.Optional;
 import java.util.function.Consumer;
 
-public class CustomerEditorCustomerDashboardTransitionLifecycle implements PassthroughLifecycle<Customer> {
+public class CustomerEditorCustomerDashboardTransitionLifecycle implements PassThroughLifecycle<Customer> {
 
     private final CustomerService customerService;
     private final Messenger messenger;
