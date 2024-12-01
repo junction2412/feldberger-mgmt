@@ -6,7 +6,6 @@ import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
 import de.code.junction.feldberger.mgmt.presentation.navigation.TransitionLifecycle;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import javafx.application.Platform;
-import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 
 import java.util.function.Consumer;
@@ -98,7 +97,7 @@ public class MainMenuNavContext extends ScopedNavContext<Pane, MainMenuNavRoute>
     private void setChildController(FXController controller) {
 
         final Runnable runnable = () -> {
-            final Node node = controller == null
+            final var node = controller == null
                     ? null
                     : controller.load();
 
