@@ -23,7 +23,12 @@ public sealed interface MainMenuNavRoute {
         }
     }
 
-    record CustomerEditor(Customer customer) implements MainMenuNavRoute {
+    record CustomerEditor(Customer customer, BackAction backAction) implements MainMenuNavRoute {
+
+        enum BackAction {
+            OVERVIEW,
+            DASHBOARD,
+        }
     }
 
     record CustomerDashboard(Customer customer) implements MainMenuNavRoute {

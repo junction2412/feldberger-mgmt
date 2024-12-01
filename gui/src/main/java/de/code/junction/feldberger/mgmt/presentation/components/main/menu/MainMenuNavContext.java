@@ -12,6 +12,7 @@ import javafx.scene.layout.Pane;
 import java.util.function.Consumer;
 
 import static de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuNavRoute.*;
+import static de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuNavRoute.CustomerEditor.BackAction;
 
 public class MainMenuNavContext extends ScopedNavContext<Pane, MainMenuNavRoute> {
 
@@ -52,7 +53,8 @@ public class MainMenuNavContext extends ScopedNavContext<Pane, MainMenuNavRoute>
         final Transition<Customer, Customer> viewCustomerTransition = Transition.immediate(
                 customer -> navigateTo(new CustomerDashboard(customer)));
 
-        final Consumer<Customer> editorConsumer = customer -> navigateTo(new CustomerEditor(customer));
+        final Consumer<Customer> editorConsumer = customer -> navigateTo(new CustomerEditor(customer, BackAction.OVERVIEW));
+
         final Transition<Customer, Customer> editCustomerTransition = Transition.immediate(
                 editorConsumer);
         final TransitionLifecycle<Void, Customer> bypass = TransitionLifecycle.bypass(_ -> new Customer(),
@@ -65,8 +67,9 @@ public class MainMenuNavContext extends ScopedNavContext<Pane, MainMenuNavRoute>
 
     private FXController customerEditor(CustomerEditor route) {
 
-        final Transition<Customer, Customer> backTransition = Transition.immediate(
-                _ -> navigateTo(Subview.CUSTOMERS));
+        final Transition<Customer, Customer> backTransition = route.backAction() == BackAction.OVERVIEW
+                ? Transition.immediate(_ -> navigateTo(Subview.CUSTOMERS))
+                : Transition.immediate(customer -> navigateTo(new CustomerDashboard(customer)));
 
         final Transition<Customer, Customer> saveTransition = transitionFactory.customerEditorCustomerDashboard(
                 customer -> navigateTo(new CustomerDashboard(customer)));
@@ -77,7 +80,11 @@ public class MainMenuNavContext extends ScopedNavContext<Pane, MainMenuNavRoute>
     private FXController customerDashboard(CustomerDashboard route) {
 
         final Transition<Customer, Customer> backTransition = Transition.immediate(_ -> navigateTo(Subview.CUSTOMERS));
-        final Transition<Customer, Customer> editCustomerTransition = Transition.immediate(customer -> navigateTo(new CustomerEditor(customer)));
+        final Transition<Customer, Customer> editCustomerTransition = Transition.immediate(customer -> {
+            final CustomerEditor editorRoute = new CustomerEditor(customer, BackAction.DASHBOARD);
+            navigateTo(editorRoute);
+        });
+
         final Transition<Customer, Customer> newTransactionTransition = Transition.immediate(_ -> System.out.println("NOOP"));
 
         return controllerFactory.customerDashboard(

@@ -164,7 +164,7 @@ public class CustomerEditorController extends FXController {
 
     private void onBackClicked(ActionEvent event) {
 
-        backTransition.orchestrate(viewModel.toCustomer());
+        backTransition.orchestrate(viewModel.getOriginalState());
     }
 
     private void onSaveClicked(ActionEvent event) {

@@ -28,6 +28,7 @@ public class CustomerListService extends Service<List<Customer>> {
             @Override
             protected List<Customer> call() throws Exception {
 
+                // TODO: fix filter
                 final String nameOrCompanyName = getNameOrCompanyName();
 
                 if (nameOrCompanyName.isBlank())

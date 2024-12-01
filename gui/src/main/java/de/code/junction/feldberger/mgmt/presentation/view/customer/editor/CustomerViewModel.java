@@ -7,19 +7,21 @@ import java.time.LocalDateTime;
 
 public class CustomerViewModel {
 
-    private IntegerProperty id;
-    private StringProperty idNo;
-    private StringProperty lastName;
-    private StringProperty firstName;
-    private StringProperty companyName;
-    private StringProperty emailAddress;
-    private StringProperty landlinePhoneNumber;
-    private StringProperty mobilePhoneNumber;
-    private StringProperty notes;
-    private BooleanProperty archived;
-    private ObjectProperty<LocalDateTime> archiveDate;
+    private final Customer originalState;
 
-    private AddressViewModel addressViewModel;
+    private final IntegerProperty id;
+    private final StringProperty idNo;
+    private final StringProperty lastName;
+    private final StringProperty firstName;
+    private final StringProperty companyName;
+    private final StringProperty emailAddress;
+    private final StringProperty landlinePhoneNumber;
+    private final StringProperty mobilePhoneNumber;
+    private final StringProperty notes;
+    private final BooleanProperty archived;
+    private final ObjectProperty<LocalDateTime> archiveDate;
+
+    private final AddressViewModel addressViewModel;
 
     public CustomerViewModel(int id,
                              String idNo,
@@ -46,6 +48,8 @@ public class CustomerViewModel {
         this.archived = new SimpleBooleanProperty(archived);
         this.archiveDate = new SimpleObjectProperty<>(archiveDate);
         this.addressViewModel = addressViewModel;
+
+        this.originalState = toCustomer();
     }
 
     public CustomerViewModel(Customer customer) {
@@ -254,11 +258,6 @@ public class CustomerViewModel {
         return addressViewModel;
     }
 
-    public void setAddressViewModel(AddressViewModel addressViewModel) {
-
-        this.addressViewModel = addressViewModel;
-    }
-
     public Customer toCustomer() {
 
         return new Customer(
@@ -274,6 +273,24 @@ public class CustomerViewModel {
                 getNotes(),
                 isArchived(),
                 getArchiveDate()
+        );
+    }
+
+    public Customer getOriginalState() {
+
+        return new Customer(
+                originalState.getId(),
+                originalState.getIdNo(),
+                originalState.getLastName(),
+                originalState.getFirstName(),
+                originalState.getCompanyName(),
+                originalState.getEmailAddress(),
+                originalState.getLandlinePhoneNumber(),
+                originalState.getMobilePhoneNumber(),
+                originalState.getAddress(),
+                originalState.getNotes(),
+                originalState.isArchived(),
+                originalState.getArchiveDate()
         );
     }
 }
