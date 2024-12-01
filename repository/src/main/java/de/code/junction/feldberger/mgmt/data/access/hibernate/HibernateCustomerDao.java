@@ -93,27 +93,18 @@ public class HibernateCustomerDao
     @Override
     public List<Customer> getByNameOrCompanyName(String nameOrCompanyName) {
 
-        final String pattern = '*' + nameOrCompanyName + '*';
-
         final var query = new CriteriaDefinition<>(sessionFactory, Customer.class) {
             {
-                final var customers = from(Customer.class);
-
-                where(
-                        or(
-                                like(
-                                        concat(
-                                                customers.get(Customer_.firstName),
-                                                customers.get(Customer_.lastName)
-                                        ),
-                                        pattern
-                                ),
-                                like(customers.get(Customer_.companyName), pattern)
-                        )
-                );
+                from(Customer.class);
             }
         };
 
-        return sessionFactory.fromSession(session -> session.createSelectionQuery(query).list());
+        return sessionFactory.fromSession(session -> session.createSelectionQuery(query).list())
+                .stream()
+                .filter(customer -> customer.getIdNo().contains(nameOrCompanyName)
+                        || customer.getLastName().contains(nameOrCompanyName)
+                        || customer.getFirstName().contains(nameOrCompanyName)
+                        || customer.getCompanyName().contains(nameOrCompanyName)
+                ).toList();
     }
 }
