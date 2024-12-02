@@ -7,7 +7,7 @@ import javafx.scene.Parent;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
-import static de.code.junction.feldberger.mgmt.presentation.util.ResourceUtil.getLabelStringResources;
+import static de.code.junction.feldberger.mgmt.presentation.util.ResourceLoader.getLabelStringResources;
 
 /**
  * The preferred class for JavaFX controllers as repetitive loading boilerplate is leveraged in a streamlined manner.

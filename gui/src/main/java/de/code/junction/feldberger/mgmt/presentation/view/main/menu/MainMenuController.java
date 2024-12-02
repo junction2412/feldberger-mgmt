@@ -19,7 +19,7 @@ import javafx.scene.layout.AnchorPane;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
-import static de.code.junction.feldberger.mgmt.presentation.util.ResourceUtil.getLabelStringResources;
+import static de.code.junction.feldberger.mgmt.presentation.util.ResourceLoader.getLabelStringResources;
 
 public final class MainMenuController extends FXController {
 

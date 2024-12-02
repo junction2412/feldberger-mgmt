@@ -2,7 +2,7 @@ package de.code.junction.feldberger.mgmt.presentation.messaging;
 
 import java.util.ResourceBundle;
 
-import static de.code.junction.feldberger.mgmt.presentation.util.ResourceUtil.getMessageStringResources;
+import static de.code.junction.feldberger.mgmt.presentation.util.ResourceLoader.getMessageStringResources;
 
 /**
  * A collection of static messages.

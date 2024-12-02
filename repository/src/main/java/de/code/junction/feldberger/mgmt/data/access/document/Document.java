@@ -19,7 +19,7 @@ public class Document implements DataTransferObject<Integer> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "file_name", nullable = false, length = 256)
+    @Column(name = "file_name", nullable = false)
     private String fileName;
 
     @Convert(converter = DocumentTypeAttributeConverter.class)
@@ -51,6 +51,34 @@ public class Document implements DataTransferObject<Integer> {
         this.binaryData = binaryData;
         this.transaction = transaction;
         this.uploadDate = uploadDate;
+    }
+
+    public Document(String fileName,
+                    DocumentType type,
+                    byte[] binaryData,
+                    Transaction transaction,
+                    LocalDateTime uploadDate) {
+
+        this(
+                0,
+                fileName,
+                type,
+                binaryData,
+                transaction,
+                uploadDate
+        );
+    }
+
+    public Document() {
+
+        this(
+                0,
+                "",
+                null,
+                null,
+                null,
+                null
+        );
     }
 
     @Override
@@ -113,5 +141,17 @@ public class Document implements DataTransferObject<Integer> {
     public void setUploadDate(LocalDateTime uploadDate) {
 
         this.uploadDate = uploadDate;
+    }
+
+    @Override
+    public String toString() {
+
+        return "Document{" +
+                "id=" + getId() +
+                ", fileName='" + getFileName() + '\'' +
+                ", type=" + getType() +
+                ", transaction=" + getTransaction().getId() +
+                ", uploadDate=" + getUploadDate() +
+                '}';
     }
 }

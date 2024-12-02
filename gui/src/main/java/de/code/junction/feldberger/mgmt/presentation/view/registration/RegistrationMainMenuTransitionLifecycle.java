@@ -15,7 +15,7 @@ import static de.code.junction.feldberger.mgmt.presentation.components.applicati
 import static de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.UserSession;
 import static de.code.junction.feldberger.mgmt.presentation.util.HashUtil.hashPassword;
 import static de.code.junction.feldberger.mgmt.presentation.util.HashUtil.salt;
-import static de.code.junction.feldberger.mgmt.presentation.util.ResourceUtil.getMessageStringResources;
+import static de.code.junction.feldberger.mgmt.presentation.util.ResourceLoader.getMessageStringResources;
 
 public class RegistrationMainMenuTransitionLifecycle implements TransitionLifecycle<RegistrationForm, UserSession> {
 

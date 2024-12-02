@@ -5,11 +5,11 @@ import de.code.junction.feldberger.mgmt.presentation.messaging.Message;
 import java.util.ResourceBundle;
 
 /**
- * ResourceUtil is a utility class to access specific application resources.
+ * ResourceLoader is a utility class to access specific application resources.
  */
-public final class ResourceUtil {
+public final class ResourceLoader {
 
-    private ResourceUtil() {
+    private ResourceLoader() {
     }
 
     /**

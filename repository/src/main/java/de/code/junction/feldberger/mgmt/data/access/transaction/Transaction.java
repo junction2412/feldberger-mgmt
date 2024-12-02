@@ -24,6 +24,7 @@ public class Transaction implements DataTransferObject<Integer> {
     @Column(name = "idno", unique = true, nullable = false)
     private String idNo;
 
+    @Column(length = 512)
     @Convert(converter = StringColumnEncryptor.class)
     private String description;
 
@@ -71,12 +72,32 @@ public class Transaction implements DataTransferObject<Integer> {
                        String description,
                        Customer customer) {
 
-        this(0, clerk, idNo, description, customer, null, null, false, null);
+        this(
+                0,
+                clerk,
+                idNo,
+                description,
+                customer,
+                null,
+                null,
+                false,
+                null
+        );
     }
 
     public Transaction() {
 
-        this(0, null, "", "", null, null, null, false, null);
+        this(
+                0,
+                null,
+                "",
+                "",
+                null,
+                null,
+                null,
+                false,
+                null
+        );
     }
 
     @Override
@@ -171,20 +192,31 @@ public class Transaction implements DataTransferObject<Integer> {
         this.completionDate = completionDate;
     }
 
+    public List<Document> getDocuments() {
+
+        return documents;
+    }
+
+    public void setDocuments(List<Document> documents) {
+
+        this.documents = documents;
+    }
+
 
     @Override
     public String toString() {
 
         return "Transaction{" +
-                "completionDate=" + getCompletionDate() +
-                ", completed=" + isCompleted() +
-                ", modificationDate=" + getModificationDate() +
-                ", creationDate=" + getCreationDate() +
-                ", customer=" + getCustomer() +
-                ", description='" + getDescription() + '\'' +
-                ", idNo='" + getIdNo() + '\'' +
+                "id=" + getId() +
                 ", clerk=" + getClerk() +
-                ", id=" + getId() +
+                ", idNo='" + getIdNo() + '\'' +
+                ", description='" + getDescription() + '\'' +
+                ", customer=" + getCustomer().getId() +
+                ", creationDate=" + getCreationDate() +
+                ", modificationDate=" + getModificationDate() +
+                ", completed=" + isCompleted() +
+                ", completionDate=" + getCompletionDate() +
+                ", documents=" + getDocuments() +
                 '}';
     }
 }
