@@ -13,10 +13,11 @@ module de.code.junction.feldbergermgmt.repository {
     requires org.jboss.logging;
 
     exports de.code.junction.feldberger.mgmt.data.access;
+    exports de.code.junction.feldberger.mgmt.data.access.address;
+    exports de.code.junction.feldberger.mgmt.data.access.customer;
+    exports de.code.junction.feldberger.mgmt.data.access.transaction;
     exports de.code.junction.feldberger.mgmt.data.access.user;
     exports de.code.junction.feldberger.mgmt.data.converter;
-    exports de.code.junction.feldberger.mgmt.data.access.customer;
-    exports de.code.junction.feldberger.mgmt.data.access.address;
     exports de.code.junction.feldberger.mgmt.data.service;
 
     opens de.code.junction.feldberger.mgmt.data.access.user to org.hibernate.orm.core;

@@ -4,6 +4,7 @@ import de.code.junction.feldberger.mgmt.data.access.address.Address;
 import de.code.junction.feldberger.mgmt.data.access.address.AddressDataAccessObject;
 import de.code.junction.feldberger.mgmt.data.access.customer.Customer;
 import de.code.junction.feldberger.mgmt.data.access.customer.CustomerDataAccessObject;
+import de.code.junction.feldberger.mgmt.data.access.transaction.Transaction;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.junit.jupiter.api.AfterEach;
@@ -27,6 +28,7 @@ class HibernateCustomerDaoTest {
         sessionFactory = new Configuration()
                 .addAnnotatedClass(Address.class)
                 .addAnnotatedClass(Customer.class)
+                .addAnnotatedClass(Transaction.class)
                 .buildSessionFactory();
 
         customerDao = new HibernateCustomerDao(sessionFactory);

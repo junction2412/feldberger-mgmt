@@ -6,7 +6,10 @@ import de.code.junction.feldberger.mgmt.data.access.customer.Customer;
 import de.code.junction.feldberger.mgmt.data.access.customer.CustomerDataAccessObject;
 import de.code.junction.feldberger.mgmt.data.access.hibernate.HibernateAddressDao;
 import de.code.junction.feldberger.mgmt.data.access.hibernate.HibernateCustomerDao;
+import de.code.junction.feldberger.mgmt.data.access.hibernate.HibernateTransactionDao;
 import de.code.junction.feldberger.mgmt.data.access.hibernate.HibernateUserDao;
+import de.code.junction.feldberger.mgmt.data.access.transaction.Transaction;
+import de.code.junction.feldberger.mgmt.data.access.transaction.TransactionDataAccessObject;
 import de.code.junction.feldberger.mgmt.data.access.user.User;
 import de.code.junction.feldberger.mgmt.data.access.user.UserDataAccessObject;
 import de.code.junction.feldberger.mgmt.data.service.CustomerService;
@@ -25,6 +28,7 @@ public class PersistenceManager {
                 .addAnnotatedClass(User.class)
                 .addAnnotatedClass(Customer.class)
                 .addAnnotatedClass(Address.class)
+                .addAnnotatedClass(Transaction.class)
                 .buildSessionFactory();
     }
 
@@ -51,6 +55,11 @@ public class PersistenceManager {
     public CustomerService customerService() {
 
         return new CustomerService(customerDao(), addressDao());
+    }
+
+    public TransactionDataAccessObject transactionDao() {
+
+        return new HibernateTransactionDao(sessionFactory);
     }
 
     public void shutdown() {

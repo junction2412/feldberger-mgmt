@@ -2,10 +2,12 @@ package de.code.junction.feldberger.mgmt.data.access.customer;
 
 import de.code.junction.feldberger.mgmt.data.access.DataTransferObject;
 import de.code.junction.feldberger.mgmt.data.access.address.Address;
+import de.code.junction.feldberger.mgmt.data.access.transaction.Transaction;
 import de.code.junction.feldberger.mgmt.data.converter.StringColumnEncryptor;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity(name = "customers")
 public class Customer implements DataTransferObject<Integer> {
@@ -54,6 +56,9 @@ public class Customer implements DataTransferObject<Integer> {
 
     @Column(name = "archive_date")
     private LocalDateTime archiveDate;
+
+    @OneToMany(mappedBy = "customer")
+    private List<Transaction> transactions;
 
     public Customer(int id,
                     String idNo,
@@ -221,5 +226,15 @@ public class Customer implements DataTransferObject<Integer> {
     public void setArchiveDate(LocalDateTime archiveDate) {
 
         this.archiveDate = archiveDate;
+    }
+
+    public List<Transaction> getTransactions() {
+
+        return transactions;
+    }
+
+    public void setTransactions(List<Transaction> transactions) {
+
+        this.transactions = transactions;
     }
 }
