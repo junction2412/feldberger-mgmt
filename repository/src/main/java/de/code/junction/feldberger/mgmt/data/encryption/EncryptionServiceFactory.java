@@ -1,5 +1,6 @@
 package de.code.junction.feldberger.mgmt.data.encryption;
 
+import de.code.junction.feldberger.mgmt.data.encryption.aes.AESByteArrayEncryptionService;
 import de.code.junction.feldberger.mgmt.data.encryption.aes.AESStringEncryptionService;
 
 import java.io.IOException;
@@ -12,13 +13,24 @@ import java.util.Properties;
 
 public class EncryptionServiceFactory {
 
-    public static final EncryptionServiceFactory INSTANCE = new EncryptionServiceFactory();
+    private static EncryptionServiceFactory instance;
+
     private final String password;
 
-    public EncryptionServiceFactory() {
+    public static EncryptionServiceFactory getInstance() {
 
-        final var appEnv = loadAppEnv();
-        password = appEnv.getProperty("CORE_SECRET_KEY");
+        if (instance == null) {
+            final var appEnv = loadAppEnv();
+            final String secretKey = appEnv.getProperty("CORE_SECRET_KEY");
+            instance = new EncryptionServiceFactory(secretKey);
+        }
+
+        return instance;
+    }
+
+    private EncryptionServiceFactory(String coreSecretKey) {
+
+        password = coreSecretKey;
     }
 
     private static Properties loadAppEnv() {
@@ -56,8 +68,13 @@ public class EncryptionServiceFactory {
         return appEnv;
     }
 
-    public EncryptionService<String, String> createService() {
+    public EncryptionService<byte[], byte[]> createByteArrayService() {
 
-        return new AESStringEncryptionService(password);
+        return new AESByteArrayEncryptionService(password);
+    }
+
+    public EncryptionService<String, String> createStringService() {
+
+        return new AESStringEncryptionService((AESByteArrayEncryptionService) createByteArrayService());
     }
 }

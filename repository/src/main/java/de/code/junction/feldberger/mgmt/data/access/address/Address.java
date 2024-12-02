@@ -5,9 +5,10 @@ import de.code.junction.feldberger.mgmt.data.converter.StringColumnEncryptor;
 import jakarta.persistence.*;
 
 @Entity(name = "addresses")
-@Table(uniqueConstraints = {@UniqueConstraint(name = "U_ADDRESS", columnNames = {
-        "country_code", "postal_code", "city", "street", "street_number", "suffix"
-})})
+@Table(uniqueConstraints = {@UniqueConstraint(
+        name = "U_ADDRESS",
+        columnNames = {"country_code", "postal_code", "city", "street", "street_number", "suffix"}
+)})
 public class Address implements DataTransferObject<Integer> {
 
     @Id

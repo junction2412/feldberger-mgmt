@@ -23,7 +23,7 @@ public class Feldberger3DMgmtApplication extends Application {
 
         System.out.println("Application init");
 
-        persistenceManager = PersistenceManager.INSTANCE;
+        persistenceManager = PersistenceManager.getInstance();
         messenger = new FXMessenger();
 
         final TransitionFactoryProvider transitionFactoryProvider = new TransitionFactoryProvider(persistenceManager,

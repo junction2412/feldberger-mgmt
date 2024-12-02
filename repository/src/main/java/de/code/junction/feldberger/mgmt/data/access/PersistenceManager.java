@@ -4,10 +4,9 @@ import de.code.junction.feldberger.mgmt.data.access.address.Address;
 import de.code.junction.feldberger.mgmt.data.access.address.AddressDataAccessObject;
 import de.code.junction.feldberger.mgmt.data.access.customer.Customer;
 import de.code.junction.feldberger.mgmt.data.access.customer.CustomerDataAccessObject;
-import de.code.junction.feldberger.mgmt.data.access.hibernate.HibernateAddressDao;
-import de.code.junction.feldberger.mgmt.data.access.hibernate.HibernateCustomerDao;
-import de.code.junction.feldberger.mgmt.data.access.hibernate.HibernateTransactionDao;
-import de.code.junction.feldberger.mgmt.data.access.hibernate.HibernateUserDao;
+import de.code.junction.feldberger.mgmt.data.access.document.Document;
+import de.code.junction.feldberger.mgmt.data.access.document.DocumentDataAccessObject;
+import de.code.junction.feldberger.mgmt.data.access.hibernate.*;
 import de.code.junction.feldberger.mgmt.data.access.transaction.Transaction;
 import de.code.junction.feldberger.mgmt.data.access.transaction.TransactionDataAccessObject;
 import de.code.junction.feldberger.mgmt.data.access.user.User;
@@ -18,7 +17,7 @@ import org.hibernate.cfg.Configuration;
 
 public class PersistenceManager {
 
-    public static final PersistenceManager INSTANCE = new PersistenceManager();
+    private static PersistenceManager instance = new PersistenceManager();
 
     private final SessionFactory sessionFactory;
 
@@ -29,7 +28,16 @@ public class PersistenceManager {
                 .addAnnotatedClass(Customer.class)
                 .addAnnotatedClass(Address.class)
                 .addAnnotatedClass(Transaction.class)
+                .addAnnotatedClass(Document.class)
                 .buildSessionFactory();
+    }
+
+    public static PersistenceManager getInstance() {
+
+        if (instance == null)
+            instance = new PersistenceManager();
+
+        return instance;
     }
 
     public SessionFactory getSessionFactory() {
@@ -60,6 +68,11 @@ public class PersistenceManager {
     public TransactionDataAccessObject transactionDao() {
 
         return new HibernateTransactionDao(sessionFactory);
+    }
+
+    public DocumentDataAccessObject documentDao() {
+
+        return new HibernateDocumentDao(sessionFactory);
     }
 
     public void shutdown() {
