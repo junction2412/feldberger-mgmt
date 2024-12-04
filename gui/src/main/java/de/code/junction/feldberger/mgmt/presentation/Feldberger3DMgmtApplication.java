@@ -6,6 +6,7 @@ import de.code.junction.feldberger.mgmt.presentation.components.application.Appl
 import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute;
 import de.code.junction.feldberger.mgmt.presentation.components.common.TransitionFactoryProvider;
 import de.code.junction.feldberger.mgmt.presentation.components.jfx.FXMessenger;
+import de.code.junction.feldberger.mgmt.presentation.view.customer.overview.CustomerOverviewModel;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -29,7 +30,10 @@ public class Feldberger3DMgmtApplication extends Application {
         final TransitionFactoryProvider transitionFactoryProvider = new TransitionFactoryProvider(persistenceManager,
                 messenger);
 
-        ApplicationControllerFactory controllerFactory = new ApplicationControllerFactory(persistenceManager);
+        final var customerOverviewModel = new CustomerOverviewModel(0, "");
+        ApplicationControllerFactory controllerFactory = new ApplicationControllerFactory(
+                persistenceManager
+        );
 
         navContext = new ApplicationNavContext(controllerFactory, transitionFactoryProvider);
     }

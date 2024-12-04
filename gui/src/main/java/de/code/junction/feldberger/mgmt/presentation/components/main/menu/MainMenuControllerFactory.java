@@ -17,10 +17,11 @@ public class MainMenuControllerFactory {
     private final PersistenceManager persistenceManager;
     private final CustomerOverviewModel customerOverviewModel;
 
-    public MainMenuControllerFactory(PersistenceManager persistenceManager) {
+    public MainMenuControllerFactory(PersistenceManager persistenceManager,
+                                     CustomerOverviewModel customerOverviewModel) {
 
         this.persistenceManager = persistenceManager;
-        this.customerOverviewModel = new CustomerOverviewModel(0, "");
+        this.customerOverviewModel = customerOverviewModel;
     }
 
     public FXController customerOverview(Transition<Customer, ?> viewCustomerTransition,

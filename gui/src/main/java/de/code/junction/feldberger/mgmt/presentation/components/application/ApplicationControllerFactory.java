@@ -20,11 +20,11 @@ import static de.code.junction.feldberger.mgmt.presentation.components.applicati
  */
 public class ApplicationControllerFactory {
 
-    private final MainMenuControllerFactory mainControllerFactory;
+    private final PersistenceManager persistenceManager;
 
     public ApplicationControllerFactory(PersistenceManager persistenceManager) {
 
-        this.mainControllerFactory = new MainMenuControllerFactory(persistenceManager);
+        this.persistenceManager = persistenceManager;
     }
 
     public FXController login(Transition<LoginForm, ?> loginTransition,
@@ -52,6 +52,10 @@ public class ApplicationControllerFactory {
                                  Transition<UserSession, ?> settingsTransition,
                                  int userID,
                                  String username) {
+
+        final var applicationState = ApplicationState.getInstance();
+        final var customerOverviewModel = applicationState.getCustomerOverviewModel();
+        final var mainControllerFactory = new MainMenuControllerFactory(persistenceManager, customerOverviewModel);
 
         return new MainMenuController(
                 logoutTransition,
