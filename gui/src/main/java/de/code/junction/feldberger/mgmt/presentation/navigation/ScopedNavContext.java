@@ -8,6 +8,7 @@ public abstract class ScopedNavContext<S, R> implements NavContext<R> {
      */
     protected S scope;
 
+    @SuppressWarnings("unused")
     public S getScope() {
 
         return scope;

@@ -40,12 +40,14 @@ public class CustomerOverviewController extends FXController {
     private final Transition<Customer, ?> viewCustomerTransition;
     private final Transition<Customer, ?> editCustomerTransition;
     private final Transition<Void, ?> newCustomerTransition;
+    private final CustomerOverviewModel viewModel;
 
 
     public CustomerOverviewController(CustomerListService customerListService,
                                       Transition<Customer, ?> viewCustomerTransition,
                                       Transition<Customer, ?> editCustomerTransition,
-                                      Transition<Void, ?> newCustomerTransition) {
+                                      Transition<Void, ?> newCustomerTransition,
+                                      CustomerOverviewModel viewModel) {
 
         super("customer-overview.fxml");
 
@@ -53,6 +55,7 @@ public class CustomerOverviewController extends FXController {
         this.viewCustomerTransition = viewCustomerTransition;
         this.editCustomerTransition = editCustomerTransition;
         this.newCustomerTransition = newCustomerTransition;
+        this.viewModel = viewModel;
 
         this.customerListService.setOnSucceeded(this::onCustomerListServiceSucceeded);
         this.customerListService.setOnFailed(this::onCustomerListServiceFailed);
@@ -66,7 +69,9 @@ public class CustomerOverviewController extends FXController {
         viewCustomer.disableProperty().bind(noCustomerSelected);
         editCustomer.disableProperty().bind(noCustomerSelected);
 
-        customerListService.nameOrCompanyNameProperty().bind(filter.textProperty());
+        filter.textProperty().bindBidirectional(viewModel.customerFilterProperty());
+        customerListService.nameOrCompanyNameProperty().bind(viewModel.customerFilterProperty());
+
         customerIdNo.setCellValueFactory(new PropertyValueFactory<>("idNo"));
         customerName.setCellValueFactory(cell -> Bindings.createStringBinding(
                 () -> {
@@ -84,9 +89,18 @@ public class CustomerOverviewController extends FXController {
         editCustomer.setOnAction(this::onEditCustomerClicked);
         newCustomer.setOnAction(this::onNewCustomerClicked);
 
+        customers.getSelectionModel().selectedItemProperty().addListener(this::onCustomerSelectionChanged);
         customers.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onCustomersClicked);
 
         customerListService.start();
+    }
+
+    private void onCustomerSelectionChanged(Observable observable,
+                                            Customer oldValue,
+                                            Customer newValue) {
+
+        final var selectedCustomerId = (newValue != null) ? newValue.getId() : 0;
+        viewModel.setSelectedCustomerId(selectedCustomerId);
     }
 
     @Override
@@ -102,7 +116,14 @@ public class CustomerOverviewController extends FXController {
 
     private void onCustomerListServiceSucceeded(WorkerStateEvent event) {
 
-        customers.getItems().setAll(customerListService.getValue());
+        final var value = customerListService.getValue();
+        final var selectedCustomer = value.stream()
+                .filter(customer -> customer.getId() == viewModel.getSelectedCustomerId())
+                .findFirst();
+
+        customers.getItems().setAll(value);
+
+        selectedCustomer.ifPresent(customers.getSelectionModel()::select);
     }
 
     private void onCustomerListServiceFailed(WorkerStateEvent event) {

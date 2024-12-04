@@ -34,19 +34,15 @@ public class MainMenuNavContext extends ScopedNavContext<Pane, MainMenuNavRoute>
             throw new NullPointerException("Cannot navigate if parent is null.");
 
         final var controller = switch (route) {
-            case Subview subview -> switch (subview) {
-                case CUSTOMERS -> customerOverview();
-                default -> null;
-            };
-
-            case CustomerEditor editorRoute -> customerEditor(editorRoute.customer(), editorRoute.backAction());
-            case CustomerDashboard dashboardRoute -> customerDashboard(dashboardRoute.customer());
+            case CustomerOverview navRoute -> customerOverview(navRoute.customerId());
+            case CustomerEditor navRoute -> customerEditor(navRoute.customer(), navRoute.backAction());
+            case CustomerDashboard navRoute -> customerDashboard(navRoute.customer());
         };
 
         setChildController(controller);
     }
 
-    private FXController customerOverview() {
+    private FXController customerOverview(int customerId) {
 
         final var viewCustomerTransition = Transition.<Customer>immediate(customer -> {
             final CustomerDashboard navRoute = new CustomerDashboard(customer);
@@ -71,25 +67,25 @@ public class MainMenuNavContext extends ScopedNavContext<Pane, MainMenuNavRoute>
         return controllerFactory.customerOverview(
                 viewCustomerTransition,
                 editCustomerTransition,
-                newCustomerTransition
+                newCustomerTransition,
+                customerId
         );
     }
 
     private FXController customerEditor(Customer customer, BackAction backAction) {
 
-        final Transition<Customer, Customer> backTransition = backAction == BackAction.OVERVIEW
-                ? Transition.immediate(_ -> navigateTo(Subview.CUSTOMERS))
-                : Transition.immediate(_customer -> navigateTo(new CustomerDashboard(_customer)));
+        final Transition<Customer, ?> backTransition = backAction == BackAction.OVERVIEW
+                ? Transition.bypass(CustomerOverview::new, this::navigateTo)
+                : Transition.bypass(CustomerDashboard::new, this::navigateTo);
 
-        final Transition<Customer, CustomerDashboard> saveTransition = transitionFactory.customerEditorCustomerDashboard(
-                this::navigateTo);
+        final var saveTransition = transitionFactory.customerEditorCustomerDashboard(this::navigateTo);
 
         return controllerFactory.customerEditor(customer, backTransition, saveTransition);
     }
 
     private FXController customerDashboard(Customer customer) {
 
-        final var backTransition = Transition.<Customer>immediate(_ -> navigateTo(Subview.CUSTOMERS));
+        final var backTransition = Transition.<Customer, CustomerOverview>bypass(CustomerOverview::new, this::navigateTo);
         final var editCustomerTransition = Transition.<Customer, CustomerEditor>bypass(
                 _customer -> new CustomerEditor(_customer, BackAction.DASHBOARD),
                 this::navigateTo

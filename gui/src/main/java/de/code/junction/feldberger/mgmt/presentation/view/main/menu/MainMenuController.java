@@ -2,7 +2,6 @@ package de.code.junction.feldberger.mgmt.presentation.view.main.menu;
 
 import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.UserSession;
 import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuNavContext;
-import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuNavRoute;
 import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import javafx.beans.Observable;
@@ -19,6 +18,8 @@ import javafx.scene.layout.AnchorPane;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
+import static de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuNavRoute.CustomerOverview;
+import static de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuNavRoute.Subview;
 import static de.code.junction.feldberger.mgmt.presentation.util.ResourceLoader.getLabelStringResources;
 
 public final class MainMenuController extends FXController {
@@ -45,7 +46,7 @@ public final class MainMenuController extends FXController {
     private Button settings;
 
     @FXML
-    private ListView<MainMenuNavRoute.Subview> navigation;
+    private ListView<Subview> navigation;
     @FXML
     private AnchorPane subview;
 
@@ -77,7 +78,7 @@ public final class MainMenuController extends FXController {
 
         navigation.setCellFactory(_ -> new ListCell<>() {
             @Override
-            protected void updateItem(MainMenuNavRoute.Subview subview, boolean empty) {
+            protected void updateItem(Subview subview, boolean empty) {
                 super.updateItem(subview, empty);
 
                 if (!empty) {
@@ -92,8 +93,8 @@ public final class MainMenuController extends FXController {
         userID.textProperty().bind(viewModel.userIDProperty().asString());
         username.textProperty().bind(viewModel.usernameProperty());
 
-        final var subviews = Arrays.stream(MainMenuNavRoute.Subview.values())
-                .filter(subview -> subview != MainMenuNavRoute.Subview.NONE) // Exclude Subview.NONE
+        final var subviews = Arrays.stream(Subview.values())
+                .filter(subview -> subview != Subview.NONE) // Exclude Subview.NONE
                 .toList();
 
         navigation.getItems().setAll(subviews);
@@ -118,10 +119,15 @@ public final class MainMenuController extends FXController {
         settingsTransition.orchestrate(viewModel.toUserSession());
     }
 
-    private void onNavigationSelectionChanged(Observable observable, MainMenuNavRoute.Subview oldValue,
-                                              MainMenuNavRoute.Subview newValue) {
+    private void onNavigationSelectionChanged(Observable observable, Subview oldValue,
+                                              Subview newValue) {
 
-        navContext.navigateTo(newValue);
+        switch (newValue) {
+            case CUSTOMERS -> navContext.navigateTo(new CustomerOverview(0));
+            default -> {
+            }
+        }
+
     }
 
     private void onSubviewChildrenChanged(ListChangeListener.Change<? extends Node> change) {

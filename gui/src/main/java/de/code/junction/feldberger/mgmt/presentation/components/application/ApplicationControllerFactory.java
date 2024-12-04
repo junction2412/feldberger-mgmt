@@ -20,12 +20,11 @@ import static de.code.junction.feldberger.mgmt.presentation.components.applicati
  */
 public class ApplicationControllerFactory {
 
-
-    private final PersistenceManager persistenceManager;
+    private final MainMenuControllerFactory mainControllerFactory;
 
     public ApplicationControllerFactory(PersistenceManager persistenceManager) {
 
-        this.persistenceManager = persistenceManager;
+        this.mainControllerFactory = new MainMenuControllerFactory(persistenceManager);
     }
 
     public FXController login(Transition<LoginForm, ?> loginTransition,
@@ -41,9 +40,11 @@ public class ApplicationControllerFactory {
                                      Transition<RegistrationForm, ?> loginTransition,
                                      String username) {
 
-        return new RegistrationController(registrationTransition,
+        return new RegistrationController(
+                registrationTransition,
                 loginTransition,
-                new RegistrationFormViewModel(username));
+                new RegistrationFormViewModel(username)
+        );
     }
 
     public FXController mainMenu(MainMenuTransitionFactory transitionFactory,
@@ -55,8 +56,15 @@ public class ApplicationControllerFactory {
         return new MainMenuController(
                 logoutTransition,
                 settingsTransition,
-                new UserSessionViewModel(userID, username),
-                new MainMenuNavContext(transitionFactory, new MainMenuControllerFactory(persistenceManager), userID)
+                new UserSessionViewModel(
+                        userID,
+                        username
+                ),
+                new MainMenuNavContext(
+                        transitionFactory,
+                        mainControllerFactory,
+                        userID
+                )
         );
     }
 }

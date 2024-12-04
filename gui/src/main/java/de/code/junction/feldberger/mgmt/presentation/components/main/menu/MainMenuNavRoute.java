@@ -4,7 +4,7 @@ import de.code.junction.feldberger.mgmt.data.access.customer.Customer;
 
 public sealed interface MainMenuNavRoute {
 
-    enum Subview implements MainMenuNavRoute {
+    enum Subview {
         NONE(null),
         CUSTOMERS("enum.main.menu.nav.route.customers"),
         TRANSACTIONS("enum.main.menu.nav.route.transactions"),
@@ -20,6 +20,19 @@ public sealed interface MainMenuNavRoute {
         public String getLabelKey() {
 
             return labelKey;
+        }
+    }
+
+    record CustomerOverview(int customerId) implements MainMenuNavRoute {
+
+        public CustomerOverview() {
+
+            this(0);
+        }
+
+        public CustomerOverview(Customer customer) {
+
+            this(customer.getId());
         }
     }
 
