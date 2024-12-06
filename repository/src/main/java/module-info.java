@@ -12,6 +12,7 @@ module de.code.junction.feldbergermgmt.repository {
     requires org.hibernate.commons.annotations;
     requires org.jboss.logging;
 
+    exports de.code.junction.feldberger.mgmt.data;
     exports de.code.junction.feldberger.mgmt.data.access;
     exports de.code.junction.feldberger.mgmt.data.access.address;
     exports de.code.junction.feldberger.mgmt.data.access.customer;

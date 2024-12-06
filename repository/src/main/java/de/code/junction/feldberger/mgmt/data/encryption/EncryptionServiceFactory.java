@@ -1,5 +1,6 @@
 package de.code.junction.feldberger.mgmt.data.encryption;
 
+import de.code.junction.feldberger.mgmt.data.AppConstants;
 import de.code.junction.feldberger.mgmt.data.encryption.aes.AESByteArrayEncryptionService;
 import de.code.junction.feldberger.mgmt.data.encryption.aes.AESStringEncryptionService;
 
@@ -7,7 +8,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.security.SecureRandom;
 import java.util.Properties;
 
@@ -35,9 +35,7 @@ public class EncryptionServiceFactory {
 
     private static Properties loadAppEnv() {
 
-        final var userHome = Path.of(System.getProperty("user.home"));
-        final var appHome = userHome.resolve(".feldberger-mgmt").toAbsolutePath();
-        final var env = appHome.resolve(".encryption.properties");
+        final var env = AppConstants.ENCRYPTION_PROPERTIES;
         final var appEnv = new Properties();
 
         if (!Files.exists(env)) {
