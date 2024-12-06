@@ -56,8 +56,10 @@ public class LoginController extends FXController {
         submit.setOnAction(this::onSubmitClicked);
 
         usernameField.textProperty().bindBidirectional(viewModel.usernameProperty());
-        viewModel.passwordProperty().bind(Bindings.createStringBinding(() -> passwordField.getCharacters().toString(),
-                passwordField.textProperty()));
+        viewModel.passwordProperty().bind(Bindings.createStringBinding(
+                () -> passwordField.getCharacters().toString(),
+                passwordField.textProperty()
+        ));
     }
 
     @Override

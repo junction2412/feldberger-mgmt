@@ -66,7 +66,9 @@ public class CustomerViewModel {
                 customer.getNotes(),
                 customer.isArchived(),
                 customer.getArchiveDate(),
-                (customer.getAddress() != null) ? new AddressViewModel(customer.getAddress()) : new AddressViewModel()
+                (customer.getAddress() != null)
+                        ? new AddressViewModel(customer.getAddress())
+                        : new AddressViewModel()
         );
     }
 

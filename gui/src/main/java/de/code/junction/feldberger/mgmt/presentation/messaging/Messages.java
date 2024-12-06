@@ -15,7 +15,6 @@ public final class Messages {
     }
 
     public static final Message TRANSITION_NOT_PERFORMED;
-
     public static final Message LOGIN_FAILED_WRONG_CREDENTIALS;
     public static final Message CUSTOMER_EDITOR_FAILED_IDNO_CONSTRAINT_VIOLATION;
 

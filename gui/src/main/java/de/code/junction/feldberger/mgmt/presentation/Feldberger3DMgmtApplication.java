@@ -6,11 +6,8 @@ import de.code.junction.feldberger.mgmt.presentation.components.application.Appl
 import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute;
 import de.code.junction.feldberger.mgmt.presentation.components.common.TransitionFactoryProvider;
 import de.code.junction.feldberger.mgmt.presentation.components.jfx.FXMessenger;
-import de.code.junction.feldberger.mgmt.presentation.view.customer.overview.CustomerOverviewModel;
 import javafx.application.Application;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class Feldberger3DMgmtApplication extends Application {
 
@@ -20,26 +17,28 @@ public class Feldberger3DMgmtApplication extends Application {
     private ApplicationNavContext navContext;
 
     @Override
-    public void init() throws Exception {
+    public void init() {
 
         System.out.println("Application init");
 
         persistenceManager = PersistenceManager.getInstance();
         messenger = new FXMessenger();
 
-        final TransitionFactoryProvider transitionFactoryProvider = new TransitionFactoryProvider(persistenceManager,
-                messenger);
-
-        final var customerOverviewModel = new CustomerOverviewModel(0, "");
-        ApplicationControllerFactory controllerFactory = new ApplicationControllerFactory(
-                persistenceManager
+        final var transitionFactoryProvider = new TransitionFactoryProvider(
+                persistenceManager,
+                messenger
         );
 
-        navContext = new ApplicationNavContext(controllerFactory, transitionFactoryProvider);
+        final var controllerFactory = new ApplicationControllerFactory(persistenceManager);
+
+        navContext = new ApplicationNavContext(
+                controllerFactory,
+                transitionFactoryProvider
+        );
     }
 
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) {
 
         System.out.println("Application start");
 
@@ -53,7 +52,7 @@ public class Feldberger3DMgmtApplication extends Application {
     }
 
     @Override
-    public void stop() throws Exception {
+    public void stop() {
 
         System.out.println("Application stop");
 

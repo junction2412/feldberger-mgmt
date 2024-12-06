@@ -19,14 +19,13 @@ import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import static de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuNavRoute.CustomerOverview;
-import static de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuNavRoute.Subview;
 import static de.code.junction.feldberger.mgmt.presentation.util.ResourceLoader.getLabelStringResources;
 
 public final class MainMenuController extends FXController {
 
     private final Transition<UserSession, ?> logoutTransition;
     private final Transition<UserSession, ?> settingsTransition;
-    private final UserSessionViewModel viewModel;
+    private final MainMenuViewModel viewModel;
 
     private final MainMenuNavContext navContext;
 
@@ -52,7 +51,7 @@ public final class MainMenuController extends FXController {
 
     public MainMenuController(Transition<UserSession, ?> logoutTransition,
                               Transition<UserSession, ?> settingsTransition,
-                              UserSessionViewModel viewModel,
+                              MainMenuViewModel viewModel,
                               MainMenuNavContext navContext) {
 
         super("main-menu-view.fxml");
@@ -77,27 +76,34 @@ public final class MainMenuController extends FXController {
         subview.getChildren().addListener(this::onSubviewChildrenChanged);
 
         navigation.setCellFactory(_ -> new ListCell<>() {
+
             @Override
             protected void updateItem(Subview subview, boolean empty) {
+
                 super.updateItem(subview, empty);
 
-                if (!empty) {
-                    final ResourceBundle bundle = getLabelStringResources();
+                final String text;
 
-                    setText(bundle.getString(subview.getLabelKey()));
-                } else
-                    setText("");
+                if (empty)
+                    text = "";
+                else
+                    text = getLabelStringResources().getString(subview.getLabelKey());
+
+                setText(text);
             }
         });
 
-        userID.textProperty().bind(viewModel.userIDProperty().asString());
+        userID.textProperty().bind(viewModel.userIdProperty().asString());
         username.textProperty().bind(viewModel.usernameProperty());
 
         final var subviews = Arrays.stream(Subview.values())
-                .filter(subview -> subview != Subview.NONE) // Exclude Subview.NONE
+                .filter(subview -> subview != Subview.NONE)             /* Exclude Subview.NONE */
                 .toList();
 
+        final var selectedSubview = viewModel.getSelectedSubview();
         navigation.getItems().setAll(subviews);
+        navigation.getSelectionModel().select(selectedSubview);
+        viewModel.selectedSubviewProperty().bind(navigation.getSelectionModel().selectedItemProperty());
     }
 
     @Override
@@ -119,11 +125,12 @@ public final class MainMenuController extends FXController {
         settingsTransition.orchestrate(viewModel.toUserSession());
     }
 
-    private void onNavigationSelectionChanged(Observable observable, Subview oldValue,
+    private void onNavigationSelectionChanged(Observable observable,
+                                              Subview oldValue,
                                               Subview newValue) {
 
         switch (newValue) {
-            case CUSTOMERS -> navContext.navigateTo(new CustomerOverview(0));
+            case CUSTOMERS -> navContext.navigateTo(new CustomerOverview());
             default -> {
             }
         }

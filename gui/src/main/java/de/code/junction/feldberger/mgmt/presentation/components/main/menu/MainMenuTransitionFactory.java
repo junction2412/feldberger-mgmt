@@ -15,9 +15,13 @@ import static de.code.junction.feldberger.mgmt.presentation.components.main.menu
 public class MainMenuTransitionFactory extends TransitionFactory {
 
 
-    public MainMenuTransitionFactory(PersistenceManager persistenceManager, Messenger messenger) {
+    public MainMenuTransitionFactory(PersistenceManager persistenceManager,
+                                     Messenger messenger) {
 
-        super(persistenceManager, messenger);
+        super(
+                persistenceManager,
+                messenger
+        );
     }
 
     public Transition<Customer, CustomerDashboard> customerEditorCustomerDashboard(Consumer<CustomerDashboard> onConclude) {

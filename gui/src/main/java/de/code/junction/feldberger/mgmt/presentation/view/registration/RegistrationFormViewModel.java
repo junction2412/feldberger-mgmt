@@ -1,8 +1,9 @@
 package de.code.junction.feldberger.mgmt.presentation.view.registration;
 
-import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+
+import static de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.RegistrationForm;
 
 public class RegistrationFormViewModel {
 
@@ -62,8 +63,12 @@ public class RegistrationFormViewModel {
         this.repeatPassword.set(repeatPassword);
     }
 
-    public ApplicationNavRoute.RegistrationForm toRegistrationForm() {
+    public RegistrationForm toRegistrationForm() {
 
-        return new ApplicationNavRoute.RegistrationForm(getUsername().trim(), getPassword(), getRepeatPassword());
+        return new RegistrationForm(
+                getUsername().trim(),
+                getPassword(),
+                getRepeatPassword()
+        );
     }
 }

@@ -82,7 +82,8 @@ public final class HashUtil {
      * @param salt     salt to be hashed with
      * @return SHA-256 hashed password (as hex string)
      */
-    public static String hashPassword(String password, String salt) {
+    public static String hashPassword(String password,
+                                      String salt) {
 
         return sha256(password + salt);
     }

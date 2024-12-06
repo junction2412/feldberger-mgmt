@@ -1,8 +1,9 @@
 package de.code.junction.feldberger.mgmt.presentation.view.login;
 
-import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+
+import static de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.LoginForm;
 
 public class LoginFormViewModel {
 
@@ -11,13 +12,17 @@ public class LoginFormViewModel {
 
     public LoginFormViewModel(String username) {
 
-        this(username, "");
+        this(
+                username,
+                ""
+        );
     }
 
-    public LoginFormViewModel(String username, String password) {
+    public LoginFormViewModel(String username,
+                              String password) {
 
-        this.username = new SimpleStringProperty(this, "username", username);
-        this.password = new SimpleStringProperty(this, "password", password);
+        this.username = new SimpleStringProperty(username);
+        this.password = new SimpleStringProperty(password);
     }
 
     public String getUsername() {
@@ -36,8 +41,8 @@ public class LoginFormViewModel {
         return password;
     }
 
-    public ApplicationNavRoute.LoginForm toLoginForm() {
+    public LoginForm toLoginForm() {
 
-        return new ApplicationNavRoute.LoginForm(getUsername().trim(), getPassword());
+        return new LoginForm(getUsername().trim(), getPassword());
     }
 }

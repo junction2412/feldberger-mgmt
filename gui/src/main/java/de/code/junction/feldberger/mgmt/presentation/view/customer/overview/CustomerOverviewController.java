@@ -157,7 +157,9 @@ public class CustomerOverviewController extends FXController {
         viewCustomerTransition.orchestrate(customer);
     }
 
-    private void onFilterTextChanged(Observable observable, String oldValue, String newValue) {
+    private void onFilterTextChanged(Observable observable,
+                                     String oldValue,
+                                     String newValue) {
 
         customerListService.restart();
     }

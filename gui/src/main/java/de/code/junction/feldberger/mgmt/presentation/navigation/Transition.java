@@ -53,8 +53,12 @@ public class Transition<A, B> {
         return new Transition<>(TransitionLifecycle.immediate(transition));
     }
 
-    public static <A, B> Transition<A, B> bypass(Function<A, B> converter, Consumer<B> transition) {
+    public static <A, B> Transition<A, B> bypass(Function<A, B> converter,
+                                                 Consumer<B> transition) {
 
-        return new Transition<>(TransitionLifecycle.bypass(converter, transition));
+        return new Transition<>(TransitionLifecycle.bypass(
+                converter,
+                transition
+        ));
     }
 }

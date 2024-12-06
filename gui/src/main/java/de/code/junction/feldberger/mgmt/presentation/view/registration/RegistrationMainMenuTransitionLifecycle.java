@@ -82,14 +82,24 @@ public class RegistrationMainMenuTransitionLifecycle implements TransitionLifecy
     @Override
     public UserSession transform(RegistrationForm registrationForm) {
 
-        final String passwordSalt = salt();
-        final String passwordHash = hashPassword(registrationForm.password(), passwordSalt);
+        final var passwordSalt = salt();
+        final var passwordHash = hashPassword(
+                registrationForm.password(),
+                passwordSalt
+        );
 
-        final User user = new User(registrationForm.username(), passwordHash, passwordSalt);
+        final var user = new User(
+                registrationForm.username(),
+                passwordHash,
+                passwordSalt
+        );
 
         userDao.persistUser(user);
 
-        return new UserSession(user.getId(), user.getUsername());
+        return new UserSession(
+                user.getId(),
+                user.getUsername()
+        );
     }
 
     @Override

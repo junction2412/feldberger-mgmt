@@ -43,7 +43,10 @@ public class LoginMainMenuTransitionLifecycle implements TransitionLifecycle<Log
         final User user = optionalUser.get();
 
         final String passwordSalt = user.getPasswordSalt();
-        final String hashedPasswordInput = hashPassword(loginForm.password(), passwordSalt);
+        final String hashedPasswordInput = hashPassword(
+                loginForm.password(),
+                passwordSalt
+        );
 
         final boolean passwordCorrect = hashedPasswordInput.equals(user.getPasswordHash());
 
@@ -66,7 +69,10 @@ public class LoginMainMenuTransitionLifecycle implements TransitionLifecycle<Log
 
         final User user = optionalUser.get();
 
-        return new UserSession(user.getId(), user.getUsername());
+        return new UserSession(
+                user.getId(),
+                user.getUsername()
+        );
     }
 
     @Override

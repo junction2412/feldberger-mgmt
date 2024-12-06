@@ -4,25 +4,6 @@ import de.code.junction.feldberger.mgmt.data.access.customer.Customer;
 
 public sealed interface MainMenuNavRoute {
 
-    enum Subview {
-        NONE(null),
-        CUSTOMERS("enum.main.menu.nav.route.customers"),
-        TRANSACTIONS("enum.main.menu.nav.route.transactions"),
-        ;
-
-        private final String labelKey;
-
-        Subview(String labelKey) {
-
-            this.labelKey = labelKey;
-        }
-
-        public String getLabelKey() {
-
-            return labelKey;
-        }
-    }
-
     record CustomerOverview(int customerId) implements MainMenuNavRoute {
 
         public CustomerOverview() {

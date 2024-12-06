@@ -79,9 +79,6 @@ public class ApplicationTransitionFactory extends TransitionFactory {
      */
     public Transition<UserSession, LoginForm> sessionLogin(Consumer<LoginForm> onTransition) {
 
-        return Transition.bypass(session -> new LoginForm(session.username()), form -> {
-            onTransition.accept(form);
-            ApplicationState.getInstance().forget();
-        });
+        return Transition.bypass(session -> new LoginForm(session.username()), onTransition);
     }
 }

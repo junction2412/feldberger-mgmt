@@ -72,22 +72,38 @@ public class MainMenuNavContext extends ScopedNavContext<Pane, MainMenuNavRoute>
         );
     }
 
-    private FXController customerEditor(Customer customer, BackAction backAction) {
+    private FXController customerEditor(Customer customer,
+                                        BackAction backAction) {
 
-        final Transition<Customer, ?> backTransition = backAction == BackAction.OVERVIEW
-                ? Transition.bypass(CustomerOverview::new, this::navigateTo)
-                : Transition.bypass(CustomerDashboard::new, this::navigateTo);
+        final Transition<Customer, ?> backTransition = (backAction == BackAction.OVERVIEW) ? Transition.bypass(
+                CustomerOverview::new,
+                this::navigateTo
+        ) : Transition.bypass(
+                CustomerDashboard::new,
+                this::navigateTo
+        );
 
         final var saveTransition = transitionFactory.customerEditorCustomerDashboard(this::navigateTo);
 
-        return controllerFactory.customerEditor(customer, backTransition, saveTransition);
+        return controllerFactory.customerEditor(
+                customer,
+                backTransition,
+                saveTransition
+        );
     }
 
     private FXController customerDashboard(Customer customer) {
 
-        final var backTransition = Transition.<Customer, CustomerOverview>bypass(CustomerOverview::new, this::navigateTo);
+        final var backTransition = Transition.<Customer, CustomerOverview>bypass(
+                CustomerOverview::new,
+                this::navigateTo
+        );
+
         final var editCustomerTransition = Transition.<Customer, CustomerEditor>bypass(
-                _customer -> new CustomerEditor(_customer, BackAction.DASHBOARD),
+                _customer -> new CustomerEditor(
+                        _customer,
+                        BackAction.DASHBOARD
+                ),
                 this::navigateTo
         );
 

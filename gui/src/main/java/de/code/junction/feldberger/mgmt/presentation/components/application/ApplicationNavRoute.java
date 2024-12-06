@@ -2,7 +2,11 @@ package de.code.junction.feldberger.mgmt.presentation.components.application;
 
 public sealed interface ApplicationNavRoute {
 
-    record RegistrationForm(String username, String password, String repeatPassword) implements ApplicationNavRoute {
+    record RegistrationForm(
+            String username,
+            String password,
+            String repeatPassword
+    ) implements ApplicationNavRoute {
 
         public RegistrationForm(String username) {
 
@@ -10,7 +14,10 @@ public sealed interface ApplicationNavRoute {
         }
     }
 
-    record LoginForm(String username, String password) implements ApplicationNavRoute {
+    record LoginForm(
+            String username,
+            String password
+    ) implements ApplicationNavRoute {
 
         public LoginForm(String username) {
 
@@ -19,6 +26,9 @@ public sealed interface ApplicationNavRoute {
 
     }
 
-    record UserSession(int userID, String username) implements ApplicationNavRoute {
+    record UserSession(
+            int userID,
+            String username
+    ) implements ApplicationNavRoute {
     }
 }

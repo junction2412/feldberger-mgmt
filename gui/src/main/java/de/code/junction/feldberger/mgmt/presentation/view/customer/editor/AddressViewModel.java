@@ -48,7 +48,15 @@ public class AddressViewModel {
 
     public AddressViewModel() {
 
-        this(0, "", "", "", "", "", "");
+        this(
+                0,
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+        );
     }
 
     public int getId() {

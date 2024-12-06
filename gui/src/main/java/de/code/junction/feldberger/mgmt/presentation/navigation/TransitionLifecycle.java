@@ -47,7 +47,9 @@ public interface TransitionLifecycle<A, B> {
      * @param <B>         data the transition is performed upon
      * @return transition
      */
-    static <A, B> TransitionLifecycle<A, B> of(Predicate<A> validator, Function<A, B> transformer, Consumer<B> consumer) {
+    static <A, B> TransitionLifecycle<A, B> of(Predicate<A> validator,
+                                               Function<A, B> transformer,
+                                               Consumer<B> consumer) {
 
         return new TransitionLifecycle<>() {
 
@@ -80,7 +82,8 @@ public interface TransitionLifecycle<A, B> {
      * @param <B>         data the transition is performed upon
      * @return transition without input validation
      */
-    static <A, B> TransitionLifecycle<A, B> bypass(Function<A, B> transformer, Consumer<B> consumer) {
+    static <A, B> TransitionLifecycle<A, B> bypass(Function<A, B> transformer,
+                                                   Consumer<B> consumer) {
 
         return of(_ -> true, transformer, consumer);
     }

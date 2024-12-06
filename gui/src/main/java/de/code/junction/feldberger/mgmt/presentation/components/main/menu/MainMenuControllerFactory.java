@@ -26,7 +26,8 @@ public class MainMenuControllerFactory {
 
     public FXController customerOverview(Transition<Customer, ?> viewCustomerTransition,
                                          Transition<Customer, ?> editCustomerTransition,
-                                         Transition<Void, ?> newCustomerTransition, int customerId) {
+                                         Transition<Void, ?> newCustomerTransition,
+                                         int customerId) {
 
         if (customerId != 0)
             Platform.runLater(() -> customerOverviewModel.setSelectedCustomerId(customerId));

@@ -63,7 +63,8 @@ public class ApplicationNavContext extends ScopedNavContext<Stage, ApplicationNa
         return controllerFactory.registration(registrationTransition, loginTransition, username);
     }
 
-    private FXController mainMenu(int userID, String username) {
+    private FXController mainMenu(int userID,
+                                  String username) {
 
         final var logoutTransition = transitionFactory.sessionLogin(this::navigateTo);
         final var settingsTransition = Transition.<UserSession>immediate(_ -> System.out.println("NOOP"));
