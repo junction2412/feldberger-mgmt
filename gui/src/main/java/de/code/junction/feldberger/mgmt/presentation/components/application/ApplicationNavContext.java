@@ -41,7 +41,7 @@ public class ApplicationNavContext extends ScopedNavContext<Stage, ApplicationNa
         final var controller = switch (route) {
             case LoginForm form -> login(form.username());
             case RegistrationForm form -> registration(form.username());
-            case UserSession session -> mainMenu(session.userID(), session.username());
+            case UserSession session -> mainMenu(session.userId(), session.username());
         };
 
         setSceneController(controller);

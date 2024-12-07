@@ -1,6 +1,7 @@
 package de.code.junction.feldberger.mgmt.presentation.components.application;
 
 import de.code.junction.feldberger.mgmt.data.access.PersistenceManager;
+import de.code.junction.feldberger.mgmt.presentation.cache.RouteRecreationQueue;
 import de.code.junction.feldberger.mgmt.presentation.components.common.SessionManager;
 import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuControllerFactory;
 import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuNavContext;
@@ -10,9 +11,10 @@ import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import de.code.junction.feldberger.mgmt.presentation.view.login.LoginController;
 import de.code.junction.feldberger.mgmt.presentation.view.login.LoginFormViewModel;
 import de.code.junction.feldberger.mgmt.presentation.view.main.menu.MainMenuController;
+import de.code.junction.feldberger.mgmt.presentation.view.main.menu.MainMenuViewModel;
+import de.code.junction.feldberger.mgmt.presentation.view.main.menu.Subview;
 import de.code.junction.feldberger.mgmt.presentation.view.registration.RegistrationController;
 import de.code.junction.feldberger.mgmt.presentation.view.registration.RegistrationFormViewModel;
-import javafx.application.Platform;
 
 import static de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.*;
 
@@ -56,15 +58,22 @@ public class ApplicationControllerFactory {
                                  int userId,
                                  String username) {
 
+        final var cache = RouteRecreationQueue.getInstance().current().getCache();
+        final var selectedSubview = cache.containsKey("selectedSubviewEnumValue")
+                ? Subview.valueOf((String) cache.get("selectedSubviewEnumValue"))
+                : null;
+
         final var session = SessionManager.getInstance().retrieveSession(userId);
         final var customerOverviewModel = session.getCustomerOverviewModel();
-        final var mainMenuViewModel = session.getMainMenuViewModel();
-        final var mainControllerFactory = new MainMenuControllerFactory(
-                persistenceManager,
-                customerOverviewModel
+        final var mainMenuViewModel = new MainMenuViewModel(
+                userId,
+                username,
+                selectedSubview
         );
 
-        Platform.runLater(() -> mainMenuViewModel.setUsername(username));
+        final var mainControllerFactory = new MainMenuControllerFactory(
+                persistenceManager
+        );
 
         return new MainMenuController(
                 logoutTransition,

@@ -1,6 +1,7 @@
 package de.code.junction.feldberger.mgmt.presentation.view.customer.overview;
 
 import de.code.junction.feldberger.mgmt.data.access.customer.Customer;
+import de.code.junction.feldberger.mgmt.presentation.cache.RouteRecreationQueue;
 import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import javafx.beans.Observable;
@@ -124,6 +125,18 @@ public class CustomerOverviewController extends FXController {
         customers.getItems().setAll(value);
 
         selectedCustomer.ifPresent(customers.getSelectionModel()::select);
+
+        RouteRecreationQueue.getInstance().next().ifPresent(route -> {
+            final Customer customer = customers.getSelectionModel().getSelectedItem();
+
+            final String routeName = route.getRouteName();
+            System.out.println(routeName);
+
+            switch (routeName) {
+                case "customer.editor" -> editCustomerTransition.orchestrate(customer);
+                case "customer.dashboard" -> viewCustomerTransition.orchestrate(customer);
+            }
+        });
     }
 
     private void onCustomerListServiceFailed(WorkerStateEvent event) {

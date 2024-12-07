@@ -2,6 +2,7 @@ package de.code.junction.feldberger.mgmt.presentation.view.login;
 
 import de.code.junction.feldberger.mgmt.data.access.user.User;
 import de.code.junction.feldberger.mgmt.data.access.user.UserDataAccessObject;
+import de.code.junction.feldberger.mgmt.presentation.cache.RouteRecreationQueue;
 import de.code.junction.feldberger.mgmt.presentation.messaging.Messages;
 import de.code.junction.feldberger.mgmt.presentation.messaging.Messenger;
 import de.code.junction.feldberger.mgmt.presentation.navigation.TransitionLifecycle;
@@ -79,6 +80,7 @@ public class LoginMainMenuTransitionLifecycle implements TransitionLifecycle<Log
     public void conclude(UserSession userSession) {
 
         try {
+            RouteRecreationQueue.getInstance(userSession.userId());
             onEnd.accept(userSession);
         } catch (Exception e) {
             messenger.send(Messages.TRANSITION_NOT_PERFORMED);

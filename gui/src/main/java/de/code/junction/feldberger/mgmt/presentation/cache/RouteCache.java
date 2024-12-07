@@ -1,19 +1,14 @@
 package de.code.junction.feldberger.mgmt.presentation.cache;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class RouteCache {
 
-    @JsonProperty("name")
     private final String routeName;
-
-    @JsonProperty("cache")
     private final Map<String, Object> cache;
-
-    @JsonProperty("route")
     private RouteCache route;
 
     public RouteCache(String routeName,
@@ -23,6 +18,21 @@ public class RouteCache {
         this.routeName = routeName;
         this.cache = cache;
         this.route = route;
+    }
+
+    public RouteCache(JSONObject route) {
+
+        this(
+                route.getString("name"),
+
+                route.has("cache")
+                        ? route.getJSONObject("cache").toMap()
+                        : new HashMap<>(),
+
+                route.has("route")
+                        ? new RouteCache(route.getJSONObject("route"))
+                        : null
+        );
     }
 
     public RouteCache(String routeName) {
@@ -53,4 +63,21 @@ public class RouteCache {
 
         this.route = route;
     }
+
+    public String toJson() {
+
+        final var route = new JSONObject();
+
+        route.put("name", routeName);
+
+        if (!cache.isEmpty())
+            route.put("cache", new JSONObject(cache));
+
+        if (this.route != null)
+            route.put("route", new JSONObject(this.route.toJson()));
+
+        return route.toString();
+    }
+
+    ;
 }

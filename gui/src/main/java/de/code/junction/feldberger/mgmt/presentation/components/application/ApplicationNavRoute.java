@@ -27,7 +27,7 @@ public sealed interface ApplicationNavRoute {
     }
 
     record UserSession(
-            int userID,
+            int userId,
             String username
     ) implements ApplicationNavRoute {
     }

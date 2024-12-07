@@ -1,7 +1,5 @@
 package de.code.junction.feldberger.mgmt.presentation.cache;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import de.code.junction.feldberger.mgmt.data.AppConstants;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -54,20 +52,12 @@ public class RouteRecreationQueue {
         final var sessionCache = new JSONObject(json);
         final var sessions = sessionCache.getJSONArray("sessions");
 
-
         for (final Object object : sessions) {
             final var session = (JSONObject) object;
 
             if (session.getInt("userId") != userId) continue;
 
-            final var route = session.getJSONObject("route");
-            final var objectMapper = new ObjectMapper();
-
-            try {
-                return objectMapper.readValue(route.toString(), RouteCache.class);
-            } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
-            }
+            return new RouteCache(session.getJSONObject("route"));
         }
 
         throw new RuntimeException("could not instantiate the route cache queue");
@@ -83,23 +73,14 @@ public class RouteRecreationQueue {
 
         final var sessionCache = new JSONObject();
         final var sessions = new JSONArray();
-        sessionCache.put("session", sessions);
+        sessionCache.put("sessions", sessions);
         final var session = new JSONObject();
         sessions.put(session);
         session.put("userId", userId);
 
         final var route = new RouteCache("main.menu");
-        final var objectMapper = new ObjectMapper();
 
-        final String routeJson;
-
-        try {
-            routeJson = objectMapper.writeValueAsString(route);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-
-        session.put("route", new JSONObject(routeJson));
+        session.put("route", new JSONObject(route.toJson()));
 
         try {
             Files.writeString(AppConstants.SESSION_CACHE, sessionCache.toString());
@@ -110,9 +91,16 @@ public class RouteRecreationQueue {
         return route;
     }
 
+    public RouteCache current() {
+
+        return currentRouteCache;
+    }
+
     public Optional<RouteCache> next() {
 
-        currentRouteCache = currentRouteCache.getRoute();
+        currentRouteCache = (currentRouteCache != null)
+                ? currentRouteCache.getRoute()
+                : null;
 
         return Optional.ofNullable(currentRouteCache);
     }
