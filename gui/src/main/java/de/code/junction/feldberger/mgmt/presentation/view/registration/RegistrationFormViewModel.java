@@ -3,8 +3,6 @@ package de.code.junction.feldberger.mgmt.presentation.view.registration;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-import static de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.RegistrationForm;
-
 public class RegistrationFormViewModel {
 
     private final StringProperty username;

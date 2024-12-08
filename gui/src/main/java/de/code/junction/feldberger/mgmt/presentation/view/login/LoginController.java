@@ -12,8 +12,6 @@ import javafx.scene.control.TextField;
 
 import java.util.ResourceBundle;
 
-import static de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.LoginForm;
-
 public class LoginController extends FXController {
 
     private final Transition<LoginForm, ?> loginTransition;

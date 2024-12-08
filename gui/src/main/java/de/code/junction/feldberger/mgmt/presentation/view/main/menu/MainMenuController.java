@@ -1,7 +1,5 @@
 package de.code.junction.feldberger.mgmt.presentation.view.main.menu;
 
-import de.code.junction.feldberger.mgmt.presentation.cache.RouteRecreationQueue;
-import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.UserSession;
 import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuNavContext;
 import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
@@ -129,9 +127,6 @@ public final class MainMenuController extends FXController {
     private void onNavigationSelectionChanged(Observable observable,
                                               Subview oldValue,
                                               Subview newValue) {
-
-        // simply prepare for next step
-        RouteRecreationQueue.getInstance().next();
 
         switch (newValue) {
             case CUSTOMERS -> navContext.navigateTo(new CustomerOverview());

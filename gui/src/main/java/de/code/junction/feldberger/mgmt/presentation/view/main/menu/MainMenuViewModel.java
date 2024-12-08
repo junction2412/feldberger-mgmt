@@ -2,8 +2,6 @@ package de.code.junction.feldberger.mgmt.presentation.view.main.menu;
 
 import javafx.beans.property.*;
 
-import static de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.UserSession;
-
 public class MainMenuViewModel {
 
     private final IntegerProperty userId;

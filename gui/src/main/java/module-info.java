@@ -4,7 +4,6 @@ module de.code.junction.feldberger.mgmt.gui {
     requires java.naming;
     requires de.code.junction.feldbergermgmt.repository;
     requires org.json;
-    requires com.fasterxml.jackson.databind;
 
     exports de.code.junction.feldberger.mgmt.presentation;
 

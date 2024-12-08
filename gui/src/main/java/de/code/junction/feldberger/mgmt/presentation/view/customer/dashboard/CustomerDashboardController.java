@@ -1,7 +1,6 @@
 package de.code.junction.feldberger.mgmt.presentation.view.customer.dashboard;
 
 import de.code.junction.feldberger.mgmt.data.access.customer.Customer;
-import de.code.junction.feldberger.mgmt.presentation.cache.RouteRecreationQueue;
 import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import de.code.junction.feldberger.mgmt.presentation.view.customer.editor.AddressViewModel;
@@ -162,11 +161,6 @@ public class CustomerDashboardController extends FXController {
         back.setOnAction(this::onBackClicked);
         editCustomer.setOnAction(this::onEditCustomerClicked);
         newTransaction.setOnAction(this::onNewTransactionClicked);
-
-        RouteRecreationQueue.getInstance().next().ifPresent(route -> {
-            System.out.println(route.getRouteName());
-            editCustomerTransition.orchestrate(viewModel.toCustomer());
-        });
     }
 
     @Override

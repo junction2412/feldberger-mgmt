@@ -3,8 +3,6 @@ package de.code.junction.feldberger.mgmt.presentation.view.login;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-import static de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.LoginForm;
-
 public class LoginFormViewModel {
 
     public final StringProperty username;

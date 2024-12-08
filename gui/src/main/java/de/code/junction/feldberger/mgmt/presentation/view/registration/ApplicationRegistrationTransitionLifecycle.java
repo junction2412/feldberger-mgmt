@@ -2,31 +2,31 @@ package de.code.junction.feldberger.mgmt.presentation.view.registration;
 
 import de.code.junction.feldberger.mgmt.data.access.user.User;
 import de.code.junction.feldberger.mgmt.data.access.user.UserDataAccessObject;
-import de.code.junction.feldberger.mgmt.presentation.cache.RouteRecreationQueue;
+import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationRoute;
 import de.code.junction.feldberger.mgmt.presentation.messaging.Message;
 import de.code.junction.feldberger.mgmt.presentation.messaging.MessageType;
 import de.code.junction.feldberger.mgmt.presentation.messaging.Messages;
 import de.code.junction.feldberger.mgmt.presentation.messaging.Messenger;
+import de.code.junction.feldberger.mgmt.presentation.navigation.Route;
 import de.code.junction.feldberger.mgmt.presentation.navigation.TransitionLifecycle;
 
+import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
-import static de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.RegistrationForm;
-import static de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.UserSession;
 import static de.code.junction.feldberger.mgmt.presentation.util.HashUtil.hashPassword;
 import static de.code.junction.feldberger.mgmt.presentation.util.HashUtil.salt;
 import static de.code.junction.feldberger.mgmt.presentation.util.ResourceLoader.getMessageStringResources;
 
-public class RegistrationMainMenuTransitionLifecycle implements TransitionLifecycle<RegistrationForm, UserSession> {
+public class ApplicationRegistrationTransitionLifecycle implements TransitionLifecycle<RegistrationForm, Route<ApplicationRoute>> {
 
     private final Messenger messenger;
     private final UserDataAccessObject userDao;
-    private final Consumer<UserSession> onEnd;
+    private final Consumer<Route<ApplicationRoute>> onEnd;
 
-    public RegistrationMainMenuTransitionLifecycle(Messenger messenger,
-                                                   UserDataAccessObject userDao,
-                                                   Consumer<UserSession> onEnd) {
+    public ApplicationRegistrationTransitionLifecycle(Messenger messenger,
+                                                      UserDataAccessObject userDao,
+                                                      Consumer<Route<ApplicationRoute>> onEnd) {
 
         this.messenger = messenger;
         this.userDao = userDao;
@@ -81,7 +81,7 @@ public class RegistrationMainMenuTransitionLifecycle implements TransitionLifecy
     }
 
     @Override
-    public UserSession transform(RegistrationForm registrationForm) {
+    public Route<ApplicationRoute> transform(RegistrationForm registrationForm) {
 
         final var passwordSalt = salt();
         final var passwordHash = hashPassword(
@@ -97,18 +97,20 @@ public class RegistrationMainMenuTransitionLifecycle implements TransitionLifecy
 
         userDao.persistUser(user);
 
-        return new UserSession(
-                user.getId(),
-                user.getUsername()
+        final var map = new HashMap<String, Object>();
+        map.put("userId", user.getId());
+
+        return new Route<>(
+                ApplicationRoute.MAIN_MENU,
+                map
         );
     }
 
     @Override
-    public void conclude(UserSession userSession) {
+    public void conclude(Route<ApplicationRoute> route) {
 
         try {
-            RouteRecreationQueue.getInstance(userSession.userId());
-            onEnd.accept(userSession);
+            onEnd.accept(route);
         } catch (Exception e) {
             messenger.send(Messages.TRANSITION_NOT_PERFORMED);
             throw e;
