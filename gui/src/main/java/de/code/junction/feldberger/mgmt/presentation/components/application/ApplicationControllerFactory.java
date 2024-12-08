@@ -20,6 +20,7 @@ import de.code.junction.feldberger.mgmt.presentation.view.registration.Registrat
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 
 /**
  * A factory class to construct {@link FXController} instances.
@@ -108,9 +109,9 @@ public class ApplicationControllerFactory {
                 Transition.immediate(_ -> System.out.println("Settings")),
                 viewModel,
                 new MainMenuNavContext(
+                        new Stack<>(),
                         transitionFactory,
-                        mainControllerFactory,
-                        userId
+                        mainControllerFactory
                 )
         );
     }

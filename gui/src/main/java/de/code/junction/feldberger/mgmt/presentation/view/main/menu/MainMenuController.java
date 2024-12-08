@@ -1,6 +1,8 @@
 package de.code.junction.feldberger.mgmt.presentation.view.main.menu;
 
 import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuNavContext;
+import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuRoute;
+import de.code.junction.feldberger.mgmt.presentation.navigation.Route;
 import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import javafx.beans.Observable;
@@ -15,9 +17,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
-import static de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuNavRoute.CustomerOverview;
 import static de.code.junction.feldberger.mgmt.presentation.util.ResourceLoader.getLabelStringResources;
 
 public final class MainMenuController extends FXController {
@@ -129,7 +131,7 @@ public final class MainMenuController extends FXController {
                                               Subview newValue) {
 
         switch (newValue) {
-            case CUSTOMERS -> navContext.navigateTo(new CustomerOverview());
+            case CUSTOMERS -> navContext.push(new Route<>(MainMenuRoute.CUSTOMER_OVERVIEW, new HashMap<>()));
             default -> {
             }
         }

@@ -1,119 +1,124 @@
 package de.code.junction.feldberger.mgmt.presentation.components.main.menu;
 
 import de.code.junction.feldberger.mgmt.data.access.customer.Customer;
-import de.code.junction.feldberger.mgmt.presentation.navigation.ScopedNavContext;
+import de.code.junction.feldberger.mgmt.presentation.navigation.Route;
+import de.code.junction.feldberger.mgmt.presentation.navigation.RouteStack;
 import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import javafx.application.Platform;
 import javafx.scene.layout.Pane;
 
-import java.util.function.Function;
+import java.util.HashMap;
+import java.util.Stack;
 
-import static de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuNavRoute.*;
-import static de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuNavRoute.CustomerEditor.BackAction;
-
-public class MainMenuNavContext extends ScopedNavContext<Pane, MainMenuNavRoute> {
+public class MainMenuNavContext extends RouteStack<Pane, MainMenuRoute> {
 
     private final MainMenuTransitionFactory transitionFactory;
     private final MainMenuControllerFactory controllerFactory;
-    private final int userID;
 
-    public MainMenuNavContext(MainMenuTransitionFactory transitionFactory,
-                              MainMenuControllerFactory controllerFactory,
-                              int userID) {
+    public MainMenuNavContext(Stack<Route<MainMenuRoute>> stack,
+                              MainMenuTransitionFactory transitionFactory,
+                              MainMenuControllerFactory controllerFactory) {
+
+        super(stack);
 
         this.transitionFactory = transitionFactory;
         this.controllerFactory = controllerFactory;
-        this.userID = userID;
     }
 
     @Override
-    public void navigateTo(MainMenuNavRoute route) {
+    public void navigateTo(Route<MainMenuRoute> route) {
 
         if (scope == null)
             throw new NullPointerException("Cannot navigate if parent is null.");
 
-        final var controller = switch (route) {
-            case CustomerOverview navRoute -> customerOverview(navRoute.customerId());
-            case CustomerEditor navRoute -> customerEditor(navRoute.customer(), navRoute.backAction());
-            case CustomerDashboard navRoute -> customerDashboard(navRoute.customer());
+        final var controller = switch (route.name()) {
+            case CUSTOMER_OVERVIEW -> customerOverview(route.cache());
+            case CUSTOMER_EDITOR -> customerEditor(route.cache());
+            case CUSTOMER_DASHBOARD -> customerDashboard(route.cache());
         };
 
         setChildController(controller);
     }
 
-    private FXController customerOverview(int customerId) {
+    private FXController customerOverview(HashMap<String, Object> cache) {
 
-        final var viewCustomerTransition = Transition.<Customer>immediate(customer -> {
-            final CustomerDashboard navRoute = new CustomerDashboard(customer);
-            navigateTo(navRoute);
-        });
+        final var viewCustomerTransition = Transition.<Customer, Route<MainMenuRoute>>bypass(
+                customer -> {
+                    final var _cache = new HashMap<String, Object>();
+                    _cache.put("customerId", customer.getId());
 
-        final Function<Customer, CustomerEditor> editor = customer -> new CustomerEditor(
-                customer,
-                BackAction.OVERVIEW
+                    return new Route<>(MainMenuRoute.CUSTOMER_DASHBOARD, _cache);
+                },
+                this::push
         );
 
-        final var editCustomerTransition = Transition.<Customer, CustomerEditor>bypass(
-                customer -> new CustomerEditor(customer, BackAction.OVERVIEW),
-                this::navigateTo
+        final var editCustomerTransition = Transition.<Customer, Route<MainMenuRoute>>bypass(
+                customer -> {
+                    final var _cache = new HashMap<String, Object>();
+                    _cache.put("customerId", customer.getId());
+
+                    return new Route<>(MainMenuRoute.CUSTOMER_EDITOR, _cache);
+                },
+                this::push
         );
 
-        final var newCustomerTransition = Transition.<Void, CustomerEditor>bypass(
-                _ -> editor.apply(new Customer()),
-                this::navigateTo
+        final var newCustomerTransition = Transition.<Void, Route<MainMenuRoute>>bypass(
+                _ -> {
+                    final var _cache = new HashMap<String, Object>();
+                    _cache.put("customerId", 0);
+
+                    return new Route<>(MainMenuRoute.CUSTOMER_EDITOR, _cache);
+                },
+                this::push
         );
 
         return controllerFactory.customerOverview(
                 viewCustomerTransition,
                 editCustomerTransition,
                 newCustomerTransition,
-                customerId
+                cache
         );
     }
 
-    private FXController customerEditor(Customer customer,
-                                        BackAction backAction) {
+    private FXController customerEditor(HashMap<String, Object> cache) {
 
-        final Transition<Customer, ?> backTransition = (backAction == BackAction.OVERVIEW) ? Transition.bypass(
-                CustomerOverview::new,
-                this::navigateTo
-        ) : Transition.bypass(
-                CustomerDashboard::new,
-                this::navigateTo
-        );
-
-        final var saveTransition = transitionFactory.customerEditorCustomerDashboard(this::navigateTo);
+        final var backTransition = Transition.<Customer>immediate(_ -> pop());
+        final var saveTransition = transitionFactory.customerEditorCustomerDashboard(this::push);
 
         return controllerFactory.customerEditor(
-                customer,
                 backTransition,
-                saveTransition
+                saveTransition,
+                cache
         );
     }
 
-    private FXController customerDashboard(Customer customer) {
+    private FXController customerDashboard(HashMap<String, Object> cache) {
 
-        final var backTransition = Transition.<Customer, CustomerOverview>bypass(
-                CustomerOverview::new,
-                this::navigateTo
-        );
+        final var backTransition = Transition.<Customer>immediate(_ -> {
 
-        final var editCustomerTransition = Transition.<Customer, CustomerEditor>bypass(
-                _customer -> new CustomerEditor(
-                        _customer,
-                        BackAction.DASHBOARD
-                ),
-                this::navigateTo
+            do {
+                pop();
+            } while (peek() != null && peek().name() != MainMenuRoute.CUSTOMER_OVERVIEW);
+        });
+
+        final var editCustomerTransition = Transition.<Customer, Route<MainMenuRoute>>bypass(
+                customer -> {
+                    final var _cache = new HashMap<String, Object>();
+                    _cache.put("customerId", customer.getId());
+
+                    return new Route<>(MainMenuRoute.CUSTOMER_EDITOR, _cache);
+                },
+                this::push
         );
 
         final var newTransactionTransition = Transition.<Customer>immediate(_ -> System.out.println("NOOP"));
 
         return controllerFactory.customerDashboard(
-                customer,
                 backTransition,
                 editCustomerTransition,
-                newTransactionTransition
+                newTransactionTransition,
+                cache
         );
     }
 

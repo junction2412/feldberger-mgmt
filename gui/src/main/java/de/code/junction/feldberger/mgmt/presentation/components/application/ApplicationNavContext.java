@@ -75,13 +75,13 @@ public class ApplicationNavContext extends RouteStack<Stage, ApplicationRoute> {
 
     private FXController mainMenu(HashMap<String, Object> cache) {
 
-        final var logoutTransition = Transition.<UserSession, Route<ApplicationRoute>>bypass(
-                session -> {
-                    final var loginCache = new HashMap<String, Object>();
-                    loginCache.put("username", session.username());
-                    return new Route<>(ApplicationRoute.LOGIN, loginCache);
-                },
-                this::push
+        final var logoutTransition = Transition.<UserSession>immediate(
+                _ -> {
+                    pop();
+
+                    if (peek().name() == ApplicationRoute.REGISTRATION)
+                        pop();
+                }
         );
 
         return controllerFactory.mainMenu(

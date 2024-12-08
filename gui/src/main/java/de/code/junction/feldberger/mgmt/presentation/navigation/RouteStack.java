@@ -27,4 +27,9 @@ public abstract class RouteStack<N, S extends RouteName> extends ScopedNavContex
         if (route != null)
             navigateTo(route);
     }
+
+    public Route<S> peek() {
+
+        return stack.peek();
+    }
 }
