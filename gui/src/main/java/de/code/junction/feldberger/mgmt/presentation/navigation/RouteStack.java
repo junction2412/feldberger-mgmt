@@ -32,4 +32,13 @@ public abstract class RouteStack<N, S extends RouteName> extends ScopedNavContex
 
         return stack.peek();
     }
+
+    @Override
+    public void setScope(N scope) {
+
+        super.setScope(scope);
+
+        if (!stack.isEmpty())
+            navigateTo(peek());
+    }
 }
