@@ -33,6 +33,12 @@ public abstract class RouteStack<N, S extends RouteName> extends ScopedNavContex
         return stack.peek();
     }
 
+    public void swap(Route<S> route) {
+
+        stack.pop();
+        push(route);
+    }
+
     @Override
     public void setScope(N scope) {
 
