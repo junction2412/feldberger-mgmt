@@ -124,8 +124,16 @@ public final class MainMenuController extends FXController {
                                               Subview oldValue,
                                               Subview newValue) {
 
+        final var navContextProvider = NavContextProvider.getInstance();
+        // always create a new context from scratch to ensure an empty stack
+        final var navContext = navContextProvider.mainMenu(viewModel.getUserId());
+        navContext.setScope(subview);
+
         switch (newValue) {
-            case CUSTOMERS -> navContext.push(new Route<>(MainMenuRoute.CUSTOMER_OVERVIEW, new HashMap<>()));
+            case CUSTOMERS -> navContext.push(new Route<>(
+                    MainMenuRoute.CUSTOMER_OVERVIEW,
+                    new HashMap<>()
+            ));
             default -> {
             }
         }
