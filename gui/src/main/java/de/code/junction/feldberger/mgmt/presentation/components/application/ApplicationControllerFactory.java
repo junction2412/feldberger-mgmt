@@ -16,7 +16,6 @@ import de.code.junction.feldberger.mgmt.presentation.view.login.LoginFormViewMod
 import de.code.junction.feldberger.mgmt.presentation.view.main.menu.MainMenuController;
 import de.code.junction.feldberger.mgmt.presentation.view.main.menu.MainMenuViewModel;
 import de.code.junction.feldberger.mgmt.presentation.view.main.menu.Subview;
-import de.code.junction.feldberger.mgmt.presentation.view.main.menu.UserSession;
 import de.code.junction.feldberger.mgmt.presentation.view.registration.RegistrationController;
 import de.code.junction.feldberger.mgmt.presentation.view.registration.RegistrationForm;
 import de.code.junction.feldberger.mgmt.presentation.view.registration.RegistrationFormViewModel;
@@ -38,7 +37,7 @@ public class ApplicationControllerFactory {
 
     public FXController registration(
             Transition<RegistrationForm, ?> registrationTransition,
-            Transition<RegistrationForm, ?> loginTransition,
+            Transition<Void, ?> loginTransition,
             Map<String, Object> cache) {
 
         final var username = (String) cache.getOrDefault("username", "");
@@ -52,7 +51,7 @@ public class ApplicationControllerFactory {
     }
 
     public FXController login(Transition<LoginForm, ?> loginTransition,
-                              Transition<LoginForm, ?> registrationTransition,
+                              Transition<String, ?> registrationTransition,
                               Map<String, Object> cache) {
 
         final var username = (String) cache.getOrDefault("username", "");
@@ -66,7 +65,7 @@ public class ApplicationControllerFactory {
     }
 
     public FXController mainMenu(MainMenuTransitionFactory transitionFactory,
-                                 Transition<UserSession, ?> logoutTransition,
+                                 Transition<Void, ?> logoutTransition,
                                  HashMap<String, Object> cache) {
 
         final var userId = (int) cache.get("userId");

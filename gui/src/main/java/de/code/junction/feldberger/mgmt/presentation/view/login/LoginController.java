@@ -14,10 +14,6 @@ import java.util.ResourceBundle;
 
 public class LoginController extends FXController {
 
-    private final Transition<LoginForm, ?> loginTransition;
-    private final Transition<LoginForm, ?> registrationTransition;
-
-    private final LoginFormViewModel viewModel;
 
     @FXML
     private Label usernameLabel;
@@ -34,8 +30,13 @@ public class LoginController extends FXController {
     @FXML
     private Button submit;
 
+    private final Transition<LoginForm, ?> loginTransition;
+    private final Transition<String, ?> registrationTransition;
+
+    private final LoginFormViewModel viewModel;
+
     public LoginController(Transition<LoginForm, ?> loginTransition,
-                           Transition<LoginForm, ?> registrationTransition,
+                           Transition<String, ?> registrationTransition,
                            LoginFormViewModel viewModel) {
 
         super("login-view.fxml");
@@ -76,6 +77,6 @@ public class LoginController extends FXController {
 
     private void onRegisterClicked(ActionEvent event) {
 
-        registrationTransition.orchestrate(viewModel.toLoginForm());
+        registrationTransition.orchestrate(viewModel.getUsername());
     }
 }

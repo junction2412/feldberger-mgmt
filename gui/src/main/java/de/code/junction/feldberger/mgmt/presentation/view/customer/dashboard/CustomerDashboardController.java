@@ -1,9 +1,7 @@
 package de.code.junction.feldberger.mgmt.presentation.view.customer.dashboard;
 
-import de.code.junction.feldberger.mgmt.data.access.customer.Customer;
 import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
-import de.code.junction.feldberger.mgmt.presentation.view.customer.editor.AddressViewModel;
 import de.code.junction.feldberger.mgmt.presentation.view.customer.editor.CustomerViewModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -101,14 +99,14 @@ public class CustomerDashboardController extends FXController {
 
     private final CustomerViewModel viewModel;
 
-    private final Transition<Customer, ?> backTransition;
-    private final Transition<Customer, ?> editCustomerTransition;
-    private final Transition<Customer, ?> newTransactionTransition;
+    private final Transition<Void, ?> backTransition;
+    private final Transition<Integer, ?> editCustomerTransition;
+    private final Transition<Void, ?> newTransactionTransition;
 
     public CustomerDashboardController(CustomerViewModel viewModel,
-                                       Transition<Customer, ?> backTransition,
-                                       Transition<Customer, ?> editCustomerTransition,
-                                       Transition<Customer, ?> newTransactionTransition) {
+                                       Transition<Void, ?> backTransition,
+                                       Transition<Integer, ?> editCustomerTransition,
+                                       Transition<Void, ?> newTransactionTransition) {
 
         super("customer-dashboard-view.fxml");
 
@@ -149,7 +147,7 @@ public class CustomerDashboardController extends FXController {
         mobilePhoneNumber.textProperty().bindBidirectional(viewModel.mobilePhoneNumberProperty());
         notes.textProperty().bindBidirectional(viewModel.notesProperty());
 
-        final AddressViewModel addressViewModel = viewModel.getAddressViewModel();
+        final var addressViewModel = viewModel.getAddressViewModel();
 
         countryCode.textProperty().bindBidirectional(addressViewModel.countryCodeProperty());
         postalCode.textProperty().bindBidirectional(addressViewModel.postalCodeProperty());
@@ -195,16 +193,16 @@ public class CustomerDashboardController extends FXController {
 
     private void onBackClicked(ActionEvent event) {
 
-        backTransition.orchestrate(viewModel.toCustomer());
+        backTransition.orchestrate(null);
     }
 
     private void onEditCustomerClicked(ActionEvent event) {
 
-        editCustomerTransition.orchestrate(viewModel.toCustomer());
+        editCustomerTransition.orchestrate(viewModel.getId());
     }
 
     private void onNewTransactionClicked(ActionEvent event) {
 
-        newTransactionTransition.orchestrate(viewModel.toCustomer());
+        newTransactionTransition.orchestrate(null);
     }
 }

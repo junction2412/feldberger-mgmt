@@ -36,12 +36,12 @@ public class RegistrationController extends FXController {
     private Button submit;
 
     private final Transition<RegistrationForm, ?> registrationTransition;
-    private final Transition<RegistrationForm, ?> loginTransition;
+    private final Transition<Void, ?> loginTransition;
 
     private final RegistrationFormViewModel viewModel;
 
     public RegistrationController(Transition<RegistrationForm, ?> registrationTransition,
-                                  Transition<RegistrationForm, ?> loginTransition,
+                                  Transition<Void, ?> loginTransition,
                                   RegistrationFormViewModel viewModel) {
 
         super("registration-view.fxml");
@@ -85,7 +85,7 @@ public class RegistrationController extends FXController {
 
     private void onBackClicked(ActionEvent event) {
 
-        loginTransition.orchestrate(viewModel.toRegistrationForm());
+        loginTransition.orchestrate(null);
     }
 
     private void onSubmitClicked(ActionEvent event) {

@@ -137,9 +137,9 @@ public class MainMenuControllerFactory {
         );
     }
 
-    public FXController customerDashboard(Transition<Customer, ?> backTransition,
-                                          Transition<Customer, ?> editCustomerTransition,
-                                          Transition<Customer, ?> newTransactionTransition,
+    public FXController customerDashboard(Transition<Void, ?> backTransition,
+                                          Transition<Integer, ?> editCustomerTransition,
+                                          Transition<Void, ?> newTransactionTransition,
                                           HashMap<String, Object> cache) {
 
         final var customerId = (int) cache.get("customerId");

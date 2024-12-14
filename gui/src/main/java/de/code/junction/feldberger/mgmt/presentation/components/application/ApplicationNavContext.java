@@ -7,8 +7,6 @@ import de.code.junction.feldberger.mgmt.presentation.navigation.Route;
 import de.code.junction.feldberger.mgmt.presentation.navigation.RouteStack;
 import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
-import de.code.junction.feldberger.mgmt.presentation.view.login.LoginForm;
-import de.code.junction.feldberger.mgmt.presentation.view.main.menu.UserSession;
 import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -77,14 +75,14 @@ public class ApplicationNavContext extends RouteStack<Stage, ApplicationRoute> {
             push(route);
         });
 
-        final var registrationTransition = Transition.<LoginForm, Route<ApplicationRoute>>bypass(
-                form -> {
-                    final var registrationCache = new HashMap<String, Object>();
-                    registrationCache.put("username", form.username());
+        final var registrationTransition = Transition.<String, Route<ApplicationRoute>>bypass(
+                username -> {
+                    final var _cache = new HashMap<String, Object>();
+                    _cache.put("username", username);
 
                     return new Route<>(
                             ApplicationRoute.REGISTRATION,
-                            registrationCache
+                            _cache
                     );
                 },
                 this::push
@@ -99,14 +97,7 @@ public class ApplicationNavContext extends RouteStack<Stage, ApplicationRoute> {
 
     private FXController mainMenu(HashMap<String, Object> cache) {
 
-        final var logoutTransition = Transition.<UserSession>immediate(
-                _ -> {
-                    pop();
-
-                    if (peek().name() == ApplicationRoute.REGISTRATION)
-                        pop();
-                }
-        );
+        final var logoutTransition = Transition.<Void>immediate(_ -> pop());
 
         return controllerFactory.mainMenu(
                 transitionFactoryProvider.mainMenuTransitionFactory(),
@@ -117,7 +108,7 @@ public class ApplicationNavContext extends RouteStack<Stage, ApplicationRoute> {
 
     private FXController registration(Map<String, Object> cache) {
 
-        final var registrationTransition = transitionFactory.registration(this::push);
+        final var registrationTransition = transitionFactory.registration(this::swap);
 
         return controllerFactory.registration(
                 registrationTransition,

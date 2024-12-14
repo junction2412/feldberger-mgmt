@@ -1,5 +1,6 @@
 package de.code.junction.feldberger.mgmt.presentation.view.main.menu;
 
+import de.code.junction.feldberger.mgmt.presentation.components.common.NavContextProvider;
 import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuNavContext;
 import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuRoute;
 import de.code.junction.feldberger.mgmt.presentation.navigation.Route;
@@ -24,12 +25,6 @@ import static de.code.junction.feldberger.mgmt.presentation.util.ResourceLoader.
 
 public final class MainMenuController extends FXController {
 
-    private final Transition<UserSession, ?> logoutTransition;
-    private final Transition<UserSession, ?> settingsTransition;
-    private final MainMenuViewModel viewModel;
-
-    private final MainMenuNavContext navContext;
-
     @FXML
     private Label userIDLabel;
     @FXML
@@ -50,7 +45,11 @@ public final class MainMenuController extends FXController {
     @FXML
     private AnchorPane subview;
 
-    public MainMenuController(Transition<UserSession, ?> logoutTransition,
+    private final Transition<Void, ?> logoutTransition;
+    private final Transition<UserSession, ?> settingsTransition;
+    private final MainMenuViewModel viewModel;
+
+    public MainMenuController(Transition<Void, ?> logoutTransition,
                               Transition<UserSession, ?> settingsTransition,
                               MainMenuViewModel viewModel,
                               MainMenuNavContext navContext) {
@@ -60,13 +59,10 @@ public final class MainMenuController extends FXController {
         this.logoutTransition = logoutTransition;
         this.settingsTransition = settingsTransition;
         this.viewModel = viewModel;
-        this.navContext = navContext;
     }
 
     @Override
     protected void initialize() {
-
-        navContext.setScope(subview);
 
         userIDLabel.setLabelFor(userID);
         usernameLabel.setLabelFor(username);
@@ -96,9 +92,7 @@ public final class MainMenuController extends FXController {
         userID.textProperty().bind(viewModel.userIdProperty().asString());
         username.textProperty().bind(viewModel.usernameProperty());
 
-        final var subviews = Arrays.stream(Subview.values())
-                .filter(subview -> subview != Subview.NONE)             /* Exclude Subview.NONE */
-                .toList();
+        final var subviews = Arrays.asList(Subview.values());
 
         final var selectedSubview = viewModel.getSelectedSubview();
         navigation.getItems().setAll(subviews);
@@ -118,7 +112,7 @@ public final class MainMenuController extends FXController {
 
     private void onLogoutClicked(ActionEvent event) {
 
-        logoutTransition.orchestrate(viewModel.toUserSession());
+        logoutTransition.orchestrate(null);
     }
 
     private void onSettingsClicked(ActionEvent event) {
@@ -135,7 +129,6 @@ public final class MainMenuController extends FXController {
             default -> {
             }
         }
-
     }
 
     private void onSubviewChildrenChanged(ListChangeListener.Change<? extends Node> change) {

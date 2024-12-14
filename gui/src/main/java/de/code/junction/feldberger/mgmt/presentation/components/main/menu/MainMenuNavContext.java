@@ -84,7 +84,14 @@ public class MainMenuNavContext extends RouteStack<Pane, MainMenuRoute> {
     private FXController customerEditor(HashMap<String, Object> cache) {
 
         final var backTransition = Transition.<Customer>immediate(_ -> pop());
-        final var saveTransition = transitionFactory.customerEditorCustomerDashboard(this::push);
+
+        final var isPop = (boolean) cache.getOrDefault("pop", false);
+        final var saveTransition = transitionFactory.customerEditorCustomerDashboard(route -> {
+            if (isPop)
+                pop();
+
+            else swap(route);
+        });
 
         return controllerFactory.customerEditor(
                 backTransition,
@@ -95,24 +102,19 @@ public class MainMenuNavContext extends RouteStack<Pane, MainMenuRoute> {
 
     private FXController customerDashboard(HashMap<String, Object> cache) {
 
-        final var backTransition = Transition.<Customer>immediate(_ -> {
+        final var backTransition = Transition.<Void>immediate(_ -> pop());
 
-            do {
-                pop();
-            } while (peek() != null && peek().name() != MainMenuRoute.CUSTOMER_OVERVIEW);
-        });
-
-        final var editCustomerTransition = Transition.<Customer, Route<MainMenuRoute>>bypass(
-                customer -> {
+        final var editCustomerTransition = Transition.<Integer, Route<MainMenuRoute>>bypass(customerId -> {
                     final var _cache = new HashMap<String, Object>();
-                    _cache.put("customerId", customer.getId());
+                    _cache.put("customerId", customerId);
+                    _cache.put("pop", true);
 
                     return new Route<>(MainMenuRoute.CUSTOMER_EDITOR, _cache);
                 },
                 this::push
         );
 
-        final var newTransactionTransition = Transition.<Customer>immediate(_ -> System.out.println("NOOP"));
+        final var newTransactionTransition = Transition.<Void>immediate(_ -> System.out.println("NOOP"));
 
         return controllerFactory.customerDashboard(
                 backTransition,
