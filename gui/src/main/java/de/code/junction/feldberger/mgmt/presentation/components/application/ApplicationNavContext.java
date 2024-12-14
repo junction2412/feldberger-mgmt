@@ -1,6 +1,7 @@
 package de.code.junction.feldberger.mgmt.presentation.components.application;
 
 import de.code.junction.feldberger.mgmt.presentation.cache.Cache;
+import de.code.junction.feldberger.mgmt.presentation.cache.ScopeName;
 import de.code.junction.feldberger.mgmt.presentation.components.common.TransitionFactoryProvider;
 import de.code.junction.feldberger.mgmt.presentation.navigation.Route;
 import de.code.junction.feldberger.mgmt.presentation.navigation.RouteStack;
@@ -56,19 +57,20 @@ public class ApplicationNavContext extends RouteStack<Stage, ApplicationRoute> {
         final var loginTransition = transitionFactory.login(route -> {
 
             final var userId = (int) route.cache().get("userId");
-            final var routes = Cache.<ApplicationRoute>getScopeRoutes(userId, "application");
+            final var routes = Cache.<ApplicationRoute>getScopeRoutes(userId, ScopeName.APPLICATION);
 
             if (!routes.isEmpty()) {
 
                 final var cachedRoute = routes.peek();
 
-                if (cachedRoute.name() == ApplicationRoute.MAIN_MENU && cachedRoute.cache().containsKey("selectedSubviewEnumValue")) {
+                if (cachedRoute.name() == ApplicationRoute.MAIN_MENU) {
                     final var subview = (String) cachedRoute.cache().getOrDefault(
                             "selectedSubviewEnumValue",
                             null
                     );
 
-                    route.cache().put("selectedSubviewEnumValue", subview);
+                    if (subview != null)
+                        route.cache().put("selectedSubviewEnumValue", subview);
                 }
             }
 

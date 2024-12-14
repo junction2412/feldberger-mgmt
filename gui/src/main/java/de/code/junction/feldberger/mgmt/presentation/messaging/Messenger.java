@@ -8,6 +8,7 @@ public interface Messenger {
 
     /**
      * Send a message.
+     *
      * @param message message details to be displayed
      */
     void send(Message message);
