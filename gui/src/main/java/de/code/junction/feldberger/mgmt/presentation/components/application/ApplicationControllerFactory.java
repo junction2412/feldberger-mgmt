@@ -2,8 +2,10 @@ package de.code.junction.feldberger.mgmt.presentation.components.application;
 
 import de.code.junction.feldberger.mgmt.data.access.PersistenceManager;
 import de.code.junction.feldberger.mgmt.data.access.user.User;
+import de.code.junction.feldberger.mgmt.presentation.cache.Cache;
 import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuControllerFactory;
 import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuNavContext;
+import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuRoute;
 import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuTransitionFactory;
 import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
@@ -20,7 +22,6 @@ import de.code.junction.feldberger.mgmt.presentation.view.registration.Registrat
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Stack;
 
 /**
  * A factory class to construct {@link FXController} instances.
@@ -104,15 +105,19 @@ public class ApplicationControllerFactory {
                 persistenceManager
         );
 
+        final var routes = Cache.<MainMenuRoute>getScopeRoutes(userId, "main.menu");
+
         return new MainMenuController(
                 logoutTransition,
                 Transition.immediate(_ -> System.out.println("Settings")),
                 viewModel,
                 new MainMenuNavContext(
-                        new Stack<>(),
+                        routes,
                         transitionFactory,
                         mainControllerFactory
                 )
         );
     }
+
+
 }

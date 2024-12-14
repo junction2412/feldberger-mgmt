@@ -1,5 +1,6 @@
 package de.code.junction.feldberger.mgmt.presentation.components.application;
 
+import de.code.junction.feldberger.mgmt.presentation.cache.Cache;
 import de.code.junction.feldberger.mgmt.presentation.components.common.TransitionFactoryProvider;
 import de.code.junction.feldberger.mgmt.presentation.navigation.Route;
 import de.code.junction.feldberger.mgmt.presentation.navigation.RouteStack;
@@ -52,7 +53,28 @@ public class ApplicationNavContext extends RouteStack<Stage, ApplicationRoute> {
 
     private FXController login(Map<String, Object> cache) {
 
-        final var loginTransition = transitionFactory.login(this::push);
+        final var loginTransition = transitionFactory.login(route -> {
+
+            final var userId = (int) route.cache().get("userId");
+            final var routes = Cache.<ApplicationRoute>getScopeRoutes(userId, "application");
+
+            if (!routes.isEmpty()) {
+
+                final var cachedRoute = routes.peek();
+
+                if (cachedRoute.name() == ApplicationRoute.MAIN_MENU && cachedRoute.cache().containsKey("selectedSubviewEnumValue")) {
+                    final var subview = (String) cachedRoute.cache().getOrDefault(
+                            "selectedSubviewEnumValue",
+                            null
+                    );
+
+                    route.cache().put("selectedSubviewEnumValue", subview);
+                }
+            }
+
+            push(route);
+        });
+
         final var registrationTransition = Transition.<LoginForm, Route<ApplicationRoute>>bypass(
                 form -> {
                     final var registrationCache = new HashMap<String, Object>();

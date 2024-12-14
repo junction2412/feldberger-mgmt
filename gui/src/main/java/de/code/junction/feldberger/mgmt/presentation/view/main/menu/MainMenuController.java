@@ -73,7 +73,6 @@ public final class MainMenuController extends FXController {
 
         logout.setOnAction(this::onLogoutClicked);
         settings.setOnAction(this::onSettingsClicked);
-        navigation.getSelectionModel().selectedItemProperty().addListener(this::onNavigationSelectionChanged);
         subview.getChildren().addListener(this::onSubviewChildrenChanged);
 
         navigation.setCellFactory(_ -> new ListCell<>() {
@@ -105,6 +104,7 @@ public final class MainMenuController extends FXController {
         navigation.getItems().setAll(subviews);
         navigation.getSelectionModel().select(selectedSubview);
         viewModel.selectedSubviewProperty().bind(navigation.getSelectionModel().selectedItemProperty());
+        navigation.getSelectionModel().selectedItemProperty().addListener(this::onNavigationSelectionChanged);
     }
 
     @Override

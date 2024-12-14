@@ -2,6 +2,8 @@ package de.code.junction.feldberger.mgmt.presentation.components.main.menu;
 
 import de.code.junction.feldberger.mgmt.presentation.navigation.RouteName;
 
+import java.util.Arrays;
+
 public enum MainMenuRoute implements RouteName {
 
     CUSTOMER_OVERVIEW("customer.overview"),
@@ -20,5 +22,13 @@ public enum MainMenuRoute implements RouteName {
     public String string() {
 
         return name;
+    }
+
+    public static MainMenuRoute byName(String name) {
+
+        return Arrays.stream(values())
+                .filter(route -> route.name.equals(name))
+                .findFirst()
+                .orElseThrow();
     }
 }
