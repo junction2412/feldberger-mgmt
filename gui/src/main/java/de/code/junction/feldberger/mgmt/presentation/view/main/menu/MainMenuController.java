@@ -1,7 +1,6 @@
 package de.code.junction.feldberger.mgmt.presentation.view.main.menu;
 
 import de.code.junction.feldberger.mgmt.presentation.components.common.NavContextProvider;
-import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuNavContext;
 import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuRoute;
 import de.code.junction.feldberger.mgmt.presentation.navigation.Route;
 import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
@@ -51,8 +50,7 @@ public final class MainMenuController extends FXController {
 
     public MainMenuController(Transition<Void, ?> logoutTransition,
                               Transition<UserSession, ?> settingsTransition,
-                              MainMenuViewModel viewModel,
-                              MainMenuNavContext navContext) {
+                              MainMenuViewModel viewModel) {
 
         super("main-menu-view.fxml");
 

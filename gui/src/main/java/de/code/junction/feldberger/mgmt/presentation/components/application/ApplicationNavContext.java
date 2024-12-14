@@ -2,7 +2,6 @@ package de.code.junction.feldberger.mgmt.presentation.components.application;
 
 import de.code.junction.feldberger.mgmt.presentation.cache.Cache;
 import de.code.junction.feldberger.mgmt.presentation.cache.ScopeName;
-import de.code.junction.feldberger.mgmt.presentation.components.common.TransitionFactoryProvider;
 import de.code.junction.feldberger.mgmt.presentation.navigation.Route;
 import de.code.junction.feldberger.mgmt.presentation.navigation.RouteStack;
 import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
@@ -25,17 +24,15 @@ import java.util.Stack;
 public class ApplicationNavContext extends RouteStack<Stage, ApplicationRoute> {
 
     private final ApplicationControllerFactory controllerFactory;
-    private final TransitionFactoryProvider transitionFactoryProvider;
     private final ApplicationTransitionFactory transitionFactory;
 
     public ApplicationNavContext(Stack<Route<ApplicationRoute>> stack,
                                  ApplicationControllerFactory controllerFactory,
-                                 TransitionFactoryProvider transitionFactoryProvider) {
+                                 ApplicationTransitionFactory transitionFactory) {
 
         super(stack);
         this.controllerFactory = controllerFactory;
-        this.transitionFactoryProvider = transitionFactoryProvider;
-        this.transitionFactory = transitionFactoryProvider.applicationTransitionFactory();
+        this.transitionFactory = transitionFactory;
     }
 
     @Override
@@ -99,11 +96,7 @@ public class ApplicationNavContext extends RouteStack<Stage, ApplicationRoute> {
 
         final var logoutTransition = Transition.<Void>immediate(_ -> pop());
 
-        return controllerFactory.mainMenu(
-                transitionFactoryProvider.mainMenuTransitionFactory(),
-                logoutTransition,
-                cache
-        );
+        return controllerFactory.mainMenu(logoutTransition, cache);
     }
 
     private FXController registration(Map<String, Object> cache) {

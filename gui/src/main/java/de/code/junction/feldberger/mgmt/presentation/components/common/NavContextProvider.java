@@ -46,7 +46,7 @@ public class NavContextProvider {
             applicationNavContext = new ApplicationNavContext(
                     new Stack<>(),
                     new ApplicationControllerFactory(persistenceManager),
-                    transitionFactoryProvider
+                    transitionFactoryProvider.applicationTransitionFactory()
             );
 
         return applicationNavContext;

@@ -2,12 +2,6 @@ package de.code.junction.feldberger.mgmt.presentation.components.application;
 
 import de.code.junction.feldberger.mgmt.data.access.PersistenceManager;
 import de.code.junction.feldberger.mgmt.data.access.user.User;
-import de.code.junction.feldberger.mgmt.presentation.cache.Cache;
-import de.code.junction.feldberger.mgmt.presentation.cache.ScopeName;
-import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuControllerFactory;
-import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuNavContext;
-import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuRoute;
-import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuTransitionFactory;
 import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import de.code.junction.feldberger.mgmt.presentation.view.login.LoginController;
@@ -64,8 +58,7 @@ public class ApplicationControllerFactory {
         return new LoginController(loginTransition, registrationTransition, viewModel);
     }
 
-    public FXController mainMenu(MainMenuTransitionFactory transitionFactory,
-                                 Transition<Void, ?> logoutTransition,
+    public FXController mainMenu(Transition<Void, ?> logoutTransition,
                                  HashMap<String, Object> cache) {
 
         final var userId = (int) cache.get("userId");
@@ -84,18 +77,10 @@ public class ApplicationControllerFactory {
                 cache.put("selectedSubviewEnumValue", value)
         );
 
-        final var mainControllerFactory = new MainMenuControllerFactory(persistenceManager);
-        final var routes = Cache.<MainMenuRoute>getScopeRoutes(userId, ScopeName.MAIN_MENU);
-
         return new MainMenuController(
                 logoutTransition,
                 Transition.immediate(_ -> System.out.println("Settings")),
-                viewModel,
-                new MainMenuNavContext(
-                        routes,
-                        transitionFactory,
-                        mainControllerFactory
-                )
+                viewModel
         );
     }
 }
