@@ -94,8 +94,6 @@ public class MainMenuNavContext extends RouteStack<Pane, MainMenuRoute> {
 
     private FXController customerDashboard(HashMap<String, Object> cache) {
 
-        final var backTransition = Transition.<Void>immediate(_ -> pop());
-
         final var editCustomerTransition = Transition.<Integer, Route<MainMenuRoute>>bypass(customerId -> {
                     final var _cache = new HashMap<String, Object>();
                     _cache.put("customerId", customerId);
@@ -106,12 +104,10 @@ public class MainMenuNavContext extends RouteStack<Pane, MainMenuRoute> {
                 this::push
         );
 
-        final var newTransactionTransition = Transition.<Void>immediate(_ -> System.out.println("NOOP"));
-
         return controllerFactory.customerDashboard(
-                backTransition,
-                editCustomerTransition,
-                newTransactionTransition,
+                this::pop,
+                editCustomerTransition::orchestrate,
+                _ -> System.out.println("NOOP"),
                 cache
         );
     }
@@ -119,10 +115,8 @@ public class MainMenuNavContext extends RouteStack<Pane, MainMenuRoute> {
     private void setChildController(FXController controller) {
 
         final Runnable runnable = () -> {
-            final var node = controller == null
-                    ? new Pane()
-                    : controller.load();
 
+            final var node = controller == null ? new Pane() : controller.load();
             scope.getChildren().setAll(node);
         };
 

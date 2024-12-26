@@ -3,7 +3,6 @@ package de.code.junction.feldberger.mgmt.presentation.components.main.menu;
 import de.code.junction.feldberger.mgmt.data.access.PersistenceManager;
 import de.code.junction.feldberger.mgmt.data.access.address.Address;
 import de.code.junction.feldberger.mgmt.data.access.customer.Customer;
-import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import de.code.junction.feldberger.mgmt.presentation.view.customer.dashboard.CustomerDashboardController;
 import de.code.junction.feldberger.mgmt.presentation.view.customer.editor.AddressViewModel;
@@ -120,16 +119,12 @@ public class MainMenuControllerFactory {
         viewModel.notesProperty().addListener((_, _, value) ->
                 cache.put("notes", value));
 
-        return new CustomerEditorController(
-                viewModel,
-                onBackClicked,
-                onSaveClicked
-        );
+        return new CustomerEditorController(viewModel, onBackClicked, onSaveClicked);
     }
 
-    public FXController customerDashboard(Transition<Void, ?> backTransition,
-                                          Transition<Integer, ?> editCustomerTransition,
-                                          Transition<Void, ?> newTransactionTransition,
+    public FXController customerDashboard(Runnable onBackClicked,
+                                          Consumer<Integer> onEditCustomerClicked,
+                                          Consumer<Integer> onNewTransactionClicked,
                                           HashMap<String, Object> cache) {
 
         final var customerId = (int) cache.get("customerId");
@@ -139,9 +134,9 @@ public class MainMenuControllerFactory {
 
         return new CustomerDashboardController(
                 new CustomerViewModel(customer),
-                backTransition,
-                editCustomerTransition,
-                newTransactionTransition
+                onBackClicked,
+                onEditCustomerClicked,
+                onNewTransactionClicked
         );
     }
 }

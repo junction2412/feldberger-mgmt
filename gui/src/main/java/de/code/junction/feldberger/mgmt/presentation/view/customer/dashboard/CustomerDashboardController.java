@@ -1,6 +1,5 @@
 package de.code.junction.feldberger.mgmt.presentation.view.customer.dashboard;
 
-import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import de.code.junction.feldberger.mgmt.presentation.view.customer.editor.CustomerViewModel;
 import javafx.event.ActionEvent;
@@ -12,6 +11,7 @@ import javafx.scene.control.TableView;
 
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 public class CustomerDashboardController extends FXController {
 
@@ -99,22 +99,22 @@ public class CustomerDashboardController extends FXController {
 
     private final CustomerViewModel viewModel;
 
-    private final Transition<Void, ?> backTransition;
-    private final Transition<Integer, ?> editCustomerTransition;
-    private final Transition<Void, ?> newTransactionTransition;
+    private final Runnable onBackClicked;
+    private final Consumer<Integer> onEditCustomerClicked;
+    private final Consumer<Integer> onNewTransactionClicked;
 
     public CustomerDashboardController(CustomerViewModel viewModel,
-                                       Transition<Void, ?> backTransition,
-                                       Transition<Integer, ?> editCustomerTransition,
-                                       Transition<Void, ?> newTransactionTransition) {
+                                       Runnable onBackClicked,
+                                       Consumer<Integer> onEditCustomerClicked,
+                                       Consumer<Integer> onNewTransactionClicked) {
 
         super("customer-dashboard-view.fxml");
 
         this.viewModel = viewModel;
 
-        this.backTransition = backTransition;
-        this.editCustomerTransition = editCustomerTransition;
-        this.newTransactionTransition = newTransactionTransition;
+        this.onBackClicked = onBackClicked;
+        this.onEditCustomerClicked = onEditCustomerClicked;
+        this.onNewTransactionClicked = onNewTransactionClicked;
     }
 
     @Override
@@ -193,16 +193,16 @@ public class CustomerDashboardController extends FXController {
 
     private void onBackClicked(ActionEvent event) {
 
-        backTransition.orchestrate(null);
+        onBackClicked.run();
     }
 
     private void onEditCustomerClicked(ActionEvent event) {
 
-        editCustomerTransition.orchestrate(viewModel.getId());
+        onEditCustomerClicked.accept(viewModel.getId());
     }
 
     private void onNewTransactionClicked(ActionEvent event) {
 
-        newTransactionTransition.orchestrate(null);
+        onNewTransactionClicked.accept(viewModel.getId());
     }
 }
