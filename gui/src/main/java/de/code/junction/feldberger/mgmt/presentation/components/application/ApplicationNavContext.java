@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
+import java.util.function.Consumer;
 
 /**
  * The actual entry point of the application UI.
@@ -31,6 +32,7 @@ public class ApplicationNavContext extends RouteStack<Stage, ApplicationRoute> {
                                  ApplicationTransitionFactory transitionFactory) {
 
         super(stack);
+
         this.controllerFactory = controllerFactory;
         this.transitionFactory = transitionFactory;
     }
@@ -59,6 +61,7 @@ public class ApplicationNavContext extends RouteStack<Stage, ApplicationRoute> {
                 final var cachedRoute = routes.peek();
 
                 if (cachedRoute.name() == ApplicationRoute.MAIN_MENU) {
+
                     final var subview = (String) cachedRoute.cache().getOrDefault(
                             "selectedSubviewEnumValue",
                             null
@@ -72,22 +75,14 @@ public class ApplicationNavContext extends RouteStack<Stage, ApplicationRoute> {
             push(route);
         });
 
-        final var registrationTransition = Transition.<String, Route<ApplicationRoute>>bypass(
-                username -> {
-                    final var _cache = new HashMap<String, Object>();
-                    _cache.put("username", username);
+        final Consumer<String> onRegisterClicked = username -> {
+            final var _cache = new HashMap<String, Object>();
+            _cache.put("username", username);
 
-                    return new Route<>(
-                            ApplicationRoute.REGISTRATION,
-                            _cache
-                    );
-                },
-                this::push
-        );
+            push(new Route<>(ApplicationRoute.REGISTRATION, _cache));
+        };
 
-        return controllerFactory.login(
-                cache, loginTransition::orchestrate, registrationTransition::orchestrate
-        );
+        return controllerFactory.login(loginTransition::orchestrate, onRegisterClicked, cache);
     }
 
     private FXController mainMenu(HashMap<String, Object> cache) {
@@ -101,11 +96,7 @@ public class ApplicationNavContext extends RouteStack<Stage, ApplicationRoute> {
 
         final var registrationTransition = transitionFactory.registration(this::swap);
 
-        return controllerFactory.registration(
-                registrationTransition,
-                Transition.immediate(_ -> pop()),
-                cache
-        );
+        return controllerFactory.registration(this::pop, registrationTransition::orchestrate, cache);
     }
 
     private void setSceneController(FXController controller) {

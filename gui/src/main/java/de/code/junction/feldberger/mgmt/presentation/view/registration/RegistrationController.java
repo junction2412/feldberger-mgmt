@@ -1,6 +1,5 @@
 package de.code.junction.feldberger.mgmt.presentation.view.registration;
 
-import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
@@ -11,6 +10,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 public class RegistrationController extends FXController {
 
@@ -35,20 +35,20 @@ public class RegistrationController extends FXController {
     @FXML
     private Button submit;
 
-    private final Transition<RegistrationForm, ?> registrationTransition;
-    private final Transition<Void, ?> loginTransition;
+    private final Runnable onBackClicked;
+    private final Consumer<RegistrationForm> onSubmitClicked;
 
     private final RegistrationFormViewModel viewModel;
 
-    public RegistrationController(Transition<RegistrationForm, ?> registrationTransition,
-                                  Transition<Void, ?> loginTransition,
-                                  RegistrationFormViewModel viewModel) {
+    public RegistrationController(RegistrationFormViewModel viewModel,
+                                  Runnable onBackClicked,
+                                  Consumer<RegistrationForm> onSubmitClicked) {
 
         super("registration-view.fxml");
 
-        this.registrationTransition = registrationTransition;
-        this.loginTransition = loginTransition;
         this.viewModel = viewModel;
+        this.onBackClicked = onBackClicked;
+        this.onSubmitClicked = onSubmitClicked;
     }
 
     @Override
@@ -85,11 +85,11 @@ public class RegistrationController extends FXController {
 
     private void onBackClicked(ActionEvent event) {
 
-        loginTransition.orchestrate(null);
+        onBackClicked.run();
     }
 
     private void onSubmitClicked(ActionEvent event) {
 
-        registrationTransition.orchestrate(viewModel.toRegistrationForm());
+        onSubmitClicked.accept(viewModel.toRegistrationForm());
     }
 }
