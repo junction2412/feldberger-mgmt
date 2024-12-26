@@ -30,7 +30,9 @@ public class ApplicationControllerFactory {
         this.persistenceManager = persistenceManager;
     }
 
-    public FXController registration(Runnable onBackClicked, Consumer<RegistrationForm> onSubmitClicked, Map<String, Object> cache) {
+    public FXController registration(Runnable onBackClicked,
+                                     Consumer<RegistrationForm> onSubmitClicked,
+                                     Map<String, Object> cache) {
 
         final var username = (String) cache.getOrDefault("username", "");
         final var viewModel = new RegistrationFormViewModel(username);
@@ -42,7 +44,9 @@ public class ApplicationControllerFactory {
         return new RegistrationController(viewModel, onBackClicked, onSubmitClicked);
     }
 
-    public FXController login(Consumer<LoginForm> onSubmitClicked, Consumer<String> onRegisterClicked, Map<String, Object> cache) {
+    public FXController login(Consumer<LoginForm> onSubmitClicked,
+                              Consumer<String> onRegisterClicked,
+                              Map<String, Object> cache) {
 
         final var username = (String) cache.getOrDefault("username", "");
         final var viewModel = new LoginFormViewModel(username);

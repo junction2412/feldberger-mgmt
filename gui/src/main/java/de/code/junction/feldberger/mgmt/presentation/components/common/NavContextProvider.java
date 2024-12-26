@@ -55,10 +55,7 @@ public class NavContextProvider {
     public MainMenuNavContext mainMenu(int userId) {
 
         return new MainMenuNavContext(
-                Cache.getScopeRoutes(
-                        userId,
-                        ScopeName.MAIN_MENU
-                ),
+                Cache.getScopeRoutes(userId, ScopeName.MAIN_MENU),
                 transitionFactoryProvider.mainMenuTransitionFactory(),
                 new MainMenuControllerFactory(persistenceManager)
         );

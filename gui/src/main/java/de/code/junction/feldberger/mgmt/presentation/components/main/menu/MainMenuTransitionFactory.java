@@ -13,14 +13,9 @@ import java.util.function.Consumer;
 
 public class MainMenuTransitionFactory extends TransitionFactory {
 
+    public MainMenuTransitionFactory(PersistenceManager persistenceManager, Messenger messenger) {
 
-    public MainMenuTransitionFactory(PersistenceManager persistenceManager,
-                                     Messenger messenger) {
-
-        super(
-                persistenceManager,
-                messenger
-        );
+        super(persistenceManager, messenger);
     }
 
     public Transition<Customer, Route<MainMenuRoute>> customerEditorCustomerDashboard(Consumer<Route<MainMenuRoute>> onConclude) {

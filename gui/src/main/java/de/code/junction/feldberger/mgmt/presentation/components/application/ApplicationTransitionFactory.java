@@ -20,13 +20,9 @@ import java.util.function.Consumer;
  */
 public class ApplicationTransitionFactory extends TransitionFactory {
 
-    public ApplicationTransitionFactory(PersistenceManager persistenceManager,
-                                        Messenger messenger) {
+    public ApplicationTransitionFactory(PersistenceManager persistenceManager, Messenger messenger) {
 
-        super(
-                persistenceManager,
-                messenger
-        );
+        super(persistenceManager, messenger);
     }
 
     public Transition<RegistrationForm, Route<ApplicationRoute>> registration(Consumer<Route<ApplicationRoute>> onEnd) {

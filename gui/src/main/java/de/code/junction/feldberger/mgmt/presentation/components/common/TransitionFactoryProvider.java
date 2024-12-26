@@ -10,8 +10,7 @@ public class TransitionFactoryProvider {
     private final PersistenceManager persistenceManager;
     private final Messenger messenger;
 
-    public TransitionFactoryProvider(PersistenceManager persistenceManager,
-                                     Messenger messenger) {
+    public TransitionFactoryProvider(PersistenceManager persistenceManager, Messenger messenger) {
 
         this.persistenceManager = persistenceManager;
         this.messenger = messenger;
