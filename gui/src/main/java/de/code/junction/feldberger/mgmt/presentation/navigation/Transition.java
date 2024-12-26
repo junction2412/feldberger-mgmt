@@ -1,8 +1,6 @@
 package de.code.junction.feldberger.mgmt.presentation.navigation;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 /**
  * The preferred approach of performing UI transitions.
@@ -38,27 +36,5 @@ public class Transition<A, B> {
                     e.printStackTrace(System.err);
                     return null;
                 });
-    }
-
-    /**
-     * A convenience method of instantiating the {@link Transition}.
-     * Therefore, a single parameter lambda can be passed as well.
-     *
-     * @param transition consumer
-     * @param <T>        data the transition is performed upon
-     * @return transition orchestrator
-     */
-    public static <T> Transition<T, T> immediate(Consumer<T> transition) {
-
-        return new Transition<>(TransitionLifecycle.immediate(transition));
-    }
-
-    public static <A, B> Transition<A, B> bypass(Function<A, B> converter,
-                                                 Consumer<B> transition) {
-
-        return new Transition<>(TransitionLifecycle.bypass(
-                converter,
-                transition
-        ));
     }
 }

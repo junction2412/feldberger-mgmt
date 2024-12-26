@@ -2,13 +2,13 @@ package de.code.junction.feldberger.mgmt.presentation.components.main.menu;
 
 import de.code.junction.feldberger.mgmt.presentation.navigation.Route;
 import de.code.junction.feldberger.mgmt.presentation.navigation.RouteStack;
-import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import javafx.application.Platform;
 import javafx.scene.layout.Pane;
 
 import java.util.HashMap;
 import java.util.Stack;
+import java.util.function.Consumer;
 
 public class MainMenuNavContext extends RouteStack<Pane, MainMenuRoute> {
 
@@ -42,41 +42,33 @@ public class MainMenuNavContext extends RouteStack<Pane, MainMenuRoute> {
 
     private FXController customerOverview(HashMap<String, Object> cache) {
 
-        final var viewCustomerTransition = Transition.<Integer, Route<MainMenuRoute>>bypass(
-                customerId -> {
-                    final var _cache = new HashMap<String, Object>();
-                    _cache.put("customerId", customerId);
+        final Consumer<Integer> onViewCustomerClicked = customerId -> {
+            final var _cache = new HashMap<String, Object>();
+            _cache.put("customerId", customerId);
 
-                    return new Route<>(MainMenuRoute.CUSTOMER_DASHBOARD, _cache);
-                },
-                this::push
-        );
+            push(new Route<>(MainMenuRoute.CUSTOMER_DASHBOARD, _cache));
+        };
 
-        final var editCustomerTransition = Transition.<Integer, Route<MainMenuRoute>>bypass(
-                customerId -> {
-                    final var _cache = new HashMap<String, Object>();
-                    _cache.put("customerId", customerId);
+        final Consumer<Integer> onEditCustomerClicked = customerId -> {
+            final var _cache = new HashMap<String, Object>();
+            _cache.put("customerId", customerId);
 
-                    return new Route<>(MainMenuRoute.CUSTOMER_EDITOR, _cache);
-                },
-                this::push
-        );
+            push(new Route<>(MainMenuRoute.CUSTOMER_EDITOR, _cache));
+        };
 
-        final var newCustomerTransition = Transition.<Void, Route<MainMenuRoute>>bypass(
-                _ -> {
-                    final var _cache = new HashMap<String, Object>();
-                    _cache.put("customerId", 0);
+        final Runnable onNewCustomerClicked = () -> {
+            final var _cache = new HashMap<String, Object>();
+            _cache.put("customerId", 0);
 
-                    return new Route<>(MainMenuRoute.CUSTOMER_EDITOR, _cache);
-                },
-                this::push
-        );
+            push(new Route<>(MainMenuRoute.CUSTOMER_EDITOR, _cache));
+        };
+
 
         return controllerFactory.customerOverview(
-                cache,
-                () -> newCustomerTransition.orchestrate(null),
-                editCustomerTransition::orchestrate,
-                viewCustomerTransition::orchestrate
+                onNewCustomerClicked,
+                onEditCustomerClicked,
+                onViewCustomerClicked,
+                cache
         );
     }
 
@@ -94,22 +86,17 @@ public class MainMenuNavContext extends RouteStack<Pane, MainMenuRoute> {
 
     private FXController customerDashboard(HashMap<String, Object> cache) {
 
-        final var editCustomerTransition = Transition.<Integer, Route<MainMenuRoute>>bypass(customerId -> {
-                    final var _cache = new HashMap<String, Object>();
-                    _cache.put("customerId", customerId);
-                    _cache.put("pop", true);
+        final Consumer<Integer> onEditCustomerClicked = customerId -> {
+            final var _cache = new HashMap<String, Object>();
+            _cache.put("customerId", customerId);
+            _cache.put("pop", true);
 
-                    return new Route<>(MainMenuRoute.CUSTOMER_EDITOR, _cache);
-                },
-                this::push
-        );
+            push(new Route<>(MainMenuRoute.CUSTOMER_EDITOR, _cache));
+        };
 
-        return controllerFactory.customerDashboard(
-                this::pop,
-                editCustomerTransition::orchestrate,
-                _ -> System.out.println("NOOP"),
-                cache
-        );
+        final Consumer<Integer> onNewTransactionClicked = _ -> System.out.println("NOOP");
+
+        return controllerFactory.customerDashboard(this::pop, onEditCustomerClicked, onNewTransactionClicked, cache);
     }
 
     private void setChildController(FXController controller) {

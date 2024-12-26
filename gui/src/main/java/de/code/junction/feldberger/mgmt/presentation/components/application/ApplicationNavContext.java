@@ -5,6 +5,7 @@ import de.code.junction.feldberger.mgmt.presentation.cache.ScopeName;
 import de.code.junction.feldberger.mgmt.presentation.navigation.Route;
 import de.code.junction.feldberger.mgmt.presentation.navigation.RouteStack;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
+import de.code.junction.feldberger.mgmt.presentation.view.main.menu.UserSession;
 import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -86,11 +87,9 @@ public class ApplicationNavContext extends RouteStack<Stage, ApplicationRoute> {
 
     private FXController mainMenu(HashMap<String, Object> cache) {
 
-        return controllerFactory.mainMenu(
-                this::pop,
-                _ -> System.out.println("Settings"),
-                cache
-        );
+        final Consumer<UserSession> onSettingsClicked = _ -> System.out.println("Settings");
+
+        return controllerFactory.mainMenu(this::pop, onSettingsClicked, cache);
     }
 
     private FXController registration(Map<String, Object> cache) {

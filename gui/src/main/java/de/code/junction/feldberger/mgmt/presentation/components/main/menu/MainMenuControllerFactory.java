@@ -25,10 +25,7 @@ public class MainMenuControllerFactory {
         this.persistenceManager = persistenceManager;
     }
 
-    public FXController customerOverview(HashMap<String, Object> cache,
-                                         Runnable onNewCustomerClicked,
-                                         Consumer<Integer> onEditCustomerClicked,
-                                         Consumer<Integer> onViewCustomerClicked) {
+    public FXController customerOverview(Runnable onNewCustomerClicked, Consumer<Integer> onEditCustomerClicked, Consumer<Integer> onViewCustomerClicked, HashMap<String, Object> cache) {
 
         final var selectedCustomerId = (int) cache.getOrDefault("selectedCustomerId", 0);
         final var filter = (String) cache.getOrDefault("filter", "");
