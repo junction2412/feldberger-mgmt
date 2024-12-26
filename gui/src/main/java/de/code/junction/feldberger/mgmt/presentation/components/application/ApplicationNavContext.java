@@ -86,9 +86,7 @@ public class ApplicationNavContext extends RouteStack<Stage, ApplicationRoute> {
         );
 
         return controllerFactory.login(
-                loginTransition,
-                registrationTransition,
-                cache
+                cache, loginTransition::orchestrate, registrationTransition::orchestrate
         );
     }
 

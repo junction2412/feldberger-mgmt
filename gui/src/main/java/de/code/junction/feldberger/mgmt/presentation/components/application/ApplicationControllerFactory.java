@@ -16,6 +16,7 @@ import de.code.junction.feldberger.mgmt.presentation.view.registration.Registrat
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * A factory class to construct {@link FXController} instances.
@@ -29,10 +30,9 @@ public class ApplicationControllerFactory {
         this.persistenceManager = persistenceManager;
     }
 
-    public FXController registration(
-            Transition<RegistrationForm, ?> registrationTransition,
-            Transition<Void, ?> loginTransition,
-            Map<String, Object> cache) {
+    public FXController registration(Transition<RegistrationForm, ?> registrationTransition,
+                                     Transition<Void, ?> loginTransition,
+                                     Map<String, Object> cache) {
 
         final var username = (String) cache.getOrDefault("username", "");
         final var viewModel = new RegistrationFormViewModel(username);
@@ -44,9 +44,9 @@ public class ApplicationControllerFactory {
         return new RegistrationController(registrationTransition, loginTransition, viewModel);
     }
 
-    public FXController login(Transition<LoginForm, ?> loginTransition,
-                              Transition<String, ?> registrationTransition,
-                              Map<String, Object> cache) {
+    public FXController login(Map<String, Object> cache,
+                              Consumer<LoginForm> onSubmitClicked,
+                              Consumer<String> onRegisterClicked) {
 
         final var username = (String) cache.getOrDefault("username", "");
         final var viewModel = new LoginFormViewModel(username);
@@ -55,7 +55,7 @@ public class ApplicationControllerFactory {
                 cache.put("username", value)
         );
 
-        return new LoginController(loginTransition, registrationTransition, viewModel);
+        return new LoginController(viewModel, onSubmitClicked, onRegisterClicked);
     }
 
     public FXController mainMenu(Transition<Void, ?> logoutTransition,

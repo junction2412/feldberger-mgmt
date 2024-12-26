@@ -1,6 +1,5 @@
 package de.code.junction.feldberger.mgmt.presentation.view.login;
 
-import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
@@ -11,9 +10,9 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 public class LoginController extends FXController {
-
 
     @FXML
     private Label usernameLabel;
@@ -30,19 +29,20 @@ public class LoginController extends FXController {
     @FXML
     private Button submit;
 
-    private final Transition<LoginForm, ?> loginTransition;
-    private final Transition<String, ?> registrationTransition;
+    private final Consumer<LoginForm> onSubmitClicked;
+    private final Consumer<String> onRegisterClicked;
 
     private final LoginFormViewModel viewModel;
 
-    public LoginController(Transition<LoginForm, ?> loginTransition,
-                           Transition<String, ?> registrationTransition,
-                           LoginFormViewModel viewModel) {
+    public LoginController(LoginFormViewModel viewModel,
+                           Consumer<LoginForm> onSubmitClicked,
+                           Consumer<String> onRegisterClicked) {
 
         super("login-view.fxml");
-        this.loginTransition = loginTransition;
-        this.registrationTransition = registrationTransition;
+
         this.viewModel = viewModel;
+        this.onSubmitClicked = onSubmitClicked;
+        this.onRegisterClicked = onRegisterClicked;
     }
 
     @Override
@@ -72,11 +72,11 @@ public class LoginController extends FXController {
 
     private void onSubmitClicked(ActionEvent event) {
 
-        loginTransition.orchestrate(viewModel.toLoginForm());
+        onSubmitClicked.accept(viewModel.toLoginForm());
     }
 
     private void onRegisterClicked(ActionEvent event) {
 
-        registrationTransition.orchestrate(viewModel.getUsername());
+        onRegisterClicked.accept(viewModel.getUsername());
     }
 }
