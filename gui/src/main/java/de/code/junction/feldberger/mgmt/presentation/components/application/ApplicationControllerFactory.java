@@ -2,7 +2,6 @@ package de.code.junction.feldberger.mgmt.presentation.components.application;
 
 import de.code.junction.feldberger.mgmt.data.access.PersistenceManager;
 import de.code.junction.feldberger.mgmt.data.access.user.User;
-import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import de.code.junction.feldberger.mgmt.presentation.view.login.LoginController;
 import de.code.junction.feldberger.mgmt.presentation.view.login.LoginForm;
@@ -10,6 +9,7 @@ import de.code.junction.feldberger.mgmt.presentation.view.login.LoginFormViewMod
 import de.code.junction.feldberger.mgmt.presentation.view.main.menu.MainMenuController;
 import de.code.junction.feldberger.mgmt.presentation.view.main.menu.MainMenuViewModel;
 import de.code.junction.feldberger.mgmt.presentation.view.main.menu.Subview;
+import de.code.junction.feldberger.mgmt.presentation.view.main.menu.UserSession;
 import de.code.junction.feldberger.mgmt.presentation.view.registration.RegistrationController;
 import de.code.junction.feldberger.mgmt.presentation.view.registration.RegistrationForm;
 import de.code.junction.feldberger.mgmt.presentation.view.registration.RegistrationFormViewModel;
@@ -54,7 +54,8 @@ public class ApplicationControllerFactory {
         return new LoginController(viewModel, onSubmitClicked, onRegisterClicked);
     }
 
-    public FXController mainMenu(Transition<Void, ?> logoutTransition,
+    public FXController mainMenu(Runnable onLogoutClicked,
+                                 Consumer<UserSession> onSettingsClicked,
                                  HashMap<String, Object> cache) {
 
         final var userId = (int) cache.get("userId");
@@ -73,10 +74,6 @@ public class ApplicationControllerFactory {
                 cache.put("selectedSubviewEnumValue", value)
         );
 
-        return new MainMenuController(
-                logoutTransition,
-                Transition.immediate(_ -> System.out.println("Settings")),
-                viewModel
-        );
+        return new MainMenuController(viewModel, onLogoutClicked, onSettingsClicked);
     }
 }

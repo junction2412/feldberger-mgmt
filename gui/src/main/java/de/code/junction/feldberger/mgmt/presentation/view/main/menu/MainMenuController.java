@@ -3,7 +3,6 @@ package de.code.junction.feldberger.mgmt.presentation.view.main.menu;
 import de.code.junction.feldberger.mgmt.presentation.components.common.NavContextProvider;
 import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuRoute;
 import de.code.junction.feldberger.mgmt.presentation.navigation.Route;
-import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import javafx.beans.Observable;
 import javafx.collections.ListChangeListener;
@@ -19,15 +18,16 @@ import javafx.scene.layout.AnchorPane;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 import static de.code.junction.feldberger.mgmt.presentation.util.ResourceLoader.getLabelStringResources;
 
 public final class MainMenuController extends FXController {
 
     @FXML
-    private Label userIDLabel;
+    private Label userIdLabel;
     @FXML
-    private Label userID;
+    private Label userId;
 
     @FXML
     private Label usernameLabel;
@@ -44,25 +44,27 @@ public final class MainMenuController extends FXController {
     @FXML
     private AnchorPane subview;
 
-    private final Transition<Void, ?> logoutTransition;
-    private final Transition<UserSession, ?> settingsTransition;
+    private final Runnable onLogoutClicked;
+    private final Consumer<UserSession> onSettingsClicked;
+
     private final MainMenuViewModel viewModel;
 
-    public MainMenuController(Transition<Void, ?> logoutTransition,
-                              Transition<UserSession, ?> settingsTransition,
-                              MainMenuViewModel viewModel) {
+    public MainMenuController(MainMenuViewModel viewModel,
+                              Runnable onLogoutClicked,
+                              Consumer<UserSession> onSettingsClicked) {
 
         super("main-menu-view.fxml");
 
-        this.logoutTransition = logoutTransition;
-        this.settingsTransition = settingsTransition;
         this.viewModel = viewModel;
+
+        this.onSettingsClicked = onSettingsClicked;
+        this.onLogoutClicked = onLogoutClicked;
     }
 
     @Override
     protected void initialize() {
 
-        userIDLabel.setLabelFor(userID);
+        userIdLabel.setLabelFor(userId);
         usernameLabel.setLabelFor(username);
 
         logout.setOnAction(this::onLogoutClicked);
@@ -87,12 +89,12 @@ public final class MainMenuController extends FXController {
             }
         });
 
-        userID.textProperty().bind(viewModel.userIdProperty().asString());
+        userId.textProperty().bind(viewModel.userIdProperty().asString());
         username.textProperty().bind(viewModel.usernameProperty());
 
         final var subviews = Arrays.asList(Subview.values());
-
         final var selectedSubview = viewModel.getSelectedSubview();
+
         navigation.getItems().setAll(subviews);
         navigation.getSelectionModel().select(selectedSubview);
         viewModel.selectedSubviewProperty().bind(navigation.getSelectionModel().selectedItemProperty());
@@ -102,7 +104,7 @@ public final class MainMenuController extends FXController {
     @Override
     protected void translate(ResourceBundle bundle) {
 
-        userIDLabel.setText(bundle.getString("view.main_menu.user.id"));
+        userIdLabel.setText(bundle.getString("view.main_menu.user.id"));
         usernameLabel.setText(bundle.getString("view.main_menu.username"));
         logout.setText(bundle.getString("view.main_menu.logout"));
         settings.setText(bundle.getString("view.main_menu.settings"));
@@ -110,17 +112,15 @@ public final class MainMenuController extends FXController {
 
     private void onLogoutClicked(ActionEvent event) {
 
-        logoutTransition.orchestrate(null);
+        onLogoutClicked.run();
     }
 
     private void onSettingsClicked(ActionEvent event) {
 
-        settingsTransition.orchestrate(viewModel.toUserSession());
+        onSettingsClicked.accept(viewModel.toUserSession());
     }
 
-    private void onNavigationSelectionChanged(Observable observable,
-                                              Subview oldValue,
-                                              Subview newValue) {
+    private void onNavigationSelectionChanged(Observable observable, Subview oldValue, Subview newValue) {
 
         final var navContextProvider = NavContextProvider.getInstance();
         // always create a new context from scratch to ensure an empty stack
@@ -128,10 +128,7 @@ public final class MainMenuController extends FXController {
         navContext.setScope(subview);
 
         switch (newValue) {
-            case CUSTOMERS -> navContext.push(new Route<>(
-                    MainMenuRoute.CUSTOMER_OVERVIEW,
-                    new HashMap<>()
-            ));
+            case CUSTOMERS -> navContext.push(new Route<>(MainMenuRoute.CUSTOMER_OVERVIEW, new HashMap<>()));
             default -> {
             }
         }
@@ -144,8 +141,7 @@ public final class MainMenuController extends FXController {
 
     private static void anchorChild(Node child) {
 
-        if (child == null)
-            return;
+        if (child == null) return;
 
         AnchorPane.setTopAnchor(child, 0.0);
         AnchorPane.setRightAnchor(child, 0.0);

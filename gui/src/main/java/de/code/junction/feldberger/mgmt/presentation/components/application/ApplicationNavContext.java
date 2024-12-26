@@ -4,7 +4,6 @@ import de.code.junction.feldberger.mgmt.presentation.cache.Cache;
 import de.code.junction.feldberger.mgmt.presentation.cache.ScopeName;
 import de.code.junction.feldberger.mgmt.presentation.navigation.Route;
 import de.code.junction.feldberger.mgmt.presentation.navigation.RouteStack;
-import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import javafx.application.Platform;
 import javafx.scene.Parent;
@@ -87,9 +86,11 @@ public class ApplicationNavContext extends RouteStack<Stage, ApplicationRoute> {
 
     private FXController mainMenu(HashMap<String, Object> cache) {
 
-        final var logoutTransition = Transition.<Void>immediate(_ -> pop());
-
-        return controllerFactory.mainMenu(logoutTransition, cache);
+        return controllerFactory.mainMenu(
+                this::pop,
+                _ -> System.out.println("Settings"),
+                cache
+        );
     }
 
     private FXController registration(Map<String, Object> cache) {

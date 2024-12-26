@@ -19,7 +19,7 @@
             <children>
                 <StackPane alignment="BOTTOM_RIGHT">
                     <children>
-                        <Label fx:id="userIDLabel" text="Label"/>
+                        <Label fx:id="userIdLabel" text="Label"/>
                     </children>
                     <padding>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -61,7 +61,7 @@
                 </HBox>
                 <StackPane alignment="BOTTOM_LEFT" GridPane.columnIndex="1">
                     <children>
-                        <Label fx:id="userID" text="Label"/>
+                        <Label fx:id="userId" text="Label"/>
                     </children>
                     <padding>
                         <Insets bottom="1.0" left="1.0" right="1.0" top="1.0"/>
