@@ -237,4 +237,9 @@ public class Customer implements DataTransferObject<Integer> {
 
         this.transactions = transactions;
     }
+
+    public String getFullName() {
+
+        return getLastName() + ", " + getFirstName();
+    }
 }

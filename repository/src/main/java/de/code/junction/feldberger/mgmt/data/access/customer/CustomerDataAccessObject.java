@@ -34,6 +34,4 @@ public interface CustomerDataAccessObject extends DataAccessObject<Integer, Cust
     void persistCustomer(Customer customer);
 
     Optional<Customer> findCustomerByIdNo(String idNo);
-
-    List<Customer> getByNameOrCompanyName(String nameOrCompanyName);
 }

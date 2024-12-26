@@ -5,6 +5,7 @@ import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
+import javafx.collections.transformation.FilteredList;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -42,7 +43,6 @@ public class CustomerOverviewController extends FXController {
     private final Transition<Void, ?> newCustomerTransition;
     private final CustomerOverviewModel viewModel;
 
-
     public CustomerOverviewController(CustomerListService customerListService,
                                       Transition<Customer, ?> viewCustomerTransition,
                                       Transition<Customer, ?> editCustomerTransition,
@@ -70,20 +70,17 @@ public class CustomerOverviewController extends FXController {
         editCustomer.disableProperty().bind(noCustomerSelected);
 
         filter.textProperty().bindBidirectional(viewModel.customerFilterProperty());
-        customerListService.nameOrCompanyNameProperty().bind(viewModel.customerFilterProperty());
 
         customerIdNo.setCellValueFactory(new PropertyValueFactory<>("idNo"));
         customerName.setCellValueFactory(cell -> Bindings.createStringBinding(
                 () -> {
-                    final Customer customer = cell.getValue();
+                    final var customer = cell.getValue();
 
                     return (!customer.getCompanyName().isEmpty())
                             ? customer.getCompanyName()
                             : customer.getLastName() + ", " + customer.getFirstName();
                 }
         ));
-
-        filter.textProperty().addListener(this::onFilterTextChanged);
 
         viewCustomer.setOnAction(this::onViewCustomerClicked);
         editCustomer.setOnAction(this::onEditCustomerClicked);
@@ -93,14 +90,6 @@ public class CustomerOverviewController extends FXController {
         customers.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onCustomersClicked);
 
         customerListService.start();
-    }
-
-    private void onCustomerSelectionChanged(Observable observable,
-                                            Customer oldValue,
-                                            Customer newValue) {
-
-        final var selectedCustomerId = (newValue != null) ? newValue.getId() : 0;
-        viewModel.setSelectedCustomerId(selectedCustomerId);
     }
 
     @Override
@@ -114,14 +103,33 @@ public class CustomerOverviewController extends FXController {
         customerName.setText(bundle.getString("view.customer_overview.table.name"));
     }
 
+    private void onCustomerSelectionChanged(Observable observable, Customer oldValue, Customer newValue) {
+
+        final var selectedCustomerId = (newValue != null) ? newValue.getId() : 0;
+
+        viewModel.setSelectedCustomerId(selectedCustomerId);
+    }
+
     private void onCustomerListServiceSucceeded(WorkerStateEvent event) {
 
-        final var value = customerListService.getValue();
-        final var selectedCustomer = value.stream()
+        final var loadedCustomers = customerListService.getValue();
+        final var selectedCustomer = loadedCustomers.stream()
                 .filter(customer -> customer.getId() == viewModel.getSelectedCustomerId())
                 .findFirst();
 
-        customers.getItems().setAll(value);
+        final var filteredList = new FilteredList<>(loadedCustomers);
+        filteredList.predicateProperty().bind(Bindings.createObjectBinding(
+                () -> customer -> {
+                    final var text = filter.getText().toLowerCase();
+                    final var customerName = customer.getFullName().toLowerCase();
+                    final var companyName = customer.getCompanyName().toLowerCase();
+
+                    return customerName.contains(text) || companyName.contains(text);
+                },
+                filter.textProperty()
+        ));
+
+        customers.setItems(filteredList);
 
         selectedCustomer.ifPresent(customers.getSelectionModel()::select);
     }
@@ -150,17 +158,10 @@ public class CustomerOverviewController extends FXController {
 
         if (event.getClickCount() != 2) return;
 
-        final Customer customer = customers.getSelectionModel().getSelectedItem();
+        final var customer = customers.getSelectionModel().getSelectedItem();
 
         if (customer == null) return;
 
         viewCustomerTransition.orchestrate(customer);
-    }
-
-    private void onFilterTextChanged(Observable observable,
-                                     String oldValue,
-                                     String newValue) {
-
-        customerListService.restart();
     }
 }

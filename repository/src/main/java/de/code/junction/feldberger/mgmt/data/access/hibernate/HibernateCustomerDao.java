@@ -89,22 +89,4 @@ public class HibernateCustomerDao
 
         return sessionFactory.fromSession(session -> session.createSelectionQuery(query).uniqueResultOptional());
     }
-
-    @Override
-    public List<Customer> getByNameOrCompanyName(String nameOrCompanyName) {
-
-        final var query = new CriteriaDefinition<>(sessionFactory, Customer.class) {
-            {
-                from(Customer.class);
-            }
-        };
-
-        return sessionFactory.fromSession(session -> session.createSelectionQuery(query).list())
-                .stream()
-                .filter(customer -> customer.getIdNo().contains(nameOrCompanyName)
-                        || customer.getLastName().contains(nameOrCompanyName)
-                        || customer.getFirstName().contains(nameOrCompanyName)
-                        || customer.getCompanyName().contains(nameOrCompanyName)
-                ).toList();
-    }
 }
