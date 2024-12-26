@@ -43,20 +43,20 @@ public class MainMenuNavContext extends RouteStack<Pane, MainMenuRoute> {
 
     private FXController customerOverview(HashMap<String, Object> cache) {
 
-        final var viewCustomerTransition = Transition.<Customer, Route<MainMenuRoute>>bypass(
-                customer -> {
+        final var viewCustomerTransition = Transition.<Integer, Route<MainMenuRoute>>bypass(
+                customerId -> {
                     final var _cache = new HashMap<String, Object>();
-                    _cache.put("customerId", customer.getId());
+                    _cache.put("customerId", customerId);
 
                     return new Route<>(MainMenuRoute.CUSTOMER_DASHBOARD, _cache);
                 },
                 this::push
         );
 
-        final var editCustomerTransition = Transition.<Customer, Route<MainMenuRoute>>bypass(
-                customer -> {
+        final var editCustomerTransition = Transition.<Integer, Route<MainMenuRoute>>bypass(
+                customerId -> {
                     final var _cache = new HashMap<String, Object>();
-                    _cache.put("customerId", customer.getId());
+                    _cache.put("customerId", customerId);
 
                     return new Route<>(MainMenuRoute.CUSTOMER_EDITOR, _cache);
                 },
@@ -74,10 +74,10 @@ public class MainMenuNavContext extends RouteStack<Pane, MainMenuRoute> {
         );
 
         return controllerFactory.customerOverview(
-                viewCustomerTransition,
-                editCustomerTransition,
-                newCustomerTransition,
-                cache
+                cache,
+                () -> newCustomerTransition.orchestrate(null),
+                editCustomerTransition::orchestrate,
+                viewCustomerTransition::orchestrate
         );
     }
 

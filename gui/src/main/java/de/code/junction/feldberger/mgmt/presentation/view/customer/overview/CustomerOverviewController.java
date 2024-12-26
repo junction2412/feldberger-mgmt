@@ -1,7 +1,6 @@
 package de.code.junction.feldberger.mgmt.presentation.view.customer.overview;
 
 import de.code.junction.feldberger.mgmt.data.access.customer.Customer;
-import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
@@ -17,6 +16,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 public class CustomerOverviewController extends FXController {
 
@@ -38,27 +38,30 @@ public class CustomerOverviewController extends FXController {
 
     private final CustomerListService customerListService;
 
-    private final Transition<Customer, ?> viewCustomerTransition;
-    private final Transition<Customer, ?> editCustomerTransition;
-    private final Transition<Void, ?> newCustomerTransition;
+    private final Consumer<Integer> onViewCustomerClicked;
+    private final Consumer<Integer> onEditCustomerClicked;
+    private final Runnable onNewCustomerClicked;
+
     private final CustomerOverviewModel viewModel;
 
     public CustomerOverviewController(CustomerListService customerListService,
-                                      Transition<Customer, ?> viewCustomerTransition,
-                                      Transition<Customer, ?> editCustomerTransition,
-                                      Transition<Void, ?> newCustomerTransition,
-                                      CustomerOverviewModel viewModel) {
+                                      CustomerOverviewModel viewModel,
+                                      Runnable onNewCustomerClicked,
+                                      Consumer<Integer> onEditCustomerClicked,
+                                      Consumer<Integer> onViewCustomerClicked) {
 
         super("customer-overview.fxml");
 
         this.customerListService = customerListService;
-        this.viewCustomerTransition = viewCustomerTransition;
-        this.editCustomerTransition = editCustomerTransition;
-        this.newCustomerTransition = newCustomerTransition;
         this.viewModel = viewModel;
+
+        this.onNewCustomerClicked = onNewCustomerClicked;
+        this.onViewCustomerClicked = onViewCustomerClicked;
+        this.onEditCustomerClicked = onEditCustomerClicked;
 
         this.customerListService.setOnSucceeded(this::onCustomerListServiceSucceeded);
         this.customerListService.setOnFailed(this::onCustomerListServiceFailed);
+
     }
 
     @Override
@@ -141,17 +144,25 @@ public class CustomerOverviewController extends FXController {
 
     private void onViewCustomerClicked(ActionEvent event) {
 
-        viewCustomerTransition.orchestrate(customers.getSelectionModel().getSelectedItem());
+        final var customer = customers.getSelectionModel().getSelectedItem();
+
+        if (customer == null) return;
+
+        onViewCustomerClicked.accept(customer.getId());
     }
 
     private void onEditCustomerClicked(ActionEvent event) {
 
-        editCustomerTransition.orchestrate(customers.getSelectionModel().getSelectedItem());
+        final var customer = customers.getSelectionModel().getSelectedItem();
+
+        if (customer == null) return;
+
+        onEditCustomerClicked.accept(customer.getId());
     }
 
     private void onNewCustomerClicked(ActionEvent event) {
 
-        newCustomerTransition.orchestrate(null);
+        onNewCustomerClicked.run();
     }
 
     private void onCustomersClicked(MouseEvent event) {
@@ -162,6 +173,6 @@ public class CustomerOverviewController extends FXController {
 
         if (customer == null) return;
 
-        viewCustomerTransition.orchestrate(customer);
+        onViewCustomerClicked.accept(customer.getId());
     }
 }

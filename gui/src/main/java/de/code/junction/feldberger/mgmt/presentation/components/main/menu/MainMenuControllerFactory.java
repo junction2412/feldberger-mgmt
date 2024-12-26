@@ -3,7 +3,6 @@ package de.code.junction.feldberger.mgmt.presentation.components.main.menu;
 import de.code.junction.feldberger.mgmt.data.access.PersistenceManager;
 import de.code.junction.feldberger.mgmt.data.access.address.Address;
 import de.code.junction.feldberger.mgmt.data.access.customer.Customer;
-import de.code.junction.feldberger.mgmt.presentation.navigation.Route;
 import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import de.code.junction.feldberger.mgmt.presentation.view.customer.dashboard.CustomerDashboardController;
@@ -16,6 +15,7 @@ import de.code.junction.feldberger.mgmt.presentation.view.customer.overview.Cust
 
 import java.util.HashMap;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 public class MainMenuControllerFactory {
 
@@ -26,25 +26,15 @@ public class MainMenuControllerFactory {
         this.persistenceManager = persistenceManager;
     }
 
-    public FXController customerOverview(Transition<Customer, Route<MainMenuRoute>> viewCustomerTransition,
-                                         Transition<Customer, Route<MainMenuRoute>> editCustomerTransition,
-                                         Transition<Void, Route<MainMenuRoute>> newCustomerTransition,
-                                         HashMap<String, Object> cache) {
+    public FXController customerOverview(HashMap<String, Object> cache,
+                                         Runnable onNewCustomerClicked,
+                                         Consumer<Integer> onEditCustomerClicked,
+                                         Consumer<Integer> onViewCustomerClicked) {
 
-        final var selectedCustomerId = (int) cache.getOrDefault(
-                "selectedCustomerId",
-                0
-        );
+        final var selectedCustomerId = (int) cache.getOrDefault("selectedCustomerId", 0);
+        final var filter = (String) cache.getOrDefault("filter", "");
 
-        final var filter = (String) cache.getOrDefault(
-                "filter",
-                ""
-        );
-
-        final var viewModel = new CustomerOverviewModel(
-                selectedCustomerId,
-                filter
-        );
+        final var viewModel = new CustomerOverviewModel(selectedCustomerId, filter);
 
         viewModel.selectedCustomerIdProperty().addListener((_, _, value) ->
                 cache.put("selectedCustomerId", value));
@@ -56,10 +46,10 @@ public class MainMenuControllerFactory {
 
         return new CustomerOverviewController(
                 customerListService,
-                viewCustomerTransition,
-                editCustomerTransition,
-                newCustomerTransition,
-                viewModel
+                viewModel,
+                onNewCustomerClicked,
+                onEditCustomerClicked,
+                onViewCustomerClicked
         );
     }
 
