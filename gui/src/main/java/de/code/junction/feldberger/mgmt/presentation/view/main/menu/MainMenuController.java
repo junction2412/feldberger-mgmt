@@ -99,6 +99,8 @@ public final class MainMenuController extends FXController {
         navigation.getSelectionModel().select(selectedSubview);
         viewModel.selectedSubviewProperty().bind(navigation.getSelectionModel().selectedItemProperty());
         navigation.getSelectionModel().selectedItemProperty().addListener(this::onNavigationSelectionChanged);
+
+        NavContextProvider.getInstance().initMainMenu(subview, viewModel.getUserId());
     }
 
     @Override

@@ -2,6 +2,8 @@ package de.code.junction.feldberger.mgmt.presentation.components.application;
 
 import de.code.junction.feldberger.mgmt.data.access.PersistenceManager;
 import de.code.junction.feldberger.mgmt.data.access.user.User;
+import de.code.junction.feldberger.mgmt.presentation.cache.Cache;
+import de.code.junction.feldberger.mgmt.presentation.cache.ScopeName;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import de.code.junction.feldberger.mgmt.presentation.view.login.LoginController;
 import de.code.junction.feldberger.mgmt.presentation.view.login.LoginForm;
@@ -63,13 +65,17 @@ public class ApplicationControllerFactory {
                                  HashMap<String, Object> cache) {
 
         final var userId = (int) cache.get("userId");
+        final var routes = Cache.<ApplicationRoute>getScopeRoutes(userId, ScopeName.APPLICATION);
+
         final var username = persistenceManager.userDao()
                 .findById(userId)
                 .map(User::getUsername)
                 .orElseThrow();
 
-        final var selectedSubview = cache.containsKey("selectedSubviewEnumValue")
-                ? Subview.valueOf((String) cache.get("selectedSubviewEnumValue"))
+        final var loadedCache = routes.peek().cache();
+
+        final var selectedSubview = loadedCache.containsKey("selectedSubviewEnumValue")
+                ? Subview.valueOf((String) loadedCache.get("selectedSubviewEnumValue"))
                 : null;
 
         final var viewModel = new MainMenuViewModel(userId, username, selectedSubview);
