@@ -1,6 +1,5 @@
 package de.code.junction.feldberger.mgmt.presentation.view.customer.overview;
 
-import de.code.junction.feldberger.mgmt.data.access.customer.Customer;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
@@ -12,7 +11,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
 import java.util.ResourceBundle;
@@ -30,11 +28,11 @@ public class CustomerOverviewController extends FXController {
     private TextField filter;
 
     @FXML
-    private TableView<Customer> customers;
+    private TableView<CustomerItemViewModel> customers;
     @FXML
-    private TableColumn<Customer, String> customerIdNo;
+    private TableColumn<CustomerItemViewModel, String> customerIdNo;
     @FXML
-    private TableColumn<Customer, String> customerName;
+    private TableColumn<CustomerItemViewModel, String> customerName;
 
     private final CustomerListService customerListService;
 
@@ -74,16 +72,8 @@ public class CustomerOverviewController extends FXController {
 
         filter.textProperty().bindBidirectional(viewModel.customerFilterProperty());
 
-        customerIdNo.setCellValueFactory(new PropertyValueFactory<>("idNo"));
-        customerName.setCellValueFactory(cell -> Bindings.createStringBinding(
-                () -> {
-                    final var customer = cell.getValue();
-
-                    return (!customer.getCompanyName().isEmpty())
-                            ? customer.getCompanyName()
-                            : customer.getLastName() + ", " + customer.getFirstName();
-                }
-        ));
+        customerIdNo.setCellValueFactory(cell -> cell.getValue().idNoProperty());
+        customerName.setCellValueFactory(cell -> cell.getValue().nameOrCompanyNameProperty());
 
         viewCustomer.setOnAction(this::onViewCustomerClicked);
         editCustomer.setOnAction(this::onEditCustomerClicked);
@@ -106,7 +96,9 @@ public class CustomerOverviewController extends FXController {
         customerName.setText(bundle.getString("view.customer_overview.table.name"));
     }
 
-    private void onCustomerSelectionChanged(Observable observable, Customer oldValue, Customer newValue) {
+    private void onCustomerSelectionChanged(Observable observable,
+                                            CustomerItemViewModel oldValue,
+                                            CustomerItemViewModel newValue) {
 
         final var selectedCustomerId = (newValue != null) ? newValue.getId() : 0;
 
@@ -124,10 +116,9 @@ public class CustomerOverviewController extends FXController {
         filteredList.predicateProperty().bind(Bindings.createObjectBinding(
                 () -> customer -> {
                     final var text = filter.getText().toLowerCase();
-                    final var customerName = customer.getFullName().toLowerCase();
-                    final var companyName = customer.getCompanyName().toLowerCase();
+                    final var name = customer.getNameOrCompanyName().toLowerCase();
 
-                    return customerName.contains(text) || companyName.contains(text);
+                    return name.contains(text);
                 },
                 filter.textProperty()
         ));

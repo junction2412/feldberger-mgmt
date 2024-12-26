@@ -30,7 +30,7 @@ public class MainMenuNavContext extends RouteStack<Pane, MainMenuRoute> {
     public void navigateTo(Route<MainMenuRoute> route) {
 
         if (scope == null)
-            throw new NullPointerException("Cannot navigate if parent is null.");
+            throw new NullPointerException("Cannot navigate if scope is null.");
 
         final var controller = switch (route.name()) {
             case CUSTOMER_OVERVIEW -> customerOverview(route.cache());
@@ -93,11 +93,7 @@ public class MainMenuNavContext extends RouteStack<Pane, MainMenuRoute> {
             else swap(route);
         });
 
-        return controllerFactory.customerEditor(
-                backTransition,
-                saveTransition,
-                cache
-        );
+        return controllerFactory.customerEditor(backTransition, saveTransition, cache);
     }
 
     private FXController customerDashboard(HashMap<String, Object> cache) {
