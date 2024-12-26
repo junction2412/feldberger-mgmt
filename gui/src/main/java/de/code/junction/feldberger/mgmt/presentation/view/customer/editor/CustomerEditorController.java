@@ -1,7 +1,6 @@
 package de.code.junction.feldberger.mgmt.presentation.view.customer.editor;
 
 import de.code.junction.feldberger.mgmt.data.access.customer.Customer;
-import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,6 +10,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 public class CustomerEditorController extends FXController {
 
@@ -82,18 +82,18 @@ public class CustomerEditorController extends FXController {
     private Button save;
 
     private final CustomerViewModel viewModel;
-    private final Transition<Customer, ?> backTransition;
-    private final Transition<Customer, ?> saveTransition;
+    private final Runnable onBackClicked;
+    private final Consumer<Customer> onSaveClicked;
 
     public CustomerEditorController(CustomerViewModel viewModel,
-                                    Transition<Customer, ?> backTransition,
-                                    Transition<Customer, ?> saveTransition) {
+                                    Runnable onBackClicked,
+                                    Consumer<Customer> onSaveClicked) {
 
         super("customer-editor-view.fxml");
 
         this.viewModel = viewModel;
-        this.backTransition = backTransition;
-        this.saveTransition = saveTransition;
+        this.onSaveClicked = onSaveClicked;
+        this.onBackClicked = onBackClicked;
     }
 
     @Override
@@ -126,7 +126,7 @@ public class CustomerEditorController extends FXController {
         mobilePhoneNumber.textProperty().bindBidirectional(viewModel.mobilePhoneNumberProperty());
         notes.textProperty().bindBidirectional(viewModel.notesProperty());
 
-        final AddressViewModel addressViewModel = viewModel.getAddressViewModel();
+        final var addressViewModel = viewModel.getAddressViewModel();
 
         countryCode.textProperty().bindBidirectional(addressViewModel.countryCodeProperty());
         postalCode.textProperty().bindBidirectional(addressViewModel.postalCodeProperty());
@@ -164,11 +164,11 @@ public class CustomerEditorController extends FXController {
 
     private void onBackClicked(ActionEvent event) {
 
-        backTransition.orchestrate(viewModel.getOriginalState());
+        onBackClicked.run();
     }
 
     private void onSaveClicked(ActionEvent event) {
 
-        saveTransition.orchestrate(viewModel.toCustomer());
+        onSaveClicked.accept(viewModel.toCustomer());
     }
 }

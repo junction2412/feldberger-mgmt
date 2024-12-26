@@ -1,6 +1,5 @@
 package de.code.junction.feldberger.mgmt.presentation.components.main.menu;
 
-import de.code.junction.feldberger.mgmt.data.access.customer.Customer;
 import de.code.junction.feldberger.mgmt.presentation.navigation.Route;
 import de.code.junction.feldberger.mgmt.presentation.navigation.RouteStack;
 import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
@@ -83,17 +82,14 @@ public class MainMenuNavContext extends RouteStack<Pane, MainMenuRoute> {
 
     private FXController customerEditor(HashMap<String, Object> cache) {
 
-        final var backTransition = Transition.<Customer>immediate(_ -> pop());
-
         final var isPop = (boolean) cache.getOrDefault("pop", false);
-        final var saveTransition = transitionFactory.customerEditorCustomerDashboard(route -> {
-            if (isPop)
-                pop();
+        final var saveTransition = transitionFactory.customerEditorCustomerDashboard(
+                route -> {
+                    if (isPop) pop();
+                    else swap(route);
+                });
 
-            else swap(route);
-        });
-
-        return controllerFactory.customerEditor(backTransition, saveTransition, cache);
+        return controllerFactory.customerEditor(this::pop, saveTransition::orchestrate, cache);
     }
 
     private FXController customerDashboard(HashMap<String, Object> cache) {

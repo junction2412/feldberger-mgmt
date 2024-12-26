@@ -53,8 +53,8 @@ public class MainMenuControllerFactory {
         );
     }
 
-    public FXController customerEditor(Transition<Customer, ?> backTransition,
-                                       Transition<Customer, ?> saveTransition,
+    public FXController customerEditor(Runnable onBackClicked,
+                                       Consumer<Customer> onSaveClicked,
                                        HashMap<String, Object> cache) {
 
         final var customerId = (int) cache.get("customerId");
@@ -122,8 +122,8 @@ public class MainMenuControllerFactory {
 
         return new CustomerEditorController(
                 viewModel,
-                backTransition,
-                saveTransition
+                onBackClicked,
+                onSaveClicked
         );
     }
 
