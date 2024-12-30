@@ -14,7 +14,6 @@ import java.util.function.Consumer;
 
 public class RegistrationController extends FXController {
 
-
     @FXML
     private Label usernameLabel;
     @FXML
