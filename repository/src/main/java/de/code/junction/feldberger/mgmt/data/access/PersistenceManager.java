@@ -7,6 +7,8 @@ import de.code.junction.feldberger.mgmt.data.access.customer.CustomerDataAccessO
 import de.code.junction.feldberger.mgmt.data.access.document.Document;
 import de.code.junction.feldberger.mgmt.data.access.document.DocumentDataAccessObject;
 import de.code.junction.feldberger.mgmt.data.access.hibernate.*;
+import de.code.junction.feldberger.mgmt.data.access.preference.Preference;
+import de.code.junction.feldberger.mgmt.data.access.preference.PreferenceDataAccessObject;
 import de.code.junction.feldberger.mgmt.data.access.transaction.Transaction;
 import de.code.junction.feldberger.mgmt.data.access.transaction.TransactionDataAccessObject;
 import de.code.junction.feldberger.mgmt.data.access.user.User;
@@ -17,7 +19,7 @@ import org.hibernate.cfg.Configuration;
 
 public class PersistenceManager {
 
-    private static PersistenceManager instance = new PersistenceManager();
+    private static PersistenceManager instance;
 
     private final SessionFactory sessionFactory;
 
@@ -29,6 +31,7 @@ public class PersistenceManager {
                 .addAnnotatedClass(Address.class)
                 .addAnnotatedClass(Transaction.class)
                 .addAnnotatedClass(Document.class)
+                .addAnnotatedClass(Preference.class)
                 .buildSessionFactory();
     }
 
@@ -73,6 +76,11 @@ public class PersistenceManager {
     public DocumentDataAccessObject documentDao() {
 
         return new HibernateDocumentDao(sessionFactory);
+    }
+
+    public PreferenceDataAccessObject preferenceDao() {
+
+        return new HibernatePreferenceDao(sessionFactory);
     }
 
     public void shutdown() {

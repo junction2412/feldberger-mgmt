@@ -134,7 +134,9 @@ class HibernateUserDaoTest {
     @Test
     void getAllActiveUsersWithFilledTableWithInactiveUsersReturnsEmptyList() {
         // given: filled table
-        userDao.persistUser(new User());
+        final var user = new User("jdoe", "hash", "salt");
+        user.setInactive();
+        userDao.persistUser(user);
 
         // when: all active records are retrieved
         final List<User> all = userDao.getAllActiveUsers();
@@ -157,7 +159,7 @@ class HibernateUserDaoTest {
     @Test
     void countIsOneOnFilledTable() {
         // given: 1 row
-        userDao.persistUser(new User());
+        userDao.persistUser(new User("jdoe", "hash", "salt"));
 
         // when: count
         final long total = userDao.countAll();

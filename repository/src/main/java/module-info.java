@@ -17,6 +17,7 @@ module de.code.junction.feldbergermgmt.repository {
     exports de.code.junction.feldberger.mgmt.data.access.address;
     exports de.code.junction.feldberger.mgmt.data.access.customer;
     exports de.code.junction.feldberger.mgmt.data.access.document;
+    exports de.code.junction.feldberger.mgmt.data.access.preference;
     exports de.code.junction.feldberger.mgmt.data.access.transaction;
     exports de.code.junction.feldberger.mgmt.data.access.user;
     exports de.code.junction.feldberger.mgmt.data.converter;
@@ -25,6 +26,7 @@ module de.code.junction.feldbergermgmt.repository {
     opens de.code.junction.feldberger.mgmt.data.access.address to org.hibernate.orm.core;
     opens de.code.junction.feldberger.mgmt.data.access.customer to org.hibernate.orm.core;
     opens de.code.junction.feldberger.mgmt.data.access.document to org.hibernate.orm.core;
+    opens de.code.junction.feldberger.mgmt.data.access.preference to org.hibernate.orm.core;
     opens de.code.junction.feldberger.mgmt.data.access.transaction to org.hibernate.orm.core;
     opens de.code.junction.feldberger.mgmt.data.access.user to org.hibernate.orm.core;
 }
