@@ -6,7 +6,7 @@ import de.code.junction.feldberger.mgmt.presentation.components.jfx.FXMessenger;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-import static de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.Login;
+import static de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationRoute.Login;
 
 public class Feldberger3DMgmtApplication extends Application {
 

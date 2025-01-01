@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import static de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.*;
+import static de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationRoute.*;
 
 /**
  * The actual entry point of the application UI.
@@ -22,7 +22,7 @@ import static de.code.junction.feldberger.mgmt.presentation.components.applicati
  *
  * @author J. Murray
  */
-public class ApplicationNavContext extends ScopedNavContext<Stage, ApplicationNavRoute> {
+public class ApplicationNavContext extends ScopedNavContext<Stage, ApplicationRoute> {
 
     private final ApplicationControllerFactory controllerFactory;
     private final ApplicationTransitionFactory transitionFactory;
@@ -36,7 +36,7 @@ public class ApplicationNavContext extends ScopedNavContext<Stage, ApplicationNa
     }
 
     @Override
-    public void navigateTo(ApplicationNavRoute route) {
+    public void navigateTo(ApplicationRoute route) {
 
         final var controller = switch (route) {
             case Registration registration -> registration(registration.username());

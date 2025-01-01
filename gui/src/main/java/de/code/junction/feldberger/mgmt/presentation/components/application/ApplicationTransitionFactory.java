@@ -12,7 +12,7 @@ import de.code.junction.feldberger.mgmt.presentation.view.registration.Registrat
 
 import java.util.function.Consumer;
 
-import static de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.MainMenu;
+import static de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationRoute.MainMenu;
 
 /**
  * A factory class to be used to instantiate more complex {@link TransitionLifecycle} implementations.

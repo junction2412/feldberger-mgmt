@@ -10,7 +10,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-import static de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.MainMenu;
+import static de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationRoute.MainMenu;
 import static de.code.junction.feldberger.mgmt.presentation.util.HashUtil.hashPassword;
 
 public class ApplicationLoginTransitionLifecycle implements TransitionLifecycle<LoginForm, MainMenu> {

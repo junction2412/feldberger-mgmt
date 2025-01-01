@@ -1,34 +1,38 @@
 package de.code.junction.feldberger.mgmt.presentation.components.application;
 
+import de.code.junction.feldberger.mgmt.data.access.user.User;
 import de.code.junction.feldberger.mgmt.presentation.navigation.RouteName;
 
-import java.util.Arrays;
+public sealed interface ApplicationRoute extends RouteName {
 
-public enum ApplicationRoute implements RouteName {
+    record Login(String username) implements ApplicationRoute {
 
-    REGISTRATION("registration"),
-    LOGIN("login"),
-    MAIN_MENU("main.menu"),
-    ;
+        public Login() {
 
-    private final String name;
+            this("");
+        }
 
-    ApplicationRoute(String name) {
+        @Override
+        public String string() {
 
-        this.name = name;
+            return "login";
+        }
     }
 
-    @Override
-    public String string() {
+    record Registration(String username) implements ApplicationRoute {
 
-        return name;
+        @Override
+        public String string() {
+
+            return "registration";
+        }
     }
 
-    public static ApplicationRoute byName(String name) {
+    record MainMenu(User user) implements ApplicationRoute {
 
-        return Arrays.stream(ApplicationRoute.values())
-                .filter(route -> route.name.equals(name))
-                .findFirst()
-                .orElseThrow();
+        @Override
+        public String string() {
+            return "main-menu";
+        }
     }
 }

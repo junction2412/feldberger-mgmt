@@ -10,7 +10,7 @@ import de.code.junction.feldberger.mgmt.presentation.navigation.TransitionLifecy
 
 import java.util.function.Consumer;
 
-import static de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.MainMenu;
+import static de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationRoute.MainMenu;
 import static de.code.junction.feldberger.mgmt.presentation.util.HashUtil.hashPassword;
 import static de.code.junction.feldberger.mgmt.presentation.util.HashUtil.salt;
 import static de.code.junction.feldberger.mgmt.presentation.util.ResourceLoader.getMessageStringResources;

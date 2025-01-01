@@ -9,7 +9,6 @@ import de.code.junction.feldberger.mgmt.presentation.messaging.Messenger;
 import javafx.scene.layout.Pane;
 
 import java.util.Objects;
-import java.util.Stack;
 
 public class NavContextProvider {
 
@@ -19,7 +18,6 @@ public class NavContextProvider {
     private final PersistenceManager persistenceManager;
 
     private ApplicationNavContext applicationNavContext;
-    private MainMenuNavContext mainMenuNavContext;
 
     private NavContextProvider(PersistenceManager persistenceManager, Messenger messenger) {
 
@@ -54,7 +52,6 @@ public class NavContextProvider {
     public void initMainMenu(Pane scope) {
 
         final var navContext = new MainMenuNavContext(
-                new Stack<>(),
                 transitionFactoryProvider.mainMenuTransitionFactory(),
                 new MainMenuControllerFactory(persistenceManager),
                 applicationNavContext.getPreferenceRegistry()
@@ -66,7 +63,6 @@ public class NavContextProvider {
     public MainMenuNavContext mainMenu() {
 
         return new MainMenuNavContext(
-                new Stack<>(),
                 transitionFactoryProvider.mainMenuTransitionFactory(),
                 new MainMenuControllerFactory(persistenceManager),
                 applicationNavContext.getPreferenceRegistry()
