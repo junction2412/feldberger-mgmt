@@ -34,13 +34,13 @@ public class RegistrationController extends FXController {
     @FXML
     private Button submit;
 
-    private final Runnable onBackClicked;
+    private final Consumer<String> onBackClicked;
     private final Consumer<RegistrationForm> onSubmitClicked;
 
     private final RegistrationFormViewModel viewModel;
 
     public RegistrationController(RegistrationFormViewModel viewModel,
-                                  Runnable onBackClicked,
+                                  Consumer<String> onBackClicked,
                                   Consumer<RegistrationForm> onSubmitClicked) {
 
         super("registration-view.fxml");
@@ -84,7 +84,7 @@ public class RegistrationController extends FXController {
 
     private void onBackClicked(ActionEvent event) {
 
-        onBackClicked.run();
+        onBackClicked.accept(viewModel.getUsername());
     }
 
     private void onSubmitClicked(ActionEvent event) {

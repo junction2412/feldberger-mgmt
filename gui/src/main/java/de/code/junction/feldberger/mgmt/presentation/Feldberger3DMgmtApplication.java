@@ -1,14 +1,12 @@
 package de.code.junction.feldberger.mgmt.presentation;
 
 import de.code.junction.feldberger.mgmt.data.access.PersistenceManager;
-import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationRoute;
 import de.code.junction.feldberger.mgmt.presentation.components.common.NavContextProvider;
 import de.code.junction.feldberger.mgmt.presentation.components.jfx.FXMessenger;
-import de.code.junction.feldberger.mgmt.presentation.navigation.Route;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-import java.util.HashMap;
+import static de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.Login;
 
 public class Feldberger3DMgmtApplication extends Application {
 
@@ -31,7 +29,7 @@ public class Feldberger3DMgmtApplication extends Application {
         final var navContext = NavContextProvider.getInstance(messenger).application();
 
         navContext.setScope(stage);
-        navContext.push(new Route<>(ApplicationRoute.LOGIN, new HashMap<>()));
+        navContext.navigateTo(new Login());
 
         stage.setMaximized(true);
         stage.show();

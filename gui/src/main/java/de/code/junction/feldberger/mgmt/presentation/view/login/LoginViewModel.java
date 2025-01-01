@@ -3,12 +3,12 @@ package de.code.junction.feldberger.mgmt.presentation.view.login;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class LoginFormViewModel {
+public class LoginViewModel {
 
     public final StringProperty username;
     public final StringProperty password;
 
-    public LoginFormViewModel(String username) {
+    public LoginViewModel(String username) {
 
         this(
                 username,
@@ -16,8 +16,8 @@ public class LoginFormViewModel {
         );
     }
 
-    public LoginFormViewModel(String username,
-                              String password) {
+    public LoginViewModel(String username,
+                          String password) {
 
         this.username = new SimpleStringProperty(username);
         this.password = new SimpleStringProperty(password);

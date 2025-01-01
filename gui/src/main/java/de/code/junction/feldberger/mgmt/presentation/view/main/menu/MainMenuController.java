@@ -100,7 +100,7 @@ public final class MainMenuController extends FXController {
         viewModel.selectedSubviewProperty().bind(navigation.getSelectionModel().selectedItemProperty());
         navigation.getSelectionModel().selectedItemProperty().addListener(this::onNavigationSelectionChanged);
 
-        NavContextProvider.getInstance().initMainMenu(subview, viewModel.getUserId());
+        NavContextProvider.getInstance().initMainMenu(subview);
     }
 
     @Override
@@ -126,7 +126,7 @@ public final class MainMenuController extends FXController {
 
         final var navContextProvider = NavContextProvider.getInstance();
         // always create a new context from scratch to ensure an empty stack
-        final var navContext = navContextProvider.mainMenu(viewModel.getUserId());
+        final var navContext = navContextProvider.mainMenu();
         navContext.setScope(subview);
 
         switch (newValue) {

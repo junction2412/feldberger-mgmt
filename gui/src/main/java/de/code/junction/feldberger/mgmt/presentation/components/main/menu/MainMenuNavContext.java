@@ -2,6 +2,7 @@ package de.code.junction.feldberger.mgmt.presentation.components.main.menu;
 
 import de.code.junction.feldberger.mgmt.presentation.navigation.Route;
 import de.code.junction.feldberger.mgmt.presentation.navigation.RouteStack;
+import de.code.junction.feldberger.mgmt.presentation.preferences.PreferenceRegistry;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import javafx.application.Platform;
 import javafx.scene.layout.Pane;
@@ -17,7 +18,7 @@ public class MainMenuNavContext extends RouteStack<Pane, MainMenuRoute> {
 
     public MainMenuNavContext(Stack<Route<MainMenuRoute>> stack,
                               MainMenuTransitionFactory transitionFactory,
-                              MainMenuControllerFactory controllerFactory) {
+                              MainMenuControllerFactory controllerFactory, PreferenceRegistry preferenceRegistry) {
 
         super(stack);
 

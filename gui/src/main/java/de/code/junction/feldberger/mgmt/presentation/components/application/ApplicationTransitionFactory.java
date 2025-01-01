@@ -3,7 +3,6 @@ package de.code.junction.feldberger.mgmt.presentation.components.application;
 import de.code.junction.feldberger.mgmt.data.access.PersistenceManager;
 import de.code.junction.feldberger.mgmt.presentation.components.common.TransitionFactory;
 import de.code.junction.feldberger.mgmt.presentation.messaging.Messenger;
-import de.code.junction.feldberger.mgmt.presentation.navigation.Route;
 import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
 import de.code.junction.feldberger.mgmt.presentation.navigation.TransitionLifecycle;
 import de.code.junction.feldberger.mgmt.presentation.view.login.ApplicationLoginTransitionLifecycle;
@@ -12,6 +11,8 @@ import de.code.junction.feldberger.mgmt.presentation.view.registration.Applicati
 import de.code.junction.feldberger.mgmt.presentation.view.registration.RegistrationForm;
 
 import java.util.function.Consumer;
+
+import static de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.MainMenu;
 
 /**
  * A factory class to be used to instantiate more complex {@link TransitionLifecycle} implementations.
@@ -25,7 +26,7 @@ public class ApplicationTransitionFactory extends TransitionFactory {
         super(persistenceManager, messenger);
     }
 
-    public Transition<RegistrationForm, Route<ApplicationRoute>> registration(Consumer<Route<ApplicationRoute>> onEnd) {
+    public Transition<RegistrationForm, MainMenu> registration(Consumer<MainMenu> onEnd) {
 
         return new Transition<>(new ApplicationRegistrationTransitionLifecycle(
                 messenger,
@@ -34,7 +35,7 @@ public class ApplicationTransitionFactory extends TransitionFactory {
         ));
     }
 
-    public Transition<LoginForm, Route<ApplicationRoute>> login(Consumer<Route<ApplicationRoute>> onEnd) {
+    public Transition<LoginForm, MainMenu> login(Consumer<MainMenu> onEnd) {
 
         return new Transition<>(new ApplicationLoginTransitionLifecycle(
                 messenger,

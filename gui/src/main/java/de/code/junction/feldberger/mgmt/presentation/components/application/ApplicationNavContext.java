@@ -1,9 +1,9 @@
 package de.code.junction.feldberger.mgmt.presentation.components.application;
 
-import de.code.junction.feldberger.mgmt.presentation.cache.Cache;
-import de.code.junction.feldberger.mgmt.presentation.cache.ScopeName;
-import de.code.junction.feldberger.mgmt.presentation.navigation.Route;
-import de.code.junction.feldberger.mgmt.presentation.navigation.RouteStack;
+import de.code.junction.feldberger.mgmt.data.access.PersistenceManager;
+import de.code.junction.feldberger.mgmt.data.access.user.User;
+import de.code.junction.feldberger.mgmt.presentation.navigation.ScopedNavContext;
+import de.code.junction.feldberger.mgmt.presentation.preferences.PreferenceRegistry;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import de.code.junction.feldberger.mgmt.presentation.view.main.menu.UserSession;
 import javafx.application.Platform;
@@ -11,10 +11,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Stack;
 import java.util.function.Consumer;
+import java.util.function.Function;
+
+import static de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.*;
 
 /**
  * The actual entry point of the application UI.
@@ -22,81 +22,61 @@ import java.util.function.Consumer;
  *
  * @author J. Murray
  */
-public class ApplicationNavContext extends RouteStack<Stage, ApplicationRoute> {
+public class ApplicationNavContext extends ScopedNavContext<Stage, ApplicationNavRoute> {
 
     private final ApplicationControllerFactory controllerFactory;
     private final ApplicationTransitionFactory transitionFactory;
+    private PreferenceRegistry preferenceRegistry;
 
-    public ApplicationNavContext(Stack<Route<ApplicationRoute>> stack,
-                                 ApplicationControllerFactory controllerFactory,
+    public ApplicationNavContext(ApplicationControllerFactory controllerFactory,
                                  ApplicationTransitionFactory transitionFactory) {
-
-        super(stack);
 
         this.controllerFactory = controllerFactory;
         this.transitionFactory = transitionFactory;
     }
 
     @Override
-    public void navigateTo(Route<ApplicationRoute> route) {
+    public void navigateTo(ApplicationNavRoute route) {
 
-        final var controller = switch (route.name()) {
-            case REGISTRATION -> registration(route.cache());
-            case LOGIN -> login(route.cache());
-            case MAIN_MENU -> mainMenu(route.cache());
+        final var controller = switch (route) {
+            case Registration registration -> registration(registration.username());
+            case Login login -> login(login.username());
+            case MainMenu mainMenu -> mainMenu(mainMenu.user());
         };
 
         setSceneController(controller);
     }
 
-    private FXController login(Map<String, Object> cache) {
+    private FXController login(String username) {
 
-        final var loginTransition = transitionFactory.login(route -> {
+        final var loginTransition = transitionFactory.login(this::navigateTo);
 
-            final var userId = (int) route.cache().get("userId");
-            final var routes = Cache.<ApplicationRoute>getScopeRoutes(userId, ScopeName.APPLICATION);
+        final Function<String, Registration> factory = Registration::new;
+        final Consumer<Registration> action = this::navigateTo;
+        final Consumer<String> onRegisterClicked = _username -> action.accept(factory.apply(_username));
 
-            if (!routes.isEmpty()) {
-
-                final var cachedRoute = routes.peek();
-
-                if (cachedRoute.name() == ApplicationRoute.MAIN_MENU) {
-
-                    final var subview = (String) cachedRoute.cache().getOrDefault(
-                            "selectedSubviewEnumValue",
-                            null
-                    );
-
-                    if (subview != null)
-                        route.cache().put("selectedSubviewEnumValue", subview);
-                }
-            }
-
-            push(route);
-        });
-
-        final Consumer<String> onRegisterClicked = username -> {
-            final var _cache = new HashMap<String, Object>();
-            _cache.put("username", username);
-
-            push(new Route<>(ApplicationRoute.REGISTRATION, _cache));
-        };
-
-        return controllerFactory.login(loginTransition::orchestrate, onRegisterClicked, cache);
+        return controllerFactory.login(loginTransition::orchestrate, onRegisterClicked, username);
     }
 
-    private FXController mainMenu(HashMap<String, Object> cache) {
+    private FXController mainMenu(User user) {
 
         final Consumer<UserSession> onSettingsClicked = _ -> System.out.println("Settings");
 
-        return controllerFactory.mainMenu(this::pop, onSettingsClicked, cache);
+        final Runnable logout = () -> navigateTo(new Login(user.getUsername()));
+
+        final var persistenceManager = PersistenceManager.getInstance();
+        final var userReference = persistenceManager.userDao().getReference(user.getId());
+        preferenceRegistry = new PreferenceRegistry(persistenceManager.preferenceDao(), userReference);
+
+        return controllerFactory.mainMenu(logout, onSettingsClicked, user, preferenceRegistry);
     }
 
-    private FXController registration(Map<String, Object> cache) {
+    private FXController registration(String username) {
 
-        final var registrationTransition = transitionFactory.registration(this::swap);
+        final var registrationTransition = transitionFactory.registration(this::navigateTo);
 
-        return controllerFactory.registration(this::pop, registrationTransition::orchestrate, cache);
+        final Consumer<String> login = _username -> navigateTo(new Login(_username));
+        return controllerFactory.registration(login, registrationTransition::orchestrate, username);
     }
 
     private void setSceneController(FXController controller) {
@@ -115,5 +95,10 @@ public class ApplicationNavContext extends RouteStack<Stage, ApplicationRoute> {
             scope.setScene(new Scene(parent));
         else
             scope.getScene().setRoot(parent);
+    }
+
+    public PreferenceRegistry getPreferenceRegistry() {
+
+        return preferenceRegistry;
     }
 }

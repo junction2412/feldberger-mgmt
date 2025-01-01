@@ -84,4 +84,10 @@ public class HibernateUserDao
 
         return sessionFactory.fromSession(session -> session.createSelectionQuery(users).getResultCount());
     }
+
+    @Override
+    public User getReference(int userId) {
+
+        return sessionFactory.fromSession(session -> session.getReference(User.class, userId));
+    }
 }

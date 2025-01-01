@@ -2,31 +2,28 @@ package de.code.junction.feldberger.mgmt.presentation.view.registration;
 
 import de.code.junction.feldberger.mgmt.data.access.user.User;
 import de.code.junction.feldberger.mgmt.data.access.user.UserDataAccessObject;
-import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationRoute;
 import de.code.junction.feldberger.mgmt.presentation.messaging.Message;
 import de.code.junction.feldberger.mgmt.presentation.messaging.MessageType;
 import de.code.junction.feldberger.mgmt.presentation.messaging.Messages;
 import de.code.junction.feldberger.mgmt.presentation.messaging.Messenger;
-import de.code.junction.feldberger.mgmt.presentation.navigation.Route;
 import de.code.junction.feldberger.mgmt.presentation.navigation.TransitionLifecycle;
 
-import java.util.HashMap;
-import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
+import static de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.MainMenu;
 import static de.code.junction.feldberger.mgmt.presentation.util.HashUtil.hashPassword;
 import static de.code.junction.feldberger.mgmt.presentation.util.HashUtil.salt;
 import static de.code.junction.feldberger.mgmt.presentation.util.ResourceLoader.getMessageStringResources;
 
-public class ApplicationRegistrationTransitionLifecycle implements TransitionLifecycle<RegistrationForm, Route<ApplicationRoute>> {
+public class ApplicationRegistrationTransitionLifecycle implements TransitionLifecycle<RegistrationForm, MainMenu> {
 
     private final Messenger messenger;
     private final UserDataAccessObject userDao;
-    private final Consumer<Route<ApplicationRoute>> onEnd;
+    private final Consumer<MainMenu> onEnd;
 
     public ApplicationRegistrationTransitionLifecycle(Messenger messenger,
                                                       UserDataAccessObject userDao,
-                                                      Consumer<Route<ApplicationRoute>> onEnd) {
+                                                      Consumer<MainMenu> onEnd) {
 
         this.messenger = messenger;
         this.userDao = userDao;
@@ -36,17 +33,17 @@ public class ApplicationRegistrationTransitionLifecycle implements TransitionLif
     @Override
     public boolean validate(RegistrationForm registrationForm) {
 
-        final String username = registrationForm.username();
-        final String password = registrationForm.password();
+        final var username = registrationForm.username();
+        final var password = registrationForm.password();
 
-        final boolean arePasswordInputsEqual = password.equals(registrationForm.repeatPassword());
-        final boolean isPasswordMinimumLength = 7 < password.length();
-        final boolean isPasswordNotMaxLength = password.length() < 65;
-        final boolean isUsernameNotEmpty = !username.isEmpty();
-        final boolean isUsernameNotTaken = userDao.findByUsername(username).isEmpty();
+        final var arePasswordInputsEqual = password.equals(registrationForm.repeatPassword());
+        final var isPasswordMinimumLength = 7 < password.length();
+        final var isPasswordNotMaxLength = password.length() < 65;
+        final var isUsernameNotEmpty = !username.isEmpty();
+        final var isUsernameNotTaken = userDao.findByUsername(username).isEmpty();
 
-        final StringBuilder reasons = new StringBuilder();
-        final ResourceBundle bundle = getMessageStringResources();
+        final var reasons = new StringBuilder();
+        final var bundle = getMessageStringResources();
 
         if (!arePasswordInputsEqual)
             reasons.append("\n").append(bundle.getString("registration.failed.content.reason.password.inputs.not.equal"));
@@ -63,14 +60,14 @@ public class ApplicationRegistrationTransitionLifecycle implements TransitionLif
         if (!isUsernameNotTaken)
             reasons.append("\n").append(bundle.getString("registration.failed.content.reason.username.taken"));
 
-        final boolean isPasswordValid = arePasswordInputsEqual && isPasswordMinimumLength && isPasswordNotMaxLength;
-        final boolean isUsernameValid = isUsernameNotEmpty && isUsernameNotTaken;
+        final var isPasswordValid = arePasswordInputsEqual && isPasswordMinimumLength && isPasswordNotMaxLength;
+        final var isUsernameValid = isUsernameNotEmpty && isUsernameNotTaken;
 
         if (!(isPasswordValid && isUsernameValid)) {
 
-            final String title = bundle.getString("registration.failed.title");
-            final String header = bundle.getString("registration.failed.header");
-            final String content = bundle.getString("registration.failed.content.format").formatted(reasons);
+            final var title = bundle.getString("registration.failed.title");
+            final var header = bundle.getString("registration.failed.header");
+            final var content = bundle.getString("registration.failed.content.format").formatted(reasons);
 
             messenger.send(new Message(MessageType.WARNING, title, header, content));
 
@@ -81,7 +78,7 @@ public class ApplicationRegistrationTransitionLifecycle implements TransitionLif
     }
 
     @Override
-    public Route<ApplicationRoute> transform(RegistrationForm registrationForm) {
+    public MainMenu transform(RegistrationForm registrationForm) {
 
         final var passwordSalt = salt();
         final var passwordHash = hashPassword(
@@ -97,17 +94,11 @@ public class ApplicationRegistrationTransitionLifecycle implements TransitionLif
 
         userDao.persistUser(user);
 
-        final var map = new HashMap<String, Object>();
-        map.put("userId", user.getId());
-
-        return new Route<>(
-                ApplicationRoute.MAIN_MENU,
-                map
-        );
+        return new MainMenu(user);
     }
 
     @Override
-    public void conclude(Route<ApplicationRoute> route) {
+    public void conclude(MainMenu route) {
 
         try {
             onEnd.accept(route);

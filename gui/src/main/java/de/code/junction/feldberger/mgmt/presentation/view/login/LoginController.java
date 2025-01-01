@@ -32,9 +32,9 @@ public class LoginController extends FXController {
     private final Consumer<LoginForm> onSubmitClicked;
     private final Consumer<String> onRegisterClicked;
 
-    private final LoginFormViewModel viewModel;
+    private final LoginViewModel viewModel;
 
-    public LoginController(LoginFormViewModel viewModel,
+    public LoginController(LoginViewModel viewModel,
                            Consumer<LoginForm> onSubmitClicked,
                            Consumer<String> onRegisterClicked) {
 

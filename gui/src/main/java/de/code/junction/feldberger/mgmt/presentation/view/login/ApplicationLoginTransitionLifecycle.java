@@ -2,28 +2,26 @@ package de.code.junction.feldberger.mgmt.presentation.view.login;
 
 import de.code.junction.feldberger.mgmt.data.access.user.User;
 import de.code.junction.feldberger.mgmt.data.access.user.UserDataAccessObject;
-import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationRoute;
 import de.code.junction.feldberger.mgmt.presentation.messaging.Messages;
 import de.code.junction.feldberger.mgmt.presentation.messaging.Messenger;
-import de.code.junction.feldberger.mgmt.presentation.navigation.Route;
 import de.code.junction.feldberger.mgmt.presentation.navigation.TransitionLifecycle;
 
-import java.util.HashMap;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.function.Consumer;
 
+import static de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavRoute.MainMenu;
 import static de.code.junction.feldberger.mgmt.presentation.util.HashUtil.hashPassword;
 
-public class ApplicationLoginTransitionLifecycle implements TransitionLifecycle<LoginForm, Route<ApplicationRoute>> {
+public class ApplicationLoginTransitionLifecycle implements TransitionLifecycle<LoginForm, MainMenu> {
 
     private final Messenger messenger;
     private final UserDataAccessObject userDao;
-    private final Consumer<Route<ApplicationRoute>> onEnd;
+    private final Consumer<MainMenu> onEnd;
 
     public ApplicationLoginTransitionLifecycle(Messenger messenger,
                                                UserDataAccessObject userDao,
-                                               Consumer<Route<ApplicationRoute>> onEnd) {
+                                               Consumer<MainMenu> onEnd) {
 
         this.messenger = messenger;
         this.userDao = userDao;
@@ -58,9 +56,9 @@ public class ApplicationLoginTransitionLifecycle implements TransitionLifecycle<
     }
 
     @Override
-    public Route<ApplicationRoute> transform(LoginForm loginForm) {
+    public MainMenu transform(LoginForm loginForm) {
 
-        final Optional<User> optionalUser = userDao.findByUsername(loginForm.username());
+        final var optionalUser = userDao.findByUsername(loginForm.username());
 
         if (optionalUser.isEmpty()) {
             // TODO: display message that user could not be found
@@ -68,22 +66,13 @@ public class ApplicationLoginTransitionLifecycle implements TransitionLifecycle<
             throw new NoSuchElementException();
         }
 
-        final User user = optionalUser.get();
+        final var user = optionalUser.get();
 
-        final var cache = new HashMap<String, Object>();
-        cache.put(
-                "userId",
-                user.getId()
-        );
-
-        return new Route<>(
-                ApplicationRoute.MAIN_MENU,
-                cache
-        );
+        return new MainMenu(user);
     }
 
     @Override
-    public void conclude(Route<ApplicationRoute> route) {
+    public void conclude(MainMenu route) {
 
         try {
             onEnd.accept(route);

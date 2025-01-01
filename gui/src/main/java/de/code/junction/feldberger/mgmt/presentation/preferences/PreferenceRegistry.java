@@ -7,6 +7,7 @@ import de.code.junction.feldberger.mgmt.data.access.user.User;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 public final class PreferenceRegistry {
 
@@ -64,18 +65,23 @@ public final class PreferenceRegistry {
      * @param uiPreference ui preference metadata
      * @return preference value as specified by {@link UIPreference#type()}
      */
+    @SuppressWarnings("unchecked")
     public <T> T getValue(UIPreference uiPreference) {
 
         final var stringValue = getStringValue(uiPreference);
 
-        return (T) switch (uiPreference.type()) {
-            case Class<?> c when c == String.class -> stringValue;
-            case Class<?> c when c == Integer.class -> Integer.valueOf(stringValue);
-            case Class<?> c when c == Double.class -> Double.valueOf(stringValue);
-            case Class<?> c when c == Boolean.class -> Boolean.valueOf(stringValue);
+        if (stringValue.equals("null")) return null;
+
+        final Function<String, Object> parser = switch (uiPreference.type()) {
+            case Class<?> c when c == String.class -> value -> value;
+            case Class<?> c when c == Integer.class -> Integer::valueOf;
+            case Class<?> c when c == Double.class -> Double::valueOf;
+            case Class<?> c when c == Boolean.class -> Boolean::valueOf;
             default -> throw new UnsupportedOperationException("Cannot parse value of type " +
                     uiPreference.type().getName());
         };
+
+        return (T) parser.apply(stringValue);
     }
 
     public <T> void setValue(UIPreference uiPreference, T value) {

@@ -1,13 +1,10 @@
 package de.code.junction.feldberger.mgmt.presentation.components.common;
 
 import de.code.junction.feldberger.mgmt.data.access.PersistenceManager;
-import de.code.junction.feldberger.mgmt.presentation.cache.Cache;
-import de.code.junction.feldberger.mgmt.presentation.cache.ScopeName;
 import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationControllerFactory;
 import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavContext;
 import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuControllerFactory;
 import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuNavContext;
-import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuRoute;
 import de.code.junction.feldberger.mgmt.presentation.messaging.Messenger;
 import javafx.scene.layout.Pane;
 
@@ -47,45 +44,32 @@ public class NavContextProvider {
 
         if (applicationNavContext == null)
             applicationNavContext = new ApplicationNavContext(
-                    new Stack<>(),
-                    new ApplicationControllerFactory(persistenceManager),
+                    new ApplicationControllerFactory(),
                     transitionFactoryProvider.applicationTransitionFactory()
             );
 
         return applicationNavContext;
     }
 
-    public void initMainMenu(Pane scope, int userId) {
+    public void initMainMenu(Pane scope) {
 
-        final var routes = Cache.<MainMenuRoute>getScopeRoutes(userId, ScopeName.MAIN_MENU);
         final var navContext = new MainMenuNavContext(
-                routes,
+                new Stack<>(),
                 transitionFactoryProvider.mainMenuTransitionFactory(),
-                new MainMenuControllerFactory(persistenceManager)
+                new MainMenuControllerFactory(persistenceManager),
+                applicationNavContext.getPreferenceRegistry()
         );
 
         navContext.setScope(scope);
-
-        // always overwrite mainMenuNavContext whenever a new one is created
-        // to only keep track of the recent navigation stack being cached
-        mainMenuNavContext = navContext;
-
-        if (!routes.isEmpty())
-            navContext.push(routes.peek());
     }
 
-    public MainMenuNavContext mainMenu(int userId) {
+    public MainMenuNavContext mainMenu() {
 
-        final var navContext = new MainMenuNavContext(
-                Cache.getScopeRoutes(userId, ScopeName.MAIN_MENU),
+        return new MainMenuNavContext(
+                new Stack<>(),
                 transitionFactoryProvider.mainMenuTransitionFactory(),
-                new MainMenuControllerFactory(persistenceManager)
+                new MainMenuControllerFactory(persistenceManager),
+                applicationNavContext.getPreferenceRegistry()
         );
-
-        // always overwrite mainMenuNavContext whenever a new one is created
-        // to only keep track of the recent navigation stack being cached
-        mainMenuNavContext = navContext;
-
-        return navContext;
     }
 }

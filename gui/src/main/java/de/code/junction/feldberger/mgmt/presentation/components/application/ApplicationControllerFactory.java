@@ -1,23 +1,16 @@
 package de.code.junction.feldberger.mgmt.presentation.components.application;
 
-import de.code.junction.feldberger.mgmt.data.access.PersistenceManager;
 import de.code.junction.feldberger.mgmt.data.access.user.User;
-import de.code.junction.feldberger.mgmt.presentation.cache.Cache;
-import de.code.junction.feldberger.mgmt.presentation.cache.ScopeName;
+import de.code.junction.feldberger.mgmt.presentation.preferences.PreferenceRegistry;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import de.code.junction.feldberger.mgmt.presentation.view.login.LoginController;
 import de.code.junction.feldberger.mgmt.presentation.view.login.LoginForm;
-import de.code.junction.feldberger.mgmt.presentation.view.login.LoginFormViewModel;
-import de.code.junction.feldberger.mgmt.presentation.view.main.menu.MainMenuController;
-import de.code.junction.feldberger.mgmt.presentation.view.main.menu.MainMenuViewModel;
-import de.code.junction.feldberger.mgmt.presentation.view.main.menu.Subview;
-import de.code.junction.feldberger.mgmt.presentation.view.main.menu.UserSession;
+import de.code.junction.feldberger.mgmt.presentation.view.login.LoginViewModel;
+import de.code.junction.feldberger.mgmt.presentation.view.main.menu.*;
 import de.code.junction.feldberger.mgmt.presentation.view.registration.RegistrationController;
 import de.code.junction.feldberger.mgmt.presentation.view.registration.RegistrationForm;
 import de.code.junction.feldberger.mgmt.presentation.view.registration.RegistrationFormViewModel;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Consumer;
 
 /**
@@ -25,63 +18,36 @@ import java.util.function.Consumer;
  */
 public class ApplicationControllerFactory {
 
-    private final PersistenceManager persistenceManager;
-
-    public ApplicationControllerFactory(PersistenceManager persistenceManager) {
-
-        this.persistenceManager = persistenceManager;
+    public ApplicationControllerFactory() {
     }
 
-    public FXController registration(Runnable onBackClicked,
+    public FXController registration(Consumer<String> onBackClicked,
                                      Consumer<RegistrationForm> onSubmitClicked,
-                                     Map<String, Object> cache) {
+                                     String username) {
 
-        final var username = (String) cache.getOrDefault("username", "");
-        final var viewModel = new RegistrationFormViewModel(username);
-
-        viewModel.usernameProperty().addListener((_, _, value) ->
-                cache.put("username", value)
-        );
-
-        return new RegistrationController(viewModel, onBackClicked, onSubmitClicked);
+        return new RegistrationController(new RegistrationFormViewModel(username), onBackClicked, onSubmitClicked);
     }
 
     public FXController login(Consumer<LoginForm> onSubmitClicked,
                               Consumer<String> onRegisterClicked,
-                              Map<String, Object> cache) {
+                              String username) {
 
-        final var username = (String) cache.getOrDefault("username", "");
-        final var viewModel = new LoginFormViewModel(username);
-
-        viewModel.usernameProperty().addListener((_, _, value) ->
-                cache.put("username", value)
-        );
-
-        return new LoginController(viewModel, onSubmitClicked, onRegisterClicked);
+        return new LoginController(new LoginViewModel(username), onSubmitClicked, onRegisterClicked);
     }
 
     public FXController mainMenu(Runnable onLogoutClicked,
                                  Consumer<UserSession> onSettingsClicked,
-                                 HashMap<String, Object> cache) {
+                                 User user, PreferenceRegistry preferenceRegistry) {
 
-        final var userId = (int) cache.get("userId");
-        final var routes = Cache.<ApplicationRoute>getScopeRoutes(userId, ScopeName.APPLICATION);
-
-        final var username = persistenceManager.userDao()
-                .findById(userId)
-                .map(User::getUsername)
-                .orElseThrow();
-
-        final var loadedCache = routes.peek().cache();
-
-        final var selectedSubview = loadedCache.containsKey("selectedSubviewEnumValue")
-                ? Subview.valueOf((String) loadedCache.get("selectedSubviewEnumValue"))
+        final var selectedSubviewPreference = preferenceRegistry.<String>getValue(MainMenuPreferences.SELECTED_SUBVIEW);
+        final var selectedSubview = selectedSubviewPreference != null
+                ? Subview.valueOf(selectedSubviewPreference)
                 : null;
 
-        final var viewModel = new MainMenuViewModel(userId, username, selectedSubview);
+        final var viewModel = new MainMenuViewModel(user.getId(), user.getUsername(), selectedSubview);
 
         viewModel.selectedSubviewProperty().addListener((_, _, value) ->
-                cache.put("selectedSubviewEnumValue", value)
+                preferenceRegistry.setValue(MainMenuPreferences.SELECTED_SUBVIEW, String.valueOf(value))
         );
 
         return new MainMenuController(viewModel, onLogoutClicked, onSettingsClicked);
