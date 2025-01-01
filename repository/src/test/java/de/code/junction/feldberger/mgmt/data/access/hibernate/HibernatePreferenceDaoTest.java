@@ -8,6 +8,8 @@ import de.code.junction.feldberger.mgmt.data.access.user.User;
 import de.code.junction.feldberger.mgmt.data.access.user.UserDataAccessObject;
 import org.junit.jupiter.api.*;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -33,7 +35,9 @@ class HibernatePreferenceDaoTest {
     @AfterEach
     void tearDown() {
 
-        preferenceDao.getAll().forEach(preferenceDao::delete);
+        preferenceDao.getAll().stream()
+                .map(Preference::getId)
+                .forEach(preferenceDao::delete);
     }
 
     @AfterAll
@@ -117,5 +121,25 @@ class HibernatePreferenceDaoTest {
     @Test
     void delete() {
         // works. see #tearDown
+    }
+
+    @Test
+    void testDelete() {
+        // given
+
+        // given: user, multiple preferences of same scope
+        final var user = new User("jdoe5", "hash", "salt");
+        userDao.persistUser(user);
+
+        final var id1 = new PreferenceId(user, "test", "pref1.test");
+        final var id2 = new PreferenceId(user, "test", "pref2.test");
+
+        preferenceDao.persistPreference(new Preference(id1, null));
+        preferenceDao.persistPreference(new Preference(id2, null));
+
+        // when:
+        preferenceDao.deleteByIdIn(List.of(id1, id2));
+
+
     }
 }

@@ -5,11 +5,13 @@ import de.code.junction.feldberger.mgmt.presentation.preferences.UIPreference;
 
 public final class MainMenuPreferences {
 
+    public static final String SCOPE = "main-menu";
+
     private MainMenuPreferences() {
     }
 
     public static final UIPreference SELECTED_SUBVIEW = new UIPreference(
-            "main-menu",
+            SCOPE,
             "subviews.selectedItem",
             null,
             String.class,

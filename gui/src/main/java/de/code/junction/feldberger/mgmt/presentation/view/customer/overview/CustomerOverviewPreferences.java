@@ -5,11 +5,13 @@ import de.code.junction.feldberger.mgmt.presentation.preferences.UIPreference;
 
 public final class CustomerOverviewPreferences {
 
+    public static final String SCOPE = "customer-overview";
+
     private CustomerOverviewPreferences() {
     }
 
     public static final UIPreference FILTER = new UIPreference(
-            "customer-overview",
+            SCOPE,
             "filter.text",
             "",
             String.class,
@@ -18,7 +20,7 @@ public final class CustomerOverviewPreferences {
     );
 
     public static final UIPreference SELECTED_CUSTOMER_ID = new UIPreference(
-            "customer-overview",
+            SCOPE,
             "customers.selectedItem",
             0,
             Integer.class,

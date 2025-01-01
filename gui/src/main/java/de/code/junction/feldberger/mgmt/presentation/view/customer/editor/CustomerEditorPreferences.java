@@ -5,15 +5,17 @@ import de.code.junction.feldberger.mgmt.presentation.preferences.UIPreference;
 
 public final class CustomerEditorPreferences {
 
+    public static final String SCOPE = "customer-editor";
+
     private CustomerEditorPreferences() {
     }
 
     public static final UIPreference EDITED_CUSTOMER_ID = new UIPreference(
-            "customer-editor",
+            SCOPE,
             "customer.id",
-            null,
+            0,
             Integer.class,
             PreferenceLifetime.VIEW,
-            "The id of the user being edited. Nullable if nothing is being edited."
+            "The id of the user being edited."
     );
 }

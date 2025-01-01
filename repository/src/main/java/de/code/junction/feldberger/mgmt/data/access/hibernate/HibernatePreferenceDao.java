@@ -103,8 +103,23 @@ public class HibernatePreferenceDao
     }
 
     @Override
-    public void delete(Preference preference) {
+    public void delete(PreferenceId id) {
 
-        sessionFactory.inTransaction(session -> session.remove(preference));
+        sessionFactory.inTransaction(session -> {
+
+            final var builder = session.getCriteriaBuilder();
+            final var delete = builder.createCriteriaDelete(Preference.class);
+            final var preferences = delete.from(Preference.class);
+
+            delete.where(
+                    builder.and(
+                            preferences.get(Preference_.user).equalTo(id.user()),
+                            preferences.get(Preference_.scope).equalTo(id.scope()),
+                            preferences.get(Preference_.name).equalTo(id.name())
+                    )
+            );
+
+            session.createMutationQuery(delete).executeUpdate();
+        });
     }
 }

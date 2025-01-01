@@ -34,7 +34,7 @@ public interface PreferenceDataAccessObject extends DataAccessObject<PreferenceI
     /**
      * Delete a single preference by its id.
      *
-     * @param preference preference id
+     * @param id preference id
      */
-    void delete(Preference preference);
+    void delete(PreferenceId id);
 }
