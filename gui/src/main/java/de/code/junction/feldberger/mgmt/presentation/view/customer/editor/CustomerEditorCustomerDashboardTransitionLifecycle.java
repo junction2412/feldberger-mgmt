@@ -2,25 +2,23 @@ package de.code.junction.feldberger.mgmt.presentation.view.customer.editor;
 
 import de.code.junction.feldberger.mgmt.data.access.customer.Customer;
 import de.code.junction.feldberger.mgmt.data.service.CustomerService;
-import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuRoute;
+import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuRoute.CustomerDashboard;
 import de.code.junction.feldberger.mgmt.presentation.messaging.Messages;
 import de.code.junction.feldberger.mgmt.presentation.messaging.Messenger;
-import de.code.junction.feldberger.mgmt.presentation.navigation.Route;
 import de.code.junction.feldberger.mgmt.presentation.navigation.TransitionLifecycle;
 
-import java.util.HashMap;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-public class CustomerEditorCustomerDashboardTransitionLifecycle implements TransitionLifecycle<Customer, Route<MainMenuRoute>> {
+public class CustomerEditorCustomerDashboardTransitionLifecycle implements TransitionLifecycle<Customer, CustomerDashboard> {
 
     private final CustomerService customerService;
     private final Messenger messenger;
-    private final Consumer<Route<MainMenuRoute>> onConclude;
+    private final Consumer<CustomerDashboard> onConclude;
 
     public CustomerEditorCustomerDashboardTransitionLifecycle(CustomerService customerService,
                                                               Messenger messenger,
-                                                              Consumer<Route<MainMenuRoute>> onConclude) {
+                                                              Consumer<CustomerDashboard> onConclude) {
 
         this.customerService = customerService;
         this.messenger = messenger;
@@ -47,18 +45,15 @@ public class CustomerEditorCustomerDashboardTransitionLifecycle implements Trans
     }
 
     @Override
-    public Route<MainMenuRoute> transform(Customer customer) {
+    public CustomerDashboard transform(Customer customer) {
 
         customerService.persistCustomer(customer);
 
-        final var cache = new HashMap<String, Object>();
-        cache.put("customerId", customer.getId());
-
-        return new Route<>(MainMenuRoute.CUSTOMER_DASHBOARD, cache);
+        return new CustomerDashboard(customer.getId());
     }
 
     @Override
-    public void conclude(Route<MainMenuRoute> route) {
+    public void conclude(CustomerDashboard route) {
 
         onConclude.accept(route);
     }

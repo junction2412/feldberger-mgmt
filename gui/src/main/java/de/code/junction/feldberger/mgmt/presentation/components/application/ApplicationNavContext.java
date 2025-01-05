@@ -1,9 +1,7 @@
 package de.code.junction.feldberger.mgmt.presentation.components.application;
 
-import de.code.junction.feldberger.mgmt.data.access.PersistenceManager;
 import de.code.junction.feldberger.mgmt.data.access.user.User;
 import de.code.junction.feldberger.mgmt.presentation.navigation.ScopedNavContext;
-import de.code.junction.feldberger.mgmt.presentation.preferences.PreferenceRegistry;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import de.code.junction.feldberger.mgmt.presentation.view.main.menu.UserSession;
 import javafx.application.Platform;
@@ -26,7 +24,6 @@ public class ApplicationNavContext extends ScopedNavContext<Stage, ApplicationRo
 
     private final ApplicationControllerFactory controllerFactory;
     private final ApplicationTransitionFactory transitionFactory;
-    private PreferenceRegistry preferenceRegistry;
 
     public ApplicationNavContext(ApplicationControllerFactory controllerFactory,
                                  ApplicationTransitionFactory transitionFactory) {
@@ -64,11 +61,7 @@ public class ApplicationNavContext extends ScopedNavContext<Stage, ApplicationRo
 
         final Runnable logout = () -> navigateTo(new Login(user.getUsername()));
 
-        final var persistenceManager = PersistenceManager.getInstance();
-        final var userReference = persistenceManager.userDao().getReference(user.getId());
-        preferenceRegistry = new PreferenceRegistry(persistenceManager.preferenceDao(), userReference);
-
-        return controllerFactory.mainMenu(logout, onSettingsClicked, user, preferenceRegistry);
+        return controllerFactory.mainMenu(logout, onSettingsClicked, user);
     }
 
     private FXController registration(String username) {
@@ -95,10 +88,5 @@ public class ApplicationNavContext extends ScopedNavContext<Stage, ApplicationRo
             scope.setScene(new Scene(parent));
         else
             scope.getScene().setRoot(parent);
-    }
-
-    public PreferenceRegistry getPreferenceRegistry() {
-
-        return preferenceRegistry;
     }
 }

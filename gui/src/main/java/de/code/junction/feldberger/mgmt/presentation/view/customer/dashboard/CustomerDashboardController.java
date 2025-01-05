@@ -11,7 +11,6 @@ import javafx.scene.control.TableView;
 
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
-import java.util.function.Consumer;
 
 public class CustomerDashboardController extends FXController {
 
@@ -100,13 +99,13 @@ public class CustomerDashboardController extends FXController {
     private final CustomerViewModel viewModel;
 
     private final Runnable onBackClicked;
-    private final Consumer<Integer> onEditCustomerClicked;
-    private final Consumer<Integer> onNewTransactionClicked;
+    private final Runnable onEditCustomerClicked;
+    private final Runnable onNewTransactionClicked;
 
     public CustomerDashboardController(CustomerViewModel viewModel,
                                        Runnable onBackClicked,
-                                       Consumer<Integer> onEditCustomerClicked,
-                                       Consumer<Integer> onNewTransactionClicked) {
+                                       Runnable onEditCustomerClicked,
+                                       Runnable onNewTransactionClicked) {
 
         super("customer-dashboard-view.fxml");
 
@@ -198,11 +197,11 @@ public class CustomerDashboardController extends FXController {
 
     private void onEditCustomerClicked(ActionEvent event) {
 
-        onEditCustomerClicked.accept(viewModel.getId());
+        onEditCustomerClicked.run();
     }
 
     private void onNewTransactionClicked(ActionEvent event) {
 
-        onNewTransactionClicked.accept(viewModel.getId());
+        onNewTransactionClicked.run();
     }
 }

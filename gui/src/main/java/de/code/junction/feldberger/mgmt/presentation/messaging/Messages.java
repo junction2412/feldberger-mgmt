@@ -1,11 +1,9 @@
 package de.code.junction.feldberger.mgmt.presentation.messaging;
 
-import java.util.ResourceBundle;
-
 import static de.code.junction.feldberger.mgmt.presentation.util.ResourceLoader.getMessageStringResources;
 
 /**
- * A collection of static messages.
+ * A collection of constantly used messages.
  *
  * @author J. Murray
  */
@@ -20,7 +18,7 @@ public final class Messages {
 
     static {
 
-        final ResourceBundle bundle = getMessageStringResources();
+        final var bundle = getMessageStringResources();
 
         TRANSITION_NOT_PERFORMED = new Message(
                 MessageType.ERROR,

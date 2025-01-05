@@ -53,8 +53,7 @@ public class NavContextProvider {
 
         final var navContext = new MainMenuNavContext(
                 transitionFactoryProvider.mainMenuTransitionFactory(),
-                new MainMenuControllerFactory(persistenceManager),
-                applicationNavContext.getPreferenceRegistry()
+                new MainMenuControllerFactory(persistenceManager)
         );
 
         navContext.setScope(scope);
@@ -64,8 +63,7 @@ public class NavContextProvider {
 
         return new MainMenuNavContext(
                 transitionFactoryProvider.mainMenuTransitionFactory(),
-                new MainMenuControllerFactory(persistenceManager),
-                applicationNavContext.getPreferenceRegistry()
+                new MainMenuControllerFactory(persistenceManager)
         );
     }
 }

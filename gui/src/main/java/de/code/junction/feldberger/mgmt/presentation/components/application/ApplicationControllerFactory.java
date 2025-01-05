@@ -1,12 +1,13 @@
 package de.code.junction.feldberger.mgmt.presentation.components.application;
 
 import de.code.junction.feldberger.mgmt.data.access.user.User;
-import de.code.junction.feldberger.mgmt.presentation.preferences.PreferenceRegistry;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import de.code.junction.feldberger.mgmt.presentation.view.login.LoginController;
 import de.code.junction.feldberger.mgmt.presentation.view.login.LoginForm;
 import de.code.junction.feldberger.mgmt.presentation.view.login.LoginViewModel;
-import de.code.junction.feldberger.mgmt.presentation.view.main.menu.*;
+import de.code.junction.feldberger.mgmt.presentation.view.main.menu.MainMenuController;
+import de.code.junction.feldberger.mgmt.presentation.view.main.menu.MainMenuViewModel;
+import de.code.junction.feldberger.mgmt.presentation.view.main.menu.UserSession;
 import de.code.junction.feldberger.mgmt.presentation.view.registration.RegistrationController;
 import de.code.junction.feldberger.mgmt.presentation.view.registration.RegistrationForm;
 import de.code.junction.feldberger.mgmt.presentation.view.registration.RegistrationFormViewModel;
@@ -37,19 +38,9 @@ public class ApplicationControllerFactory {
 
     public FXController mainMenu(Runnable onLogoutClicked,
                                  Consumer<UserSession> onSettingsClicked,
-                                 User user, PreferenceRegistry preferenceRegistry) {
+                                 User user) {
 
-        final var selectedSubviewPreference = preferenceRegistry.<String>getValue(MainMenuPreferences.SELECTED_SUBVIEW);
-        final var selectedSubview = selectedSubviewPreference != null
-                ? Subview.valueOf(selectedSubviewPreference)
-                : null;
-
-        final var viewModel = new MainMenuViewModel(user.getId(), user.getUsername(), selectedSubview);
-
-        viewModel.selectedSubviewProperty().addListener((_, _, value) ->
-                preferenceRegistry.setValue(MainMenuPreferences.SELECTED_SUBVIEW, String.valueOf(value))
-        );
-
+        final var viewModel = new MainMenuViewModel(user.getId(), user.getUsername(), null);
         return new MainMenuController(viewModel, onLogoutClicked, onSettingsClicked);
     }
 }

@@ -1,34 +1,36 @@
 package de.code.junction.feldberger.mgmt.presentation.components.main.menu;
 
-import de.code.junction.feldberger.mgmt.presentation.navigation.RouteName;
+public sealed interface MainMenuRoute {
 
-import java.util.Arrays;
+    record CustomerOverview(int selectedCustomerId) implements MainMenuRoute {
 
-public enum MainMenuRoute implements RouteName {
+        public CustomerOverview() {
 
-    CUSTOMER_OVERVIEW("customer.overview"),
-    CUSTOMER_EDITOR("customer.editor"),
-    CUSTOMER_DASHBOARD("customer.dashboard"),
-    ;
-
-    private final String name;
-
-    MainMenuRoute(String name) {
-
-        this.name = name;
+            this(0);
+        }
     }
 
-    @Override
-    public String string() {
+    record CustomerEditor(int customerId, boolean fromDashboard) implements MainMenuRoute {
 
-        return name;
+        CustomerEditor(int customerId) {
+
+            this(customerId, false);
+        }
+
+        /**
+         * Default constructor used to edit a new customer record.
+         */
+        public CustomerEditor() {
+
+            this(0, false);
+        }
     }
 
-    public static MainMenuRoute byName(String name) {
+    record CustomerDashboard(int customerId, int selectedTransactionId) implements MainMenuRoute {
 
-        return Arrays.stream(values())
-                .filter(route -> route.name.equals(name))
-                .findFirst()
-                .orElseThrow();
+        public CustomerDashboard(int customerId) {
+
+            this(customerId, 0);
+        }
     }
 }
