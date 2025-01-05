@@ -47,6 +47,4 @@ public interface UserDataAccessObject extends DataAccessObject<Integer, User> {
     }
 
     long countAll();
-
-    User getReference(int userId);
 }

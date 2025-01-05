@@ -26,7 +26,7 @@ public class ApplicationTransitionFactory extends TransitionFactory {
         super(persistenceManager, messenger);
     }
 
-    public Transition<RegistrationForm, MainMenu> registration(Consumer<MainMenu> onEnd) {
+    public Transition<RegistrationForm, ApplicationRoute> registration(Consumer<ApplicationRoute> onEnd) {
 
         return new Transition<>(new ApplicationRegistrationTransitionLifecycle(
                 messenger,

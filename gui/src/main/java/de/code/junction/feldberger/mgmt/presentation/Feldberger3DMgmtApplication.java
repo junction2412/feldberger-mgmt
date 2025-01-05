@@ -1,6 +1,7 @@
 package de.code.junction.feldberger.mgmt.presentation;
 
 import de.code.junction.feldberger.mgmt.data.access.PersistenceManager;
+import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationRoute.Registration;
 import de.code.junction.feldberger.mgmt.presentation.components.common.NavContextProvider;
 import de.code.junction.feldberger.mgmt.presentation.components.jfx.FXMessenger;
 import javafx.application.Application;
@@ -10,12 +11,14 @@ import static de.code.junction.feldberger.mgmt.presentation.components.applicati
 
 public class Feldberger3DMgmtApplication extends Application {
 
+    private PersistenceManager persistenceManager;
+
+
     @Override
     public void init() {
 
         System.out.println("Application init");
-
-        PersistenceManager.getInstance();
+        persistenceManager = PersistenceManager.getInstance();
     }
 
     @Override
@@ -29,7 +32,13 @@ public class Feldberger3DMgmtApplication extends Application {
         final var navContext = NavContextProvider.getInstance(messenger).application();
 
         navContext.setScope(stage);
-        navContext.navigateTo(new Login());
+
+        final var NO_USERS_REGISTERED = persistenceManager.userDao().countAll() == 0;
+        final var entryPoint = NO_USERS_REGISTERED
+                ? new Registration()
+                : new Login();
+
+        navContext.navigateTo(entryPoint);
 
         stage.setMaximized(true);
         stage.show();
@@ -39,7 +48,6 @@ public class Feldberger3DMgmtApplication extends Application {
     public void stop() {
 
         System.out.println("Application stop");
-
-        PersistenceManager.getInstance().shutdown();
+        persistenceManager.shutdown();
     }
 }

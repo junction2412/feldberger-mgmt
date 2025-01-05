@@ -2,6 +2,8 @@ package de.code.junction.feldberger.mgmt.presentation.view.registration;
 
 import de.code.junction.feldberger.mgmt.data.access.user.User;
 import de.code.junction.feldberger.mgmt.data.access.user.UserDataAccessObject;
+import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationRoute;
+import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationRoute.Login;
 import de.code.junction.feldberger.mgmt.presentation.messaging.Message;
 import de.code.junction.feldberger.mgmt.presentation.messaging.MessageType;
 import de.code.junction.feldberger.mgmt.presentation.messaging.Messages;
@@ -15,15 +17,15 @@ import static de.code.junction.feldberger.mgmt.presentation.util.HashUtil.hashPa
 import static de.code.junction.feldberger.mgmt.presentation.util.HashUtil.salt;
 import static de.code.junction.feldberger.mgmt.presentation.util.ResourceLoader.getMessageStringResources;
 
-public class ApplicationRegistrationTransitionLifecycle implements TransitionLifecycle<RegistrationForm, MainMenu> {
+public class ApplicationRegistrationTransitionLifecycle implements TransitionLifecycle<RegistrationForm, ApplicationRoute> {
 
     private final Messenger messenger;
     private final UserDataAccessObject userDao;
-    private final Consumer<MainMenu> onEnd;
+    private final Consumer<ApplicationRoute> onEnd;
 
     public ApplicationRegistrationTransitionLifecycle(Messenger messenger,
                                                       UserDataAccessObject userDao,
-                                                      Consumer<MainMenu> onEnd) {
+                                                      Consumer<ApplicationRoute> onEnd) {
 
         this.messenger = messenger;
         this.userDao = userDao;
@@ -78,27 +80,31 @@ public class ApplicationRegistrationTransitionLifecycle implements TransitionLif
     }
 
     @Override
-    public MainMenu transform(RegistrationForm registrationForm) {
+    public ApplicationRoute transform(RegistrationForm registrationForm) {
 
         final var passwordSalt = salt();
-        final var passwordHash = hashPassword(
-                registrationForm.password(),
-                passwordSalt
-        );
+        final var passwordHash = hashPassword(registrationForm.password(), passwordSalt);
+        final var user = new User(registrationForm.username(), passwordHash, passwordSalt);
 
-        final var user = new User(
-                registrationForm.username(),
-                passwordHash,
-                passwordSalt
-        );
+        final var AT_LEAST_ONE_USER_EXISTS = 0 < userDao.countAll();
+        final ApplicationRoute route;
+
+        if (AT_LEAST_ONE_USER_EXISTS) {
+            user.setInactive();
+            route = new Login(user.getUsername());
+
+            messenger.send(Messages.REGISTRATION_SUCCEEDED_USER_INACTIVE);
+        } else {
+            route = new MainMenu(user);
+        }
 
         userDao.persistUser(user);
 
-        return new MainMenu(user);
+        return route;
     }
 
     @Override
-    public void conclude(MainMenu route) {
+    public void conclude(ApplicationRoute route) {
 
         try {
             onEnd.accept(route);

@@ -7,7 +7,7 @@ import de.code.junction.feldberger.mgmt.presentation.components.common.Transitio
 import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuRoute.CustomerDashboard;
 import de.code.junction.feldberger.mgmt.presentation.messaging.Messenger;
 import de.code.junction.feldberger.mgmt.presentation.navigation.Transition;
-import de.code.junction.feldberger.mgmt.presentation.view.customer.editor.CustomerEditorCustomerDashboardTransitionLifecycle;
+import de.code.junction.feldberger.mgmt.presentation.view.customer.editor.CustomerEditorPersistenceTransitionLifecycle;
 
 import java.util.function.Consumer;
 
@@ -25,7 +25,7 @@ public class MainMenuTransitionFactory extends TransitionFactory {
                 persistenceManager.addressDao()
         );
 
-        final var lifecycle = new CustomerEditorCustomerDashboardTransitionLifecycle(
+        final var lifecycle = new CustomerEditorPersistenceTransitionLifecycle(
                 customerService,
                 messenger,
                 onConclude

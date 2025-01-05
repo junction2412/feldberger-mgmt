@@ -3,7 +3,7 @@ package de.code.junction.feldberger.mgmt.presentation.messaging;
 import static de.code.junction.feldberger.mgmt.presentation.util.ResourceLoader.getMessageStringResources;
 
 /**
- * A collection of constantly used messages.
+ * A collection of constant messages.
  *
  * @author J. Murray
  */
@@ -13,6 +13,7 @@ public final class Messages {
     }
 
     public static final Message TRANSITION_NOT_PERFORMED;
+    public static final Message REGISTRATION_SUCCEEDED_USER_INACTIVE;
     public static final Message LOGIN_FAILED_WRONG_CREDENTIALS;
     public static final Message CUSTOMER_EDITOR_FAILED_IDNO_CONSTRAINT_VIOLATION;
 
@@ -25,6 +26,13 @@ public final class Messages {
                 bundle.getString("transition.error.not.performed.title"),
                 bundle.getString("transition.error.not.performed.header"),
                 bundle.getString("transition.error.not.performed.content")
+        );
+
+        REGISTRATION_SUCCEEDED_USER_INACTIVE = new Message(
+                MessageType.INFORMATION,
+                bundle.getString("registration.succeeded.user.inactive.title"),
+                bundle.getString("registration.succeeded.user.inactive.header"),
+                bundle.getString("registration.succeeded.user.inactive.content")
         );
 
         LOGIN_FAILED_WRONG_CREDENTIALS = new Message(

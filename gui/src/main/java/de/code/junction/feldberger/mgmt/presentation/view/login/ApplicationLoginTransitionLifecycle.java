@@ -1,13 +1,11 @@
 package de.code.junction.feldberger.mgmt.presentation.view.login;
 
-import de.code.junction.feldberger.mgmt.data.access.user.User;
 import de.code.junction.feldberger.mgmt.data.access.user.UserDataAccessObject;
 import de.code.junction.feldberger.mgmt.presentation.messaging.Messages;
 import de.code.junction.feldberger.mgmt.presentation.messaging.Messenger;
 import de.code.junction.feldberger.mgmt.presentation.navigation.TransitionLifecycle;
 
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.function.Consumer;
 
 import static de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationRoute.MainMenu;
@@ -31,23 +29,22 @@ public class ApplicationLoginTransitionLifecycle implements TransitionLifecycle<
     @Override
     public boolean validate(LoginForm loginForm) {
 
-        final Optional<User> optionalUser = userDao.findByUsername(loginForm.username());
+        final var optionalUser = userDao.findByUsername(loginForm.username());
 
         if (optionalUser.isEmpty()) {
-
             messenger.send(Messages.LOGIN_FAILED_WRONG_CREDENTIALS);
             return false;
         }
 
-        final User user = optionalUser.get();
+        final var user = optionalUser.get();
 
-        final String passwordSalt = user.getPasswordSalt();
-        final String hashedPasswordInput = hashPassword(
-                loginForm.password(),
-                passwordSalt
-        );
+        if (user.isInactive()) {
 
-        final boolean passwordCorrect = hashedPasswordInput.equals(user.getPasswordHash());
+        }
+
+        final var passwordSalt = user.getPasswordSalt();
+        final var hashedPasswordInput = hashPassword(loginForm.password(), passwordSalt);
+        final var passwordCorrect = hashedPasswordInput.equals(user.getPasswordHash());
 
         if (!passwordCorrect)
             messenger.send(Messages.LOGIN_FAILED_WRONG_CREDENTIALS);
@@ -62,7 +59,6 @@ public class ApplicationLoginTransitionLifecycle implements TransitionLifecycle<
 
         if (optionalUser.isEmpty()) {
             // TODO: display message that user could not be found
-
             throw new NoSuchElementException();
         }
 
@@ -81,5 +77,4 @@ public class ApplicationLoginTransitionLifecycle implements TransitionLifecycle<
             throw e;
         }
     }
-
 }

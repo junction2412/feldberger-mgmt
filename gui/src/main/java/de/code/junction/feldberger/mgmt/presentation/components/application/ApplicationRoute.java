@@ -13,6 +13,11 @@ public sealed interface ApplicationRoute {
     }
 
     record Registration(String username) implements ApplicationRoute {
+
+        public Registration() {
+
+            this("");
+        }
     }
 
     record MainMenu(User user) implements ApplicationRoute {
