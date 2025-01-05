@@ -4,16 +4,15 @@ import de.code.junction.feldberger.mgmt.data.access.address.Address;
 import de.code.junction.feldberger.mgmt.data.access.address.AddressDataAccessObject;
 import de.code.junction.feldberger.mgmt.data.access.customer.Customer;
 import de.code.junction.feldberger.mgmt.data.access.customer.CustomerDataAccessObject;
+import de.code.junction.feldberger.mgmt.data.access.document.Document;
 import de.code.junction.feldberger.mgmt.data.access.transaction.Transaction;
+import de.code.junction.feldberger.mgmt.data.access.user.User;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
-
-import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,8 +26,10 @@ class HibernateCustomerDaoTest {
     void setUp() {
         sessionFactory = new Configuration()
                 .addAnnotatedClass(Address.class)
+                .addAnnotatedClass(User.class)
                 .addAnnotatedClass(Customer.class)
                 .addAnnotatedClass(Transaction.class)
+                .addAnnotatedClass(Document.class)
                 .buildSessionFactory();
 
         customerDao = new HibernateCustomerDao(sessionFactory);
@@ -44,7 +45,7 @@ class HibernateCustomerDaoTest {
     @Test
     void cantGetArchivedCustomersWhenEmpty() {
 
-        final List<Customer> archivedCustomers = customerDao.getArchivedCustomers();
+        final var archivedCustomers = customerDao.getArchivedCustomers();
 
         assertTrue(archivedCustomers.isEmpty());
     }
@@ -52,7 +53,7 @@ class HibernateCustomerDaoTest {
     @Test
     void cantGetActiveCustomersWhenEmpty() {
 
-        final List<Customer> activeCustomers = customerDao.getActiveCustomers();
+        final var activeCustomers = customerDao.getActiveCustomers();
 
         assertTrue(activeCustomers.isEmpty());
     }
@@ -60,8 +61,16 @@ class HibernateCustomerDaoTest {
     @Test
     void persistCustomerFailsMiserably() {
 
-        final Customer customer = new Customer("12345", "Biden", "Joe", "U:S:A", "joe@biden.com", "0815", "0816",
-                new Address());
+        final var customer = new Customer(
+                "12345",
+                "Biden",
+                "Joe",
+                "U:S:A",
+                "joe@biden.com",
+                "0815",
+                "0816",
+                new Address()
+        );
 
         final Executable executable = () -> customerDao.persistCustomer(customer);
 
@@ -71,11 +80,19 @@ class HibernateCustomerDaoTest {
     @Test
     void persistCustomerNoLongerFailsMiserably() {
 
-        final Address address = new Address();
+        final var address = new Address();
         addressDao.persistAddress(address);
 
-        final Customer customer = new Customer("12345", "Biden", "Joe", "U:S:A", "joe@biden.com", "0815", "0816",
-                address);
+        final var customer = new Customer(
+                "12345",
+                "Biden",
+                "Joe",
+                "U:S:A",
+                "joe@biden.com",
+                "0815",
+                "0816",
+                address
+        );
 
         final Executable executable = () -> customerDao.persistCustomer(customer);
 
@@ -85,35 +102,43 @@ class HibernateCustomerDaoTest {
     @Test
     void cantFindByIdWhenEmpty() {
 
-        final Optional<Customer> optionalCustomer = customerDao.findById(2);
+        final var optionalCustomer = customerDao.findById(2);
 
         assertTrue(optionalCustomer.isEmpty());
     }
 
     @Test
-    void findById_AlsoLoadsAddress() {
+    void findByIdAlsoLoadsAddress() {
 
-        final Address address = new Address();
+        final var address = new Address();
         addressDao.persistAddress(address);
 
-        final Customer customer = new Customer("12345", "Biden", "Joe", "U:S:A", "joe@biden.com", "0815", "0816",
-                address);
+        final var customer = new Customer(
+                "12345",
+                "Biden",
+                "Joe",
+                "U:S:A",
+                "joe@biden.com",
+                "0815",
+                "0816",
+                address
+        );
 
         customerDao.persistCustomer(customer);
 
-        final Integer customerID = customer.getId();
+        final var customerID = customer.getId();
 
-        final Optional<Customer> optionalCustomer = customerDao.findById(customerID);
+        final var optionalCustomer = customerDao.findById(customerID);
         assertTrue(optionalCustomer.isPresent());
 
-        final Customer customerFromDb = optionalCustomer.get();
+        final var customerFromDb = optionalCustomer.get();
         assertNotNull(customerFromDb.getAddress());
     }
 
     @Test
     void cantGetAllWhenEmpty() {
 
-        final List<Customer> customers = customerDao.getAll();
+        final var customers = customerDao.getAll();
 
         assertTrue(customers.isEmpty());
     }

@@ -202,7 +202,6 @@ public class Transaction implements DataTransferObject<Integer> {
         this.documents = documents;
     }
 
-
     @Override
     public String toString() {
 
@@ -216,7 +215,6 @@ public class Transaction implements DataTransferObject<Integer> {
                 ", modificationDate=" + getModificationDate() +
                 ", completed=" + isCompleted() +
                 ", completionDate=" + getCompletionDate() +
-                ", documents=" + getDocuments() +
                 '}';
     }
 }
