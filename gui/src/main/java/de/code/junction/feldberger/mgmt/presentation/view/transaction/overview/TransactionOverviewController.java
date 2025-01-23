@@ -5,8 +5,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
-import java.util.ResourceBundle;
-
 public class TransactionOverviewController extends FXController {
 
     @FXML
@@ -25,11 +23,5 @@ public class TransactionOverviewController extends FXController {
 
     @Override
     protected void initialize() {
-
-    }
-
-    @Override
-    protected void translate(ResourceBundle bundle) {
-
     }
 }

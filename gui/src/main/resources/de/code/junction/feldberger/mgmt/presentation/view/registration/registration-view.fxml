@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -12,7 +11,7 @@
                     <children>
                         <StackPane alignment="BOTTOM_LEFT">
                             <children>
-                                <Label fx:id="usernameLabel" text="%label.registration.username"/>
+                                <Label text="%label.registration.username"/>
                             </children>
                             <padding>
                                 <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -20,7 +19,7 @@
                         </StackPane>
                         <StackPane alignment="TOP_LEFT">
                             <children>
-                                <TextField fx:id="usernameField" promptText="%prompt.registration.username"/>
+                                <TextField fx:id="username" promptText="%prompt.registration.username"/>
                             </children>
                             <padding>
                                 <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -32,7 +31,7 @@
                     <children>
                         <StackPane alignment="BOTTOM_LEFT">
                             <children>
-                                <Label fx:id="passwordLabel" text="%label.registration.password"/>
+                                <Label text="%label.registration.password"/>
                             </children>
                             <padding>
                                 <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -40,7 +39,7 @@
                         </StackPane>
                         <StackPane alignment="TOP_LEFT">
                             <children>
-                                <PasswordField fx:id="passwordField" promptText="%prompt.registration.password"/>
+                                <PasswordField fx:id="password" promptText="%prompt.registration.password"/>
                             </children>
                             <padding>
                                 <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -52,7 +51,7 @@
                     <children>
                         <StackPane alignment="BOTTOM_LEFT">
                             <children>
-                                <Label fx:id="repeatPasswordLabel" text="%label.registration.repeat.password"/>
+                                <Label text="%label.registration.repeat.password"/>
                             </children>
                             <padding>
                                 <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -60,7 +59,7 @@
                         </StackPane>
                         <StackPane alignment="TOP_LEFT">
                             <children>
-                                <PasswordField fx:id="repeatPasswordField"
+                                <PasswordField fx:id="repeatPassword"
                                                promptText="%prompt.registration.repeat.password"/>
                             </children>
                             <padding>

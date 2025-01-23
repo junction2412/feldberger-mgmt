@@ -10,7 +10,8 @@
             <children>
                 <StackPane>
                     <children>
-                        <Button fx:id="viewCustomer" mnemonicParsing="false" text="Button"/>
+                        <Button fx:id="viewCustomer" mnemonicParsing="false"
+                                text="%button.customer.overview.view.customer"/>
                     </children>
                     <padding>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -18,7 +19,8 @@
                 </StackPane>
                 <StackPane>
                     <children>
-                        <Button fx:id="editCustomer" mnemonicParsing="false" text="Button"/>
+                        <Button fx:id="editCustomer" mnemonicParsing="false"
+                                text="%button.customer.overview.edit.customer"/>
                     </children>
                     <padding>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -26,7 +28,8 @@
                 </StackPane>
                 <StackPane>
                     <children>
-                        <Button fx:id="newCustomer" mnemonicParsing="false" text="Button"/>
+                        <Button fx:id="newCustomer" mnemonicParsing="false"
+                                text="%button.customer.overview.new.customer"/>
                     </children>
                     <padding>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -34,7 +37,7 @@
                 </StackPane>
                 <StackPane HBox.hgrow="ALWAYS">
                     <children>
-                        <TextField fx:id="filter"/>
+                        <TextField fx:id="filter" promptText="%prompt.customer.overview.filter"/>
                     </children>
                     <padding>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -49,8 +52,9 @@
                 <TableView fx:id="customers" prefHeight="200.0" prefWidth="200.0">
                     <columns>
                         <TableColumn fx:id="customerIdNo" editable="false" maxWidth="125.0" prefWidth="125.0"
-                                     resizable="false" text="C1"/>
-                        <TableColumn fx:id="customerName" editable="false" prefWidth="75.0" text="C2"/>
+                                     resizable="false" text="%table.customer.overview.idno"/>
+                        <TableColumn fx:id="customerName" editable="false" prefWidth="75.0"
+                                     text="%table.customer.overview.name"/>
                     </columns>
                     <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>

@@ -19,7 +19,7 @@
             <children>
                 <StackPane alignment="BOTTOM_RIGHT">
                     <children>
-                        <Label fx:id="userIdLabel" text="Label"/>
+                        <Label text="%label.main.menu.user.id"/>
                     </children>
                     <padding>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -27,7 +27,7 @@
                 </StackPane>
                 <StackPane alignment="TOP_RIGHT" GridPane.rowIndex="1">
                     <children>
-                        <Label fx:id="usernameLabel" text="Label"/>
+                        <Label text="%label.main.menu.username"/>
                     </children>
                     <padding>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -37,7 +37,7 @@
                     <children>
                         <StackPane>
                             <children>
-                                <Button fx:id="logout" mnemonicParsing="false" text="Button"/>
+                                <Button fx:id="logout" mnemonicParsing="false" text="%button.main.menu.logout"/>
                             </children>
                             <opaqueInsets>
                                 <Insets/>
@@ -48,7 +48,7 @@
                         </StackPane>
                         <StackPane>
                             <children>
-                                <Button fx:id="settings" mnemonicParsing="false" text="Button"/>
+                                <Button fx:id="settings" mnemonicParsing="false" text="%button.main.menu.settings"/>
                             </children>
                             <opaqueInsets>
                                 <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -61,7 +61,7 @@
                 </HBox>
                 <StackPane alignment="BOTTOM_LEFT" GridPane.columnIndex="1">
                     <children>
-                        <Label fx:id="userId" text="Label"/>
+                        <Label fx:id="userId" text="userId"/>
                     </children>
                     <padding>
                         <Insets bottom="1.0" left="1.0" right="1.0" top="1.0"/>
@@ -69,7 +69,7 @@
                 </StackPane>
                 <StackPane alignment="TOP_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="1">
                     <children>
-                        <Label fx:id="username" text="Label"/>
+                        <Label fx:id="username" text="username"/>
                     </children>
                     <padding>
                         <Insets bottom="1.0" left="1.0" right="1.0" top="1.0"/>

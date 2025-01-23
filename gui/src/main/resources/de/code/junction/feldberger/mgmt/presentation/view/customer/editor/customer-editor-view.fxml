@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-          xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/22">
+          xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
     <columnConstraints>
         <ColumnConstraints hgrow="ALWAYS" minWidth="10.0"/>
         <ColumnConstraints minWidth="10.0"/>
@@ -30,7 +30,7 @@
     <children>
         <StackPane alignment="CENTER_RIGHT" GridPane.rowIndex="2">
             <children>
-                <Label fx:id="idLabel" text="id"/>
+                <Label text="%label.customer.editor.id"/>
             </children>
             <padding>
                 <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -38,7 +38,7 @@
         </StackPane>
         <StackPane alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="2">
             <children>
-                <Label fx:id="id" text="Label"/>
+                <Label fx:id="id" text="id"/>
             </children>
             <padding>
                 <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -46,7 +46,7 @@
         </StackPane>
         <StackPane alignment="CENTER_RIGHT" GridPane.rowIndex="3">
             <children>
-                <Label fx:id="idNoLabel" text="idNo"/>
+                <Label text="%label.customer.editor.idno"/>
             </children>
             <padding>
                 <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -54,7 +54,7 @@
         </StackPane>
         <StackPane alignment="CENTER_RIGHT" GridPane.rowIndex="4">
             <children>
-                <Label fx:id="lastNameLabel" text="lastName"/>
+                <Label text="%label.customer.editor.last.name"/>
             </children>
             <padding>
                 <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -62,7 +62,7 @@
         </StackPane>
         <StackPane alignment="CENTER_RIGHT" GridPane.rowIndex="5">
             <children>
-                <Label fx:id="firstNameLabel" text="firstName"/>
+                <Label text="%label.customer.editor.first.name"/>
             </children>
             <padding>
                 <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -70,7 +70,7 @@
         </StackPane>
         <StackPane alignment="CENTER_RIGHT" GridPane.rowIndex="6">
             <children>
-                <Label fx:id="companyNameLabel" text="companyName"/>
+                <Label text="%label.customer.editor.company.name"/>
             </children>
             <padding>
                 <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -78,7 +78,7 @@
         </StackPane>
         <StackPane alignment="CENTER_RIGHT" GridPane.rowIndex="7">
             <children>
-                <Label fx:id="emailAddressLabel" text="emailAddress"/>
+                <Label text="%label.customer.editor.email.address"/>
             </children>
             <padding>
                 <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -86,7 +86,7 @@
         </StackPane>
         <StackPane alignment="CENTER_RIGHT" GridPane.rowIndex="8">
             <children>
-                <Label fx:id="landlinePhoneNumberLabel" text="landlinePhoneNumber"/>
+                <Label text="%label.customer.editor.landline.phone.number"/>
             </children>
             <padding>
                 <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -94,7 +94,7 @@
         </StackPane>
         <StackPane alignment="CENTER_RIGHT" GridPane.rowIndex="9">
             <children>
-                <Label fx:id="mobilePhoneNumberLabel" text="mobilePhoneNumber"/>
+                <Label text="%label.customer.editor.mobile.phone.number"/>
             </children>
             <padding>
                 <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -102,7 +102,7 @@
         </StackPane>
         <StackPane alignment="CENTER_RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="3">
             <children>
-                <Label fx:id="countryCodeLabel" text="countryCode"/>
+                <Label text="%label.customer.editor.country.code"/>
             </children>
             <padding>
                 <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -110,7 +110,7 @@
         </StackPane>
         <StackPane alignment="CENTER_RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="4">
             <children>
-                <Label fx:id="postalCodeLabel" text="postalCode"/>
+                <Label text="%label.customer.editor.postal.code"/>
             </children>
             <padding>
                 <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -118,7 +118,7 @@
         </StackPane>
         <StackPane alignment="CENTER_RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="5">
             <children>
-                <Label fx:id="cityLabel" text="city"/>
+                <Label text="%label.customer.editor.city"/>
             </children>
             <padding>
                 <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -126,7 +126,7 @@
         </StackPane>
         <StackPane alignment="CENTER_RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="6">
             <children>
-                <Label fx:id="streetLabel" text="street"/>
+                <Label text="%label.customer.editor.street"/>
             </children>
             <padding>
                 <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -134,7 +134,7 @@
         </StackPane>
         <StackPane alignment="CENTER_RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="7">
             <children>
-                <Label fx:id="streetNumberLabel" text="streetNumber"/>
+                <Label text="%label.customer.editor.street.number"/>
             </children>
             <padding>
                 <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -142,7 +142,7 @@
         </StackPane>
         <StackPane alignment="CENTER_RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="8">
             <children>
-                <Label fx:id="suffixLabel" text="suffix"/>
+                <Label text="%label.customer.editor.suffix"/>
             </children>
             <padding>
                 <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -262,7 +262,7 @@
         </StackPane>
         <StackPane alignment="TOP_RIGHT" GridPane.rowIndex="11">
             <children>
-                <Label fx:id="notesLabel" text="notes"/>
+                <Label text="%label.customer.editor.notes"/>
             </children>
             <padding>
                 <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -272,7 +272,7 @@
             <children>
                 <StackPane>
                     <children>
-                        <Button fx:id="back" mnemonicParsing="false" text="back"/>
+                        <Button fx:id="back" mnemonicParsing="false" text="%button.customer.editor.back"/>
                     </children>
                     <padding>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -280,7 +280,7 @@
                 </StackPane>
                 <StackPane>
                     <children>
-                        <Button fx:id="save" mnemonicParsing="false" text="save"/>
+                        <Button fx:id="save" mnemonicParsing="false" text="%button.customer.editor.save"/>
                     </children>
                     <padding>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>

@@ -9,70 +9,39 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
-import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
 public class CustomerEditorController extends FXController {
 
     @FXML
-    private Label idLabel;
-    @FXML
     private Label id;
-    @FXML
-    private Label idNoLabel;
     @FXML
     private TextField idNo;
     @FXML
-    private Label lastNameLabel;
-    @FXML
     private TextField lastName;
-    @FXML
-    private Label firstNameLabel;
     @FXML
     private TextField firstName;
     @FXML
-    private Label companyNameLabel;
-    @FXML
     private TextField companyName;
-    @FXML
-    private Label emailAddressLabel;
     @FXML
     private TextField emailAddress;
     @FXML
-    private Label landlinePhoneNumberLabel;
-    @FXML
     private TextField landlinePhoneNumber;
     @FXML
-    private Label mobilePhoneNumberLabel;
-    @FXML
     private TextField mobilePhoneNumber;
-    @FXML
-    private Label notesLabel;
     @FXML
     private TextArea notes;
 
     @FXML
-    private Label countryCodeLabel;
-    @FXML
     private TextField countryCode;
-    @FXML
-    private Label postalCodeLabel;
     @FXML
     private TextField postalCode;
     @FXML
-    private Label cityLabel;
-    @FXML
     private TextField city;
-    @FXML
-    private Label streetLabel;
     @FXML
     private TextField street;
     @FXML
-    private Label streetNumberLabel;
-    @FXML
     private TextField streetNumber;
-    @FXML
-    private Label suffixLabel;
     @FXML
     private TextField suffix;
 
@@ -99,22 +68,6 @@ public class CustomerEditorController extends FXController {
     @Override
     protected void initialize() {
 
-        idLabel.setLabelFor(id);
-        idNoLabel.setLabelFor(idNo);
-        lastNameLabel.setLabelFor(lastName);
-        firstNameLabel.setLabelFor(firstName);
-        companyNameLabel.setLabelFor(companyName);
-        emailAddressLabel.setLabelFor(emailAddress);
-        landlinePhoneNumberLabel.setLabelFor(landlinePhoneNumber);
-        mobilePhoneNumberLabel.setLabelFor(mobilePhoneNumber);
-        notesLabel.setLabelFor(notes);
-
-        countryCodeLabel.setLabelFor(countryCode);
-        postalCodeLabel.setLabelFor(postalCode);
-        cityLabel.setLabelFor(city);
-        streetLabel.setLabelFor(street);
-        streetNumberLabel.setLabelFor(streetNumber);
-        suffixLabel.setLabelFor(suffix);
 
         id.textProperty().bind(viewModel.idProperty().asString());
         idNo.textProperty().bindBidirectional(viewModel.idNoProperty());
@@ -137,29 +90,6 @@ public class CustomerEditorController extends FXController {
 
         back.setOnAction(this::onBackClicked);
         save.setOnAction(this::onSaveClicked);
-    }
-
-    @Override
-    protected void translate(ResourceBundle bundle) {
-
-        idLabel.setText(bundle.getString("label.customer.editor.id"));
-        idNoLabel.setText(bundle.getString("label.customer.editor.idno"));
-        lastNameLabel.setText(bundle.getString("label.customer.editor.last.name"));
-        firstNameLabel.setText(bundle.getString("label.customer.editor.first.name"));
-        companyNameLabel.setText(bundle.getString("label.customer.editor.company.name"));
-        emailAddressLabel.setText(bundle.getString("label.customer.editor.email.address"));
-        landlinePhoneNumberLabel.setText(bundle.getString("label.customer.editor.landline.phone.number"));
-        mobilePhoneNumberLabel.setText(bundle.getString("label.customer.editor.mobile.phone.number"));
-        notesLabel.setText(bundle.getString("label.customer.editor.notes"));
-        countryCodeLabel.setText(bundle.getString("label.customer.editor.country.code"));
-        postalCodeLabel.setText(bundle.getString("label.customer.editor.postal.code"));
-        cityLabel.setText(bundle.getString("label.customer.editor.city"));
-        streetLabel.setText(bundle.getString("label.customer.editor.street"));
-        streetNumberLabel.setText(bundle.getString("label.customer.editor.street.number"));
-        suffixLabel.setText(bundle.getString("label.customer.editor.suffix"));
-
-        back.setText(bundle.getString("button.customer.editor.back"));
-        save.setText(bundle.getString("button.customer.editor.save"));
     }
 
     private void onBackClicked(ActionEvent event) {

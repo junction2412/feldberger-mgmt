@@ -5,24 +5,17 @@ import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
-import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
 public class LoginController extends FXController {
 
     @FXML
-    private Label usernameLabel;
+    private TextField username;
     @FXML
-    private TextField usernameField;
-
-    @FXML
-    private Label passwordLabel;
-    @FXML
-    private PasswordField passwordField;
+    private PasswordField password;
 
     @FXML
     private Button register;
@@ -48,21 +41,14 @@ public class LoginController extends FXController {
     @Override
     protected void initialize() {
 
-        usernameLabel.setLabelFor(usernameField);
-        passwordLabel.setLabelFor(passwordField);
-
         register.setOnAction(this::onRegisterClicked);
         submit.setOnAction(this::onSubmitClicked);
 
-        usernameField.textProperty().bindBidirectional(viewModel.usernameProperty());
+        username.textProperty().bindBidirectional(viewModel.usernameProperty());
         viewModel.passwordProperty().bind(Bindings.createStringBinding(
-                () -> passwordField.getCharacters().toString(),
-                passwordField.textProperty()
+                () -> password.getCharacters().toString(),
+                password.textProperty()
         ));
-    }
-
-    @Override
-    protected void translate(ResourceBundle bundle) {
     }
 
     private void onSubmitClicked(ActionEvent event) {

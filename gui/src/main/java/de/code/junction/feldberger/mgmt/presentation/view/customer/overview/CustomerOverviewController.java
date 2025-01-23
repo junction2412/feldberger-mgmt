@@ -13,7 +13,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
-import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
 public class CustomerOverviewController extends FXController {
@@ -83,17 +82,6 @@ public class CustomerOverviewController extends FXController {
         customers.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onCustomersClicked);
 
         customerListService.start();
-    }
-
-    @Override
-    protected void translate(ResourceBundle bundle) {
-
-        viewCustomer.setText(bundle.getString("button.customer.overview.view.customer"));
-        editCustomer.setText(bundle.getString("button.customer.overview.edit.customer"));
-        newCustomer.setText(bundle.getString("button.customer.overview.new.customer"));
-        filter.setPromptText(bundle.getString("prompt.customer.overview.filter"));
-        customerIdNo.setText(bundle.getString("table.column.customer.overview.idno"));
-        customerName.setText(bundle.getString("table.column.customer.overview.name"));
     }
 
     private void onCustomerSelectionChanged(Observable observable,

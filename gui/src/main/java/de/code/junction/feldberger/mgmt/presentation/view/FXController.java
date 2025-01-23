@@ -5,7 +5,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
 import java.io.IOException;
-import java.util.ResourceBundle;
 
 import static de.code.junction.feldberger.mgmt.presentation.util.ResourceLoader.getLabelStringResources;
 
@@ -33,8 +32,7 @@ public abstract class FXController {
      */
     public final Parent load() {
 
-        final var labels = getLabelStringResources();
-        final var fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFileName), labels);
+        final var fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFileName), getLabelStringResources());
         fxmlLoader.setController(this);
 
         final Parent parent;
@@ -45,8 +43,6 @@ public abstract class FXController {
             throw new RuntimeException(e);
         }
 
-        translate(labels);
-
         return parent;
     }
 
@@ -55,11 +51,4 @@ public abstract class FXController {
      */
     @FXML
     protected abstract void initialize();
-
-    /**
-     * Translate UI labels.
-     *
-     * @param bundle resource bundle for UI labels.
-     */
-    protected abstract void translate(ResourceBundle bundle);
 }

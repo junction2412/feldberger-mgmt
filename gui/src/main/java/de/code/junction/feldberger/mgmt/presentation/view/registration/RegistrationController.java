@@ -5,29 +5,19 @@ import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
-import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
 public class RegistrationController extends FXController {
 
     @FXML
-    private Label usernameLabel;
+    private TextField username;
     @FXML
-    private TextField usernameField;
-
+    private PasswordField password;
     @FXML
-    private Label passwordLabel;
-    @FXML
-    private PasswordField passwordField;
-
-    @FXML
-    private Label repeatPasswordLabel;
-    @FXML
-    private PasswordField repeatPasswordField;
+    private PasswordField repeatPassword;
 
     @FXML
     private Button back;
@@ -53,27 +43,19 @@ public class RegistrationController extends FXController {
     @Override
     protected void initialize() {
 
-        usernameLabel.setLabelFor(usernameField);
-        passwordLabel.setLabelFor(passwordField);
-        repeatPasswordLabel.setLabelFor(repeatPasswordField);
-
         back.setOnAction(this::onBackClicked);
         submit.setOnAction(this::onSubmitClicked);
 
-        usernameField.textProperty().bindBidirectional(viewModel.usernameProperty());
+        username.textProperty().bindBidirectional(viewModel.usernameProperty());
         viewModel.passwordProperty().bind(Bindings.createStringBinding(
-                () -> passwordField.getCharacters().toString(),
-                passwordField.textProperty()
+                () -> password.getCharacters().toString(),
+                password.textProperty()
         ));
 
         viewModel.repeatPasswordProperty().bind(Bindings.createStringBinding(
-                () -> repeatPasswordField.getCharacters().toString(),
-                repeatPasswordLabel.textProperty()
+                () -> repeatPassword.getCharacters().toString(),
+                repeatPassword.textProperty()
         ));
-    }
-
-    @Override
-    protected void translate(ResourceBundle bundle) {
     }
 
     private void onBackClicked(ActionEvent event) {

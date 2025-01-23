@@ -35,7 +35,7 @@
             <children>
                 <StackPane alignment="CENTER_RIGHT">
                     <children>
-                        <Label fx:id="idLabel" text="idLabel"/>
+                        <Label text="%label.customer.dashboard.id"/>
                     </children>
                     <padding>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -51,7 +51,7 @@
                 </StackPane>
                 <StackPane alignment="CENTER_RIGHT" GridPane.rowIndex="1">
                     <children>
-                        <Label fx:id="idNoLabel" text="idNoLabel"/>
+                        <Label text="%label.customer.dashboard.idno"/>
                     </children>
                     <padding>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -67,7 +67,7 @@
                 </StackPane>
                 <StackPane alignment="CENTER_RIGHT" GridPane.rowIndex="2">
                     <children>
-                        <Label fx:id="lastNameLabel" text="lastNameLabel"/>
+                        <Label text="%label.customer.dashboard.last.name"/>
                     </children>
                     <padding>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -83,7 +83,7 @@
                 </StackPane>
                 <StackPane alignment="CENTER_RIGHT" GridPane.rowIndex="3">
                     <children>
-                        <Label fx:id="firstNameLabel" text="firstNameLabel"/>
+                        <Label text="%label.customer.dashboard.first.name"/>
                     </children>
                     <padding>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -99,7 +99,7 @@
                 </StackPane>
                 <StackPane alignment="CENTER_RIGHT" GridPane.rowIndex="4">
                     <children>
-                        <Label fx:id="companyNameLabel" text="companyNameLabel"/>
+                        <Label text="%label.customer.dashboard.company.name"/>
                     </children>
                     <padding>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -115,7 +115,7 @@
                 </StackPane>
                 <StackPane alignment="CENTER_RIGHT" GridPane.rowIndex="5">
                     <children>
-                        <Label fx:id="emailAddressLabel" text="emailAddressLabel"/>
+                        <Label text="%label.customer.dashboard.email.address"/>
                     </children>
                     <padding>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -131,7 +131,7 @@
                 </StackPane>
                 <StackPane alignment="CENTER_RIGHT" GridPane.rowIndex="6">
                     <children>
-                        <Label fx:id="landlinePhoneNumberLabel" text="landlinePhoneNumberLabel"/>
+                        <Label text="%label.customer.dashboard.landline.phone.number"/>
                     </children>
                     <padding>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -147,7 +147,7 @@
                 </StackPane>
                 <StackPane alignment="CENTER_RIGHT" GridPane.rowIndex="7">
                     <children>
-                        <Label fx:id="mobilePhoneNumberLabel" text="mobilePhoneNumberLabel"/>
+                        <Label text="%label.customer.dashboard.mobile.phone.number"/>
                     </children>
                     <padding>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -163,7 +163,7 @@
                 </StackPane>
                 <StackPane alignment="CENTER_RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="1">
                     <children>
-                        <Label fx:id="countryCodeLabel" text="countryCodeLabel"/>
+                        <Label text="%label.customer.dashboard.country.code"/>
                     </children>
                     <padding>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -179,7 +179,7 @@
                 </StackPane>
                 <StackPane alignment="CENTER_RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="2">
                     <children>
-                        <Label fx:id="postalCodeLabel" text="postalCodeLabel"/>
+                        <Label text="%label.customer.dashboard.postal.code"/>
                     </children>
                     <padding>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -195,7 +195,7 @@
                 </StackPane>
                 <StackPane alignment="CENTER_RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="3">
                     <children>
-                        <Label fx:id="cityLabel" text="cityLabel"/>
+                        <Label text="%label.customer.dashboard.city"/>
                     </children>
                     <padding>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -211,7 +211,7 @@
                 </StackPane>
                 <StackPane alignment="CENTER_RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="4">
                     <children>
-                        <Label fx:id="streetLabel" text="streetLabel"/>
+                        <Label text="%label.customer.dashboard.street"/>
                     </children>
                     <padding>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -227,7 +227,7 @@
                 </StackPane>
                 <StackPane alignment="CENTER_RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="5">
                     <children>
-                        <Label fx:id="streetNumberLabel" text="streetNumberLabel"/>
+                        <Label text="%label.customer.dashboard.street.number"/>
                     </children>
                     <padding>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -243,7 +243,7 @@
                 </StackPane>
                 <StackPane alignment="CENTER_RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="6">
                     <children>
-                        <Label fx:id="suffixLabel" text="suffixLabel"/>
+                        <Label text="%label.customer.dashboard.suffix"/>
                     </children>
                     <padding>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -259,7 +259,7 @@
                 </StackPane>
                 <StackPane alignment="TOP_RIGHT" GridPane.rowIndex="8">
                     <children>
-                        <Label fx:id="notesLabel" text="notesLabel"/>
+                        <Label text="%label.customer.dashboard.notes"/>
                     </children>
                     <padding>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -279,7 +279,7 @@
             <children>
                 <StackPane>
                     <children>
-                        <Label fx:id="transactionsLabel" text="transactions"/>
+                        <Label text="%label.customer.dashboard.transactions"/>
                     </children>
                     <padding>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -287,7 +287,8 @@
                 </StackPane>
                 <StackPane alignment="BOTTOM_LEFT">
                     <children>
-                        <Button fx:id="newTransaction" mnemonicParsing="false" text="newTransaction"/>
+                        <Button fx:id="newTransaction" mnemonicParsing="false"
+                                text="%button.customer.dashboard.new.transaction"/>
                     </children>
                     <padding>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -297,10 +298,14 @@
                     <children>
                         <TableView fx:id="transactions">
                             <columns>
-                                <TableColumn fx:id="transactionId" prefWidth="75.0" text="id"/>
-                                <TableColumn fx:id="transactionDescription" prefWidth="75.0" text="description"/>
-                                <TableColumn fx:id="transactionCreated" prefWidth="75.0" text="created"/>
-                                <TableColumn fx:id="transactionLastModified" prefWidth="75.0" text="last_modified"/>
+                                <TableColumn fx:id="transactionId" prefWidth="75.0"
+                                             text="%table.customer.dashboard.id"/>
+                                <TableColumn fx:id="transactionDescription" prefWidth="75.0"
+                                             text="%table.customer.dashboard.description"/>
+                                <TableColumn fx:id="transactionCreated" prefWidth="75.0"
+                                             text="%table.customer.dashboard.created"/>
+                                <TableColumn fx:id="transactionLastModified" prefWidth="75.0"
+                                             text="%table.customer.dashboard.last.modified"/>
                             </columns>
                             <columnResizePolicy>
                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
@@ -317,7 +322,7 @@
             <children>
                 <StackPane alignment="TOP_LEFT">
                     <children>
-                        <Button fx:id="back" mnemonicParsing="false" text="back"/>
+                        <Button fx:id="back" mnemonicParsing="false" text="%button.customer.dashboard.back"/>
                     </children>
                     <padding>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
@@ -325,7 +330,8 @@
                 </StackPane>
                 <StackPane alignment="TOP_LEFT">
                     <children>
-                        <Button fx:id="editCustomer" mnemonicParsing="false" text="editCustomer"/>
+                        <Button fx:id="editCustomer" mnemonicParsing="false"
+                                text="%button.customer.dashboard.edit.customer"/>
                     </children>
                     <padding>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>

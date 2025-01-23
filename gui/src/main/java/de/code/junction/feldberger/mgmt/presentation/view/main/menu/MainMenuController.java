@@ -15,7 +15,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 
 import java.util.Arrays;
-import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
 import static de.code.junction.feldberger.mgmt.presentation.util.ResourceLoader.getLabelStringResources;
@@ -23,12 +22,7 @@ import static de.code.junction.feldberger.mgmt.presentation.util.ResourceLoader.
 public final class MainMenuController extends FXController {
 
     @FXML
-    private Label userIdLabel;
-    @FXML
     private Label userId;
-
-    @FXML
-    private Label usernameLabel;
     @FXML
     private Label username;
 
@@ -61,9 +55,6 @@ public final class MainMenuController extends FXController {
 
     @Override
     protected void initialize() {
-
-        userIdLabel.setLabelFor(userId);
-        usernameLabel.setLabelFor(username);
 
         logout.setOnAction(this::onLogoutClicked);
         settings.setOnAction(this::onSettingsClicked);
@@ -99,15 +90,6 @@ public final class MainMenuController extends FXController {
         navigation.getSelectionModel().selectedItemProperty().addListener(this::onNavigationSelectionChanged);
 
         NavContextProvider.getInstance().initMainMenu(subview);
-    }
-
-    @Override
-    protected void translate(ResourceBundle bundle) {
-
-        userIdLabel.setText(bundle.getString("label.main.menu.user.id"));
-        usernameLabel.setText(bundle.getString("label.main.menu.username"));
-        logout.setText(bundle.getString("button.main.menu.logout"));
-        settings.setText(bundle.getString("button.main.menu.settings"));
     }
 
     private void onLogoutClicked(ActionEvent event) {
