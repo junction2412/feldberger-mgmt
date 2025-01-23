@@ -74,12 +74,6 @@ public class RegistrationController extends FXController {
 
     @Override
     protected void translate(ResourceBundle bundle) {
-
-        usernameLabel.setText(bundle.getString("view.registration.username"));
-        passwordLabel.setText(bundle.getString("view.registration.password"));
-        repeatPasswordLabel.setText(bundle.getString("view.registration.repeat.password"));
-        back.setText(bundle.getString("view.registration.back"));
-        submit.setText(bundle.getString("view.registration.submit"));
     }
 
     private void onBackClicked(ActionEvent event) {

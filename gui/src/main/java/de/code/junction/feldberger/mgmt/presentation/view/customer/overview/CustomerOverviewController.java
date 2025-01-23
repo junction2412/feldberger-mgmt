@@ -88,12 +88,12 @@ public class CustomerOverviewController extends FXController {
     @Override
     protected void translate(ResourceBundle bundle) {
 
-        viewCustomer.setText(bundle.getString("view.customer_overview.view_customer"));
-        editCustomer.setText(bundle.getString("view.customer_overview.edit_customer"));
-        newCustomer.setText(bundle.getString("view.customer_overview.new_customer"));
-        filter.setPromptText(bundle.getString("view.customer_overview.filter"));
-        customerIdNo.setText(bundle.getString("view.customer_overview.table.idno"));
-        customerName.setText(bundle.getString("view.customer_overview.table.name"));
+        viewCustomer.setText(bundle.getString("button.customer.overview.view.customer"));
+        editCustomer.setText(bundle.getString("button.customer.overview.edit.customer"));
+        newCustomer.setText(bundle.getString("button.customer.overview.new.customer"));
+        filter.setPromptText(bundle.getString("prompt.customer.overview.filter"));
+        customerIdNo.setText(bundle.getString("table.column.customer.overview.idno"));
+        customerName.setText(bundle.getString("table.column.customer.overview.name"));
     }
 
     private void onCustomerSelectionChanged(Observable observable,

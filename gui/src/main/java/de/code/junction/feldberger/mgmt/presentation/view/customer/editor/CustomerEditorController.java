@@ -142,24 +142,24 @@ public class CustomerEditorController extends FXController {
     @Override
     protected void translate(ResourceBundle bundle) {
 
-        idLabel.setText(bundle.getString("view.customer_editor.id"));
-        idNoLabel.setText(bundle.getString("view.customer_editor.idno"));
-        lastNameLabel.setText(bundle.getString("view.customer_editor.last_name"));
-        firstNameLabel.setText(bundle.getString("view.customer_editor.first_name"));
-        companyNameLabel.setText(bundle.getString("view.customer_editor.company_name"));
-        emailAddressLabel.setText(bundle.getString("view.customer_editor.email_address"));
-        landlinePhoneNumberLabel.setText(bundle.getString("view.customer_editor.landline_phone_number"));
-        mobilePhoneNumberLabel.setText(bundle.getString("view.customer_editor.mobile_phone_number"));
-        notesLabel.setText(bundle.getString("view.customer_editor.notes"));
-        countryCodeLabel.setText(bundle.getString("view.customer_editor.country_code"));
-        postalCodeLabel.setText(bundle.getString("view.customer_editor.postal_code"));
-        cityLabel.setText(bundle.getString("view.customer_editor.city"));
-        streetLabel.setText(bundle.getString("view.customer_editor.street"));
-        streetNumberLabel.setText(bundle.getString("view.customer_editor.street_number"));
-        suffixLabel.setText(bundle.getString("view.customer_editor.suffix"));
+        idLabel.setText(bundle.getString("label.customer.editor.id"));
+        idNoLabel.setText(bundle.getString("label.customer.editor.idno"));
+        lastNameLabel.setText(bundle.getString("label.customer.editor.last.name"));
+        firstNameLabel.setText(bundle.getString("label.customer.editor.first.name"));
+        companyNameLabel.setText(bundle.getString("label.customer.editor.company.name"));
+        emailAddressLabel.setText(bundle.getString("label.customer.editor.email.address"));
+        landlinePhoneNumberLabel.setText(bundle.getString("label.customer.editor.landline.phone.number"));
+        mobilePhoneNumberLabel.setText(bundle.getString("label.customer.editor.mobile.phone.number"));
+        notesLabel.setText(bundle.getString("label.customer.editor.notes"));
+        countryCodeLabel.setText(bundle.getString("label.customer.editor.country.code"));
+        postalCodeLabel.setText(bundle.getString("label.customer.editor.postal.code"));
+        cityLabel.setText(bundle.getString("label.customer.editor.city"));
+        streetLabel.setText(bundle.getString("label.customer.editor.street"));
+        streetNumberLabel.setText(bundle.getString("label.customer.editor.street.number"));
+        suffixLabel.setText(bundle.getString("label.customer.editor.suffix"));
 
-        back.setText(bundle.getString("view.customer_editor.back"));
-        save.setText(bundle.getString("view.customer_editor.save"));
+        back.setText(bundle.getString("button.customer.editor.back"));
+        save.setText(bundle.getString("button.customer.editor.save"));
     }
 
     private void onBackClicked(ActionEvent event) {

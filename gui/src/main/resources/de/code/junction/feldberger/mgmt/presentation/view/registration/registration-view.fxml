@@ -1,84 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
-    <columnConstraints>
-        <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
-        <ColumnConstraints minWidth="10.0" />
-        <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
-    </columnConstraints>
-    <rowConstraints>
-        <RowConstraints minHeight="10.0" vgrow="ALWAYS" />
-        <RowConstraints minHeight="10.0" />
-        <RowConstraints minHeight="10.0" vgrow="ALWAYS" />
-    </rowConstraints>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<HBox alignment="CENTER" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <VBox GridPane.columnIndex="1" GridPane.rowIndex="1">
+        <VBox alignment="CENTER">
             <children>
-                <StackPane alignment="BOTTOM_LEFT">
+                <VBox>
                     <children>
-                        <Label fx:id="usernameLabel" text="Label" />
+                        <StackPane alignment="BOTTOM_LEFT">
+                            <children>
+                                <Label fx:id="usernameLabel" text="%label.registration.username"/>
+                            </children>
+                            <padding>
+                                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+                            </padding>
+                        </StackPane>
+                        <StackPane alignment="TOP_LEFT">
+                            <children>
+                                <TextField fx:id="usernameField" promptText="%prompt.registration.username"/>
+                            </children>
+                            <padding>
+                                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+                            </padding>
+                        </StackPane>
                     </children>
-                    <padding>
-                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-                    </padding>
-                </StackPane>
-                <StackPane alignment="TOP_LEFT">
+                </VBox>
+                <VBox>
                     <children>
-                        <TextField fx:id="usernameField" />
+                        <StackPane alignment="BOTTOM_LEFT">
+                            <children>
+                                <Label fx:id="passwordLabel" text="%label.registration.password"/>
+                            </children>
+                            <padding>
+                                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+                            </padding>
+                        </StackPane>
+                        <StackPane alignment="TOP_LEFT">
+                            <children>
+                                <PasswordField fx:id="passwordField" promptText="%prompt.registration.password"/>
+                            </children>
+                            <padding>
+                                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+                            </padding>
+                        </StackPane>
                     </children>
-                    <padding>
-                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-                    </padding>
-                </StackPane>
-                <StackPane alignment="BOTTOM_LEFT">
+                </VBox>
+                <VBox>
                     <children>
-                        <Label fx:id="passwordLabel" text="Label" />
+                        <StackPane alignment="BOTTOM_LEFT">
+                            <children>
+                                <Label fx:id="repeatPasswordLabel" text="%label.registration.repeat.password"/>
+                            </children>
+                            <padding>
+                                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+                            </padding>
+                        </StackPane>
+                        <StackPane alignment="TOP_LEFT">
+                            <children>
+                                <PasswordField fx:id="repeatPasswordField"
+                                               promptText="%prompt.registration.repeat.password"/>
+                            </children>
+                            <padding>
+                                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+                            </padding>
+                        </StackPane>
                     </children>
-                    <padding>
-                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-                    </padding>
-                </StackPane>
-                <StackPane alignment="TOP_LEFT">
-                    <children>
-                        <PasswordField fx:id="passwordField" />
-                    </children>
-                    <padding>
-                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-                    </padding>
-                </StackPane>
-            <StackPane alignment="BOTTOM_LEFT">
-               <children>
-                  <Label fx:id="repeatPasswordLabel" text="Label" />
-               </children>
-               <padding>
-                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-               </padding>
-            </StackPane>
-            <StackPane alignment="TOP_LEFT">
-               <children>
-                  <PasswordField fx:id="repeatPasswordField" />
-               </children>
-               <padding>
-                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-               </padding>
-            </StackPane>
+                </VBox>
                 <HBox alignment="TOP_CENTER">
                     <children>
                         <StackPane>
                             <children>
-                                <Button fx:id="back" mnemonicParsing="false" text="Button" />
+                                <Button fx:id="back" mnemonicParsing="false" text="%button.registration.back"/>
                             </children>
                             <padding>
                                 <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
@@ -86,7 +81,8 @@
                         </StackPane>
                         <StackPane>
                             <children>
-                                <Button fx:id="submit" defaultButton="true" mnemonicParsing="false" text="Button" />
+                                <Button fx:id="submit" defaultButton="true" mnemonicParsing="false"
+                                        text="%button.registration.submit"/>
                             </children>
                             <padding>
                                 <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
@@ -97,4 +93,4 @@
             </children>
         </VBox>
     </children>
-</GridPane>
+</HBox>

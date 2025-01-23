@@ -104,10 +104,10 @@ public final class MainMenuController extends FXController {
     @Override
     protected void translate(ResourceBundle bundle) {
 
-        userIdLabel.setText(bundle.getString("view.main_menu.user.id"));
-        usernameLabel.setText(bundle.getString("view.main_menu.username"));
-        logout.setText(bundle.getString("view.main_menu.logout"));
-        settings.setText(bundle.getString("view.main_menu.settings"));
+        userIdLabel.setText(bundle.getString("label.main.menu.user.id"));
+        usernameLabel.setText(bundle.getString("label.main.menu.username"));
+        logout.setText(bundle.getString("button.main.menu.logout"));
+        settings.setText(bundle.getString("button.main.menu.settings"));
     }
 
     private void onLogoutClicked(ActionEvent event) {

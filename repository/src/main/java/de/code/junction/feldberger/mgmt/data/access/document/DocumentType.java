@@ -1,9 +1,9 @@
 package de.code.junction.feldberger.mgmt.data.access.document;
 
 public enum DocumentType {
-    QUOTATION(1, "enum.document_type.quotation"),
-    PACKING_SLIP(2, "enum.document_type.packing_slip"),
-    INVOICE(3, "enum.document_type.invoice"),
+    QUOTATION(1, "enum.document.type.quotation"),
+    PACKING_SLIP(2, "enum.document.type.packing.slip"),
+    INVOICE(3, "enum.document.type.invoice"),
     ;
 
     private final int id;

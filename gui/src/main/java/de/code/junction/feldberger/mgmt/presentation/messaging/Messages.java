@@ -44,9 +44,9 @@ public final class Messages {
 
         CUSTOMER_EDITOR_FAILED_IDNO_CONSTRAINT_VIOLATION = new Message(
                 MessageType.WARNING,
-                bundle.getString("customer_editor.failed.idno.constraint.violation.title"),
-                bundle.getString("customer_editor.failed.idno.constraint.violation.header"),
-                bundle.getString("customer_editor.failed.idno.constraint.violation.content")
+                bundle.getString("customer.editor.failed.idno.constraint.violation.title"),
+                bundle.getString("customer.editor.failed.idno.constraint.violation.header"),
+                bundle.getString("customer.editor.failed.idno.constraint.violation.content")
         );
     }
 }

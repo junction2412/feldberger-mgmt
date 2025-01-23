@@ -163,31 +163,31 @@ public class CustomerDashboardController extends FXController {
     @Override
     protected void translate(ResourceBundle bundle) {
 
-        idLabel.setText(bundle.getString("view.customer_dashboard.id"));
-        idNoLabel.setText(bundle.getString("view.customer_dashboard.idno"));
-        lastNameLabel.setText(bundle.getString("view.customer_dashboard.last_name"));
-        firstNameLabel.setText(bundle.getString("view.customer_dashboard.first_name"));
-        companyNameLabel.setText(bundle.getString("view.customer_dashboard.company_name"));
-        emailAddressLabel.setText(bundle.getString("view.customer_dashboard.email_address"));
-        landlinePhoneNumberLabel.setText(bundle.getString("view.customer_dashboard.landline_phone_number"));
-        mobilePhoneNumberLabel.setText(bundle.getString("view.customer_dashboard.mobile_phone_number"));
-        notesLabel.setText(bundle.getString("view.customer_dashboard.notes"));
-        countryCodeLabel.setText(bundle.getString("view.customer_dashboard.country_code"));
-        postalCodeLabel.setText(bundle.getString("view.customer_dashboard.postal_code"));
-        cityLabel.setText(bundle.getString("view.customer_dashboard.city"));
-        streetLabel.setText(bundle.getString("view.customer_dashboard.street"));
-        streetNumberLabel.setText(bundle.getString("view.customer_dashboard.street_number"));
-        suffixLabel.setText(bundle.getString("view.customer_dashboard.suffix"));
+        idLabel.setText(bundle.getString("label.customer.dashboard.id"));
+        idNoLabel.setText(bundle.getString("label.customer.dashboard.idno"));
+        lastNameLabel.setText(bundle.getString("label.customer.dashboard.last.name"));
+        firstNameLabel.setText(bundle.getString("label.customer.dashboard.first.name"));
+        companyNameLabel.setText(bundle.getString("label.customer.dashboard.company.name"));
+        emailAddressLabel.setText(bundle.getString("label.customer.dashboard.email.address"));
+        landlinePhoneNumberLabel.setText(bundle.getString("label.customer.dashboard.landline.phone.number"));
+        mobilePhoneNumberLabel.setText(bundle.getString("label.customer.dashboard.mobile.phone.number"));
+        notesLabel.setText(bundle.getString("label.customer.dashboard.notes"));
+        countryCodeLabel.setText(bundle.getString("label.customer.dashboard.country.code"));
+        postalCodeLabel.setText(bundle.getString("label.customer.dashboard.postal.code"));
+        cityLabel.setText(bundle.getString("label.customer.dashboard.city"));
+        streetLabel.setText(bundle.getString("label.customer.dashboard.street"));
+        streetNumberLabel.setText(bundle.getString("label.customer.dashboard.street.number"));
+        suffixLabel.setText(bundle.getString("label.customer.dashboard.suffix"));
 
-        back.setText(bundle.getString("view.customer_dashboard.back"));
-        editCustomer.setText(bundle.getString("view.customer_dashboard.edit_customer"));
-        newTransaction.setText(bundle.getString("view.customer_dashboard.new_transaction"));
+        back.setText(bundle.getString("button.customer.dashboard.back"));
+        editCustomer.setText(bundle.getString("button.customer.dashboard.edit.customer"));
+        newTransaction.setText(bundle.getString("button.customer.dashboard.new.transaction"));
 
-        transactionsLabel.setText(bundle.getString("view.customer_dashboard.transactions"));
-        transactionId.setText(bundle.getString("view.customer_dashboard.table.id"));
-        transactionDescription.setText(bundle.getString("view.customer_dashboard.table.description"));
-        transactionCreated.setText(bundle.getString("view.customer_dashboard.table.created"));
-        transactionLastModified.setText(bundle.getString("view.customer_dashboard.table.last_modified"));
+        transactionsLabel.setText(bundle.getString("label.customer.dashboard.transactions"));
+        transactionId.setText(bundle.getString("table.customer.dashboard.id"));
+        transactionDescription.setText(bundle.getString("label.customer.dashboard.table.description"));
+        transactionCreated.setText(bundle.getString("label.customer.dashboard.table.created"));
+        transactionLastModified.setText(bundle.getString("table.customer.dashboard.last.modified"));
     }
 
     private void onBackClicked(ActionEvent event) {

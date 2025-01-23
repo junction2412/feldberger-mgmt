@@ -33,7 +33,8 @@ public abstract class FXController {
      */
     public final Parent load() {
 
-        final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFileName));
+        final var labels = getLabelStringResources();
+        final var fxmlLoader = new FXMLLoader(getClass().getResource(fxmlFileName), labels);
         fxmlLoader.setController(this);
 
         final Parent parent;
@@ -44,7 +45,7 @@ public abstract class FXController {
             throw new RuntimeException(e);
         }
 
-        translate(getLabelStringResources());
+        translate(labels);
 
         return parent;
     }

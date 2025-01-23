@@ -10,6 +10,7 @@ import de.code.junction.feldberger.mgmt.presentation.messaging.Messages;
 import de.code.junction.feldberger.mgmt.presentation.messaging.Messenger;
 import de.code.junction.feldberger.mgmt.presentation.navigation.TransitionLifecycle;
 
+import java.text.MessageFormat;
 import java.util.function.Consumer;
 
 import static de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationRoute.MainMenu;
@@ -69,7 +70,8 @@ public class ApplicationRegistrationTransitionLifecycle implements TransitionLif
 
             final var title = bundle.getString("registration.failed.title");
             final var header = bundle.getString("registration.failed.header");
-            final var content = bundle.getString("registration.failed.content.format").formatted(reasons);
+            final var content = MessageFormat.format(bundle.getString("registration.failed.content.format"),
+                    reasons);
 
             messenger.send(new Message(MessageType.WARNING, title, header, content));
 

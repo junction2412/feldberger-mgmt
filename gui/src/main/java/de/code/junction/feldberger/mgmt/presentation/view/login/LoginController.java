@@ -63,11 +63,6 @@ public class LoginController extends FXController {
 
     @Override
     protected void translate(ResourceBundle bundle) {
-
-        usernameLabel.setText(bundle.getString("view.login.username"));
-        passwordLabel.setText(bundle.getString("view.login.password"));
-        register.setText(bundle.getString("view.login.register"));
-        submit.setText(bundle.getString("view.login.submit"));
     }
 
     private void onSubmitClicked(ActionEvent event) {
