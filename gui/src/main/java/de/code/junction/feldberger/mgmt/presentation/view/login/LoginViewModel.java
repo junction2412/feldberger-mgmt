@@ -1,26 +1,65 @@
 package de.code.junction.feldberger.mgmt.presentation.view.login;
 
+import de.code.junction.feldberger.mgmt.data.access.user.User;
+import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationRoute;
+import de.code.junction.feldberger.mgmt.presentation.messaging.Message;
+import de.code.junction.feldberger.mgmt.presentation.messaging.Messenger;
+import de.code.junction.feldberger.mgmt.presentation.navigation.Navigator;
+import de.code.junction.feldberger.mgmt.presentation.view.FXViewModel;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.concurrent.WorkerStateEvent;
 
-public class LoginViewModel {
+public class LoginViewModel extends FXViewModel {
 
-    public final StringProperty username;
-    public final StringProperty password;
+    private final StringProperty username;
+    private final StringProperty password;
+    private final BooleanProperty submitDisabled;
 
-    public LoginViewModel(String username) {
+    private final Navigator<ApplicationRoute> navigator;
+    private final LoginService loginService;
 
-        this(
-                username,
-                ""
-        );
-    }
+    public LoginViewModel(Messenger messenger,
+                          Navigator<ApplicationRoute> navigator,
+                          LoginService loginService,
+                          String username) {
 
-    public LoginViewModel(String username,
-                          String password) {
+        super(messenger);
 
         this.username = new SimpleStringProperty(username);
-        this.password = new SimpleStringProperty(password);
+        this.password = new SimpleStringProperty("");
+        this.submitDisabled = new SimpleBooleanProperty(false);
+
+        this.navigator = navigator;
+        this.loginService = loginService;
+    }
+
+    @Override
+    public void init() {
+
+        submitDisabled.bind(loginService.runningProperty());
+
+        loginService.usernameProperty().bindBidirectional(username);
+        loginService.passwordProperty().bindBidirectional(password);
+        loginService.setOnSucceeded(this::onLoginServiceSucceeded);
+    }
+
+    public void onSubmitClicked() {
+        loginService.restart();
+    }
+
+    public void onRegisterClicked() {
+        navigator.navigateTo(new ApplicationRoute.Registration(getUsername()));
+    }
+
+    private void onLoginServiceSucceeded(WorkerStateEvent event) {
+
+        switch (loginService.getValue()) {
+            case LoginResult.Success(User user) -> navigator.navigateTo(new ApplicationRoute.MainMenu(user));
+            case LoginResult.Failure(Message message) -> messenger().send(message);
+        }
     }
 
     public String getUsername() {
@@ -39,8 +78,13 @@ public class LoginViewModel {
         return password;
     }
 
-    public LoginForm toLoginForm() {
+    public boolean isSubmitDisabled() {
 
-        return new LoginForm(getUsername().trim(), getPassword());
+        return submitDisabled.get();
+    }
+
+    public BooleanProperty submitDisabledProperty() {
+
+        return submitDisabled;
     }
 }

@@ -84,7 +84,7 @@ public class CustomerDashboardController extends FXController {
     }
 
     @Override
-    protected void initialize() {
+    public void initialize() {
 
         id.textProperty().bind(viewModel.idProperty().asString());
         idNo.textProperty().bindBidirectional(viewModel.idNoProperty());

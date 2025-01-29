@@ -1,8 +1,11 @@
 package de.code.junction.feldberger.mgmt.presentation;
 
 import de.code.junction.feldberger.mgmt.data.access.PersistenceManager;
+import de.code.junction.feldberger.mgmt.presentation.components.ServiceFactory;
+import de.code.junction.feldberger.mgmt.presentation.components.ViewFactory;
+import de.code.junction.feldberger.mgmt.presentation.components.ViewModelFactory;
 import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationRoute.Registration;
-import de.code.junction.feldberger.mgmt.presentation.components.common.NavContextProvider;
+import de.code.junction.feldberger.mgmt.presentation.components.common.NavigatorFactory;
 import de.code.junction.feldberger.mgmt.presentation.components.jfx.FXMessenger;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -29,16 +32,18 @@ public class Feldberger3DMgmtApplication extends Application {
         final var messenger = new FXMessenger();
         messenger.setStage(stage);
 
-        final var navContext = NavContextProvider.getInstance(messenger).application();
+        final var navigatorFactory = NavigatorFactory.getInstance(messenger);
+        final var viewFactory = new ViewFactory(new ViewModelFactory(messenger, navigatorFactory, new ServiceFactory(persistenceManager)));
+        final var navigator = navigatorFactory.application(viewFactory);
 
-        navContext.setScope(stage);
+        navigator.setScope(stage);
 
         final var NO_USERS_REGISTERED = persistenceManager.userDao().countAll() == 0;
         final var entryPoint = NO_USERS_REGISTERED
                 ? new Registration()
                 : new Login();
 
-        navContext.navigateTo(entryPoint);
+        navigator.navigateTo(entryPoint);
 
         stage.setMaximized(true);
         stage.show();

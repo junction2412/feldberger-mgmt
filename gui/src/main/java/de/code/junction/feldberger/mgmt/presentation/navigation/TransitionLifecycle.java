@@ -8,6 +8,7 @@ package de.code.junction.feldberger.mgmt.presentation.navigation;
  * @param <B> the type the transition is performed upon
  * @author J. Murray
  */
+@Deprecated
 public interface TransitionLifecycle<A, B> {
 
     /**

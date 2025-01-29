@@ -1,8 +1,10 @@
 package de.code.junction.feldberger.mgmt.presentation.components.application;
 
 import de.code.junction.feldberger.mgmt.data.access.user.User;
-import de.code.junction.feldberger.mgmt.presentation.navigation.ScopedNavContext;
+import de.code.junction.feldberger.mgmt.presentation.components.ViewFactory;
+import de.code.junction.feldberger.mgmt.presentation.navigation.ScopedNavigator;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
+import de.code.junction.feldberger.mgmt.presentation.view.FXLoadable;
 import de.code.junction.feldberger.mgmt.presentation.view.main.menu.UserSession;
 import javafx.application.Platform;
 import javafx.scene.Parent;
@@ -10,7 +12,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 import static de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationRoute.*;
 
@@ -20,14 +21,17 @@ import static de.code.junction.feldberger.mgmt.presentation.components.applicati
  *
  * @author J. Murray
  */
-public class ApplicationNavContext extends ScopedNavContext<Stage, ApplicationRoute> {
+public class ApplicationNavigator extends ScopedNavigator<Stage, ApplicationRoute> {
 
+    private final ViewFactory viewFactory;
     private final ApplicationControllerFactory controllerFactory;
     private final ApplicationTransitionFactory transitionFactory;
 
-    public ApplicationNavContext(ApplicationControllerFactory controllerFactory,
-                                 ApplicationTransitionFactory transitionFactory) {
+    public ApplicationNavigator(ViewFactory viewFactory,
+                                ApplicationControllerFactory controllerFactory,
+                                ApplicationTransitionFactory transitionFactory) {
 
+        this.viewFactory = viewFactory;
         this.controllerFactory = controllerFactory;
         this.transitionFactory = transitionFactory;
     }
@@ -36,23 +40,12 @@ public class ApplicationNavContext extends ScopedNavContext<Stage, ApplicationRo
     public void navigateTo(ApplicationRoute route) {
 
         final var controller = switch (route) {
-            case Registration registration -> registration(registration.username());
-            case Login login -> login(login.username());
-            case MainMenu mainMenu -> mainMenu(mainMenu.user());
+            case Registration(String username) -> registration(username);
+            case Login(String username) -> viewFactory.login(username);
+            case MainMenu(User user) -> mainMenu(user);
         };
 
         setSceneController(controller);
-    }
-
-    private FXController login(String username) {
-
-        final var loginTransition = transitionFactory.login(this::navigateTo);
-
-        final Function<String, Registration> factory = Registration::new;
-        final Consumer<Registration> action = this::navigateTo;
-        final Consumer<String> onRegisterClicked = _username -> action.accept(factory.apply(_username));
-
-        return controllerFactory.login(loginTransition::orchestrate, onRegisterClicked, username);
     }
 
     private FXController mainMenu(User user) {
@@ -72,7 +65,7 @@ public class ApplicationNavContext extends ScopedNavContext<Stage, ApplicationRo
         return controllerFactory.registration(login, registrationTransition::orchestrate, username);
     }
 
-    private void setSceneController(FXController controller) {
+    private void setSceneController(FXLoadable controller) {
 
         final Runnable runnable = () -> setSceneRoot(controller.load());
 

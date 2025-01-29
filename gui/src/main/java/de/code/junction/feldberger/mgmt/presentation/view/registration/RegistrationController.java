@@ -41,7 +41,7 @@ public class RegistrationController extends FXController {
     }
 
     @Override
-    protected void initialize() {
+    public void initialize() {
 
         back.setOnAction(this::onBackClicked);
         submit.setOnAction(this::onSubmitClicked);

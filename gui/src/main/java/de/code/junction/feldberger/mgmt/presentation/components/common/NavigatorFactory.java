@@ -1,67 +1,74 @@
 package de.code.junction.feldberger.mgmt.presentation.components.common;
 
 import de.code.junction.feldberger.mgmt.data.access.PersistenceManager;
+import de.code.junction.feldberger.mgmt.presentation.components.ViewFactory;
 import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationControllerFactory;
-import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavContext;
+import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavigator;
 import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuControllerFactory;
-import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuNavContext;
+import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuNavigator;
 import de.code.junction.feldberger.mgmt.presentation.messaging.Messenger;
 import javafx.scene.layout.Pane;
 
 import java.util.Objects;
 
-public class NavContextProvider {
+public class NavigatorFactory {
 
-    private static NavContextProvider instance;
+    private static NavigatorFactory instance;
 
     private final TransitionFactoryProvider transitionFactoryProvider;
     private final PersistenceManager persistenceManager;
 
-    private ApplicationNavContext applicationNavContext;
+    private ApplicationNavigator applicationNavigator;
 
-    private NavContextProvider(PersistenceManager persistenceManager, Messenger messenger) {
+    private NavigatorFactory(PersistenceManager persistenceManager, Messenger messenger) {
 
         this.persistenceManager = persistenceManager;
         transitionFactoryProvider = new TransitionFactoryProvider(persistenceManager, messenger);
     }
 
-    public static NavContextProvider getInstance(Messenger messenger) {
+    public static NavigatorFactory getInstance(Messenger messenger) {
 
         if (instance == null)
-            instance = new NavContextProvider(PersistenceManager.getInstance(), messenger);
+            instance = new NavigatorFactory(PersistenceManager.getInstance(), messenger);
 
         return instance;
     }
 
-    public static NavContextProvider getInstance() {
+    public static NavigatorFactory getInstance() {
 
         return Objects.requireNonNull(instance);
     }
 
-    public ApplicationNavContext application() {
+    public ApplicationNavigator application(ViewFactory viewFactory) {
 
-        if (applicationNavContext == null)
-            applicationNavContext = new ApplicationNavContext(
+        if (applicationNavigator == null)
+            applicationNavigator = new ApplicationNavigator(
+                    viewFactory,
                     new ApplicationControllerFactory(),
                     transitionFactoryProvider.applicationTransitionFactory()
             );
 
-        return applicationNavContext;
+        return applicationNavigator;
+    }
+
+    public ApplicationNavigator application() {
+
+        return applicationNavigator;
     }
 
     public void initMainMenu(Pane scope) {
 
-        final var navContext = new MainMenuNavContext(
+        final var navigator = new MainMenuNavigator(
                 transitionFactoryProvider.mainMenuTransitionFactory(),
                 new MainMenuControllerFactory(persistenceManager)
         );
 
-        navContext.setScope(scope);
+        navigator.setScope(scope);
     }
 
-    public MainMenuNavContext mainMenu() {
+    public MainMenuNavigator mainMenu() {
 
-        return new MainMenuNavContext(
+        return new MainMenuNavigator(
                 transitionFactoryProvider.mainMenuTransitionFactory(),
                 new MainMenuControllerFactory(persistenceManager)
         );

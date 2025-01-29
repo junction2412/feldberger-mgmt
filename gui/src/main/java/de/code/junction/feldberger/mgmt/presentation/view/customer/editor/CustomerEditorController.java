@@ -66,7 +66,7 @@ public class CustomerEditorController extends FXController {
     }
 
     @Override
-    protected void initialize() {
+    public void initialize() {
 
 
         id.textProperty().bind(viewModel.idProperty().asString());

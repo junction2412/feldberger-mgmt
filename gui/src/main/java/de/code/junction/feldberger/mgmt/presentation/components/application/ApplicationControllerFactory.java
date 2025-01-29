@@ -2,9 +2,6 @@ package de.code.junction.feldberger.mgmt.presentation.components.application;
 
 import de.code.junction.feldberger.mgmt.data.access.user.User;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
-import de.code.junction.feldberger.mgmt.presentation.view.login.LoginController;
-import de.code.junction.feldberger.mgmt.presentation.view.login.LoginForm;
-import de.code.junction.feldberger.mgmt.presentation.view.login.LoginViewModel;
 import de.code.junction.feldberger.mgmt.presentation.view.main.menu.MainMenuController;
 import de.code.junction.feldberger.mgmt.presentation.view.main.menu.MainMenuViewModel;
 import de.code.junction.feldberger.mgmt.presentation.view.main.menu.UserSession;
@@ -27,13 +24,6 @@ public class ApplicationControllerFactory {
                                      String username) {
 
         return new RegistrationController(new RegistrationFormViewModel(username), onBackClicked, onSubmitClicked);
-    }
-
-    public FXController login(Consumer<LoginForm> onSubmitClicked,
-                              Consumer<String> onRegisterClicked,
-                              String username) {
-
-        return new LoginController(new LoginViewModel(username), onSubmitClicked, onRegisterClicked);
     }
 
     public FXController mainMenu(Runnable onLogoutClicked,

@@ -22,6 +22,6 @@ public class TransactionOverviewController extends FXController {
     }
 
     @Override
-    protected void initialize() {
+    public void initialize() {
     }
 }

@@ -1,6 +1,6 @@
 package de.code.junction.feldberger.mgmt.presentation.view.main.menu;
 
-import de.code.junction.feldberger.mgmt.presentation.components.common.NavContextProvider;
+import de.code.junction.feldberger.mgmt.presentation.components.common.NavigatorFactory;
 import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuRoute.CustomerOverview;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import javafx.beans.Observable;
@@ -54,7 +54,7 @@ public final class MainMenuController extends FXController {
     }
 
     @Override
-    protected void initialize() {
+    public void initialize() {
 
         logout.setOnAction(this::onLogoutClicked);
         settings.setOnAction(this::onSettingsClicked);
@@ -89,7 +89,7 @@ public final class MainMenuController extends FXController {
         viewModel.selectedSubviewProperty().bind(navigation.getSelectionModel().selectedItemProperty());
         navigation.getSelectionModel().selectedItemProperty().addListener(this::onNavigationSelectionChanged);
 
-        NavContextProvider.getInstance().initMainMenu(subview);
+        NavigatorFactory.getInstance().initMainMenu(subview);
     }
 
     private void onLogoutClicked(ActionEvent event) {
@@ -104,7 +104,7 @@ public final class MainMenuController extends FXController {
 
     private void onNavigationSelectionChanged(Observable observable, Subview oldValue, Subview newValue) {
 
-        final var navContextProvider = NavContextProvider.getInstance();
+        final var navContextProvider = NavigatorFactory.getInstance();
         // always create a new context from scratch to ensure an empty stack
         final var navContext = navContextProvider.mainMenu();
         navContext.setScope(subview);

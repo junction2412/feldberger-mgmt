@@ -1,6 +1,6 @@
 package de.code.junction.feldberger.mgmt.presentation.components.main.menu;
 
-import de.code.junction.feldberger.mgmt.presentation.navigation.ScopedNavContext;
+import de.code.junction.feldberger.mgmt.presentation.navigation.ScopedNavigator;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import javafx.application.Platform;
 import javafx.scene.layout.Pane;
@@ -9,12 +9,12 @@ import java.util.function.Consumer;
 
 import static de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuRoute.*;
 
-public class MainMenuNavContext extends ScopedNavContext<Pane, MainMenuRoute> {
+public class MainMenuNavigator extends ScopedNavigator<Pane, MainMenuRoute> {
 
     private final MainMenuTransitionFactory transitionFactory;
     private final MainMenuControllerFactory controllerFactory;
 
-    public MainMenuNavContext(MainMenuTransitionFactory transitionFactory, MainMenuControllerFactory controllerFactory) {
+    public MainMenuNavigator(MainMenuTransitionFactory transitionFactory, MainMenuControllerFactory controllerFactory) {
 
         this.transitionFactory = transitionFactory;
         this.controllerFactory = controllerFactory;

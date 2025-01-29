@@ -10,6 +10,7 @@ import java.util.concurrent.CompletableFuture;
  * @author J. Murray
  * @see TransitionLifecycle
  */
+@Deprecated
 public class Transition<A, B> {
 
     private final TransitionLifecycle<A, B> transitionLifecycle;

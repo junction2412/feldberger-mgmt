@@ -1,11 +1,11 @@
 package de.code.junction.feldberger.mgmt.presentation.navigation;
 
-public abstract class ScopedNavContext<S, R> implements NavContext<R> {
+/// Use to inject a scope the [Navigator] takes control of.
+/// Setting a scope won't trigger a UI transition.
+///
+/// @author J. Murray
+public abstract class ScopedNavigator<S, R> implements Navigator<R> {
 
-    /**
-     * Use to inject a scope the navContext takes control of.
-     * Setting a scope won't trigger a UI transition.
-     */
     protected S scope;
 
     @SuppressWarnings("unused")

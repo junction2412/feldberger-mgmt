@@ -62,7 +62,7 @@ public class CustomerOverviewController extends FXController {
     }
 
     @Override
-    protected void initialize() {
+    public void initialize() {
 
         final var noCustomerSelected = customers.getSelectionModel().selectedItemProperty().isNull();
 
