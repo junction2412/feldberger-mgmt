@@ -6,7 +6,7 @@ public abstract class FXViewModel implements ViewModel {
 
     private final Messenger messenger;
 
-    protected FXViewModel(Messenger messenger) {
+    public FXViewModel(Messenger messenger) {
 
         this.messenger = messenger;
     }

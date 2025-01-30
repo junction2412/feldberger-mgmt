@@ -2,44 +2,27 @@ package de.code.junction.feldberger.mgmt.presentation.view.registration;
 
 import de.code.junction.feldberger.mgmt.data.access.user.User;
 import de.code.junction.feldberger.mgmt.data.access.user.UserDataAccessObject;
-import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationRoute;
-import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationRoute.Login;
 import de.code.junction.feldberger.mgmt.presentation.messaging.Message;
 import de.code.junction.feldberger.mgmt.presentation.messaging.MessageType;
-import de.code.junction.feldberger.mgmt.presentation.messaging.Messages;
-import de.code.junction.feldberger.mgmt.presentation.messaging.Messenger;
-import de.code.junction.feldberger.mgmt.presentation.navigation.TransitionLifecycle;
 
 import java.text.MessageFormat;
-import java.util.function.Consumer;
 
-import static de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationRoute.MainMenu;
 import static de.code.junction.feldberger.mgmt.presentation.util.HashUtil.hashPassword;
 import static de.code.junction.feldberger.mgmt.presentation.util.HashUtil.salt;
 import static de.code.junction.feldberger.mgmt.presentation.util.ResourceLoader.getMessageStringResources;
 
-public class ApplicationRegistrationTransitionLifecycle implements TransitionLifecycle<RegistrationForm, ApplicationRoute> {
+public class PerformRegistration {
 
-    private final Messenger messenger;
     private final UserDataAccessObject userDao;
-    private final Consumer<ApplicationRoute> onEnd;
 
-    public ApplicationRegistrationTransitionLifecycle(Messenger messenger,
-                                                      UserDataAccessObject userDao,
-                                                      Consumer<ApplicationRoute> onEnd) {
+    public PerformRegistration(UserDataAccessObject userDao) {
 
-        this.messenger = messenger;
         this.userDao = userDao;
-        this.onEnd = onEnd;
     }
 
-    @Override
-    public boolean validate(RegistrationForm registrationForm) {
+    public RegistrationResult submit(String username, String password, String repeatedPassword) {
 
-        final var username = registrationForm.username();
-        final var password = registrationForm.password();
-
-        final var arePasswordInputsEqual = password.equals(registrationForm.repeatPassword());
+        final var arePasswordInputsEqual = password.equals(repeatedPassword);
         final var isPasswordMinimumLength = 7 < password.length();
         final var isPasswordNotMaxLength = password.length() < 65;
         final var isUsernameNotEmpty = !username.isEmpty();
@@ -67,52 +50,26 @@ public class ApplicationRegistrationTransitionLifecycle implements TransitionLif
         final var isUsernameValid = isUsernameNotEmpty && isUsernameNotTaken;
 
         if (!(isPasswordValid && isUsernameValid)) {
-
             final var title = bundle.getString("registration.failed.title");
             final var header = bundle.getString("registration.failed.header");
             final var content = MessageFormat.format(bundle.getString("registration.failed.content.format"),
                     reasons);
 
-            messenger.send(new Message(MessageType.WARNING, title, header, content));
-
-            return false;
+            return new RegistrationResult.Failure(new Message(MessageType.WARNING, title, header, content));
         }
 
-        return true;
-    }
-
-    @Override
-    public ApplicationRoute transform(RegistrationForm registrationForm) {
-
         final var passwordSalt = salt();
-        final var passwordHash = hashPassword(registrationForm.password(), passwordSalt);
-        final var user = new User(registrationForm.username(), passwordHash, passwordSalt);
+        final var passwordHash = hashPassword(password, passwordSalt);
+        final var user = new User(username, passwordHash, passwordSalt);
 
         final var AT_LEAST_ONE_USER_EXISTS = 0 < userDao.countAll();
-        final ApplicationRoute route;
 
         if (AT_LEAST_ONE_USER_EXISTS) {
             user.setInactive();
-            route = new Login(user.getUsername());
-
-            messenger.send(Messages.REGISTRATION_SUCCEEDED_USER_INACTIVE);
-        } else {
-            route = new MainMenu(user);
         }
 
         userDao.persistUser(user);
 
-        return route;
-    }
-
-    @Override
-    public void conclude(ApplicationRoute route) {
-
-        try {
-            onEnd.accept(route);
-        } catch (Exception e) {
-            messenger.send(Messages.TRANSITION_NOT_PERFORMED);
-            throw e;
-        }
+        return new RegistrationResult.Success(user);
     }
 }

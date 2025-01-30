@@ -79,12 +79,10 @@ public class LoginViewModel extends FXViewModel {
     }
 
     public boolean isSubmitDisabled() {
-
         return submitDisabled.get();
     }
 
     public BooleanProperty submitDisabledProperty() {
-
         return submitDisabled;
     }
 }

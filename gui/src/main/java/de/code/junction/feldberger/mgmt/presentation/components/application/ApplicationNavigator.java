@@ -40,7 +40,7 @@ public class ApplicationNavigator extends ScopedNavigator<Stage, ApplicationRout
     public void navigateTo(ApplicationRoute route) {
 
         final var controller = switch (route) {
-            case Registration(String username) -> registration(username);
+            case Registration(String username) -> viewFactory.registration(username);
             case Login(String username) -> viewFactory.login(username);
             case MainMenu(User user) -> mainMenu(user);
         };
@@ -55,14 +55,6 @@ public class ApplicationNavigator extends ScopedNavigator<Stage, ApplicationRout
         final Runnable logout = () -> navigateTo(new Login(user.getUsername()));
 
         return controllerFactory.mainMenu(logout, onSettingsClicked, user);
-    }
-
-    private FXController registration(String username) {
-
-        final var registrationTransition = transitionFactory.registration(this::navigateTo);
-
-        final Consumer<String> login = _username -> navigateTo(new Login(_username));
-        return controllerFactory.registration(login, registrationTransition::orchestrate, username);
     }
 
     private void setSceneController(FXLoadable controller) {
