@@ -2,6 +2,7 @@ package de.code.junction.feldberger.mgmt.presentation.components;
 
 import de.code.junction.feldberger.mgmt.presentation.view.FXLoadable;
 import de.code.junction.feldberger.mgmt.presentation.view.login.LoginView;
+import de.code.junction.feldberger.mgmt.presentation.view.main.menu.MainMenuView;
 import de.code.junction.feldberger.mgmt.presentation.view.registration.RegistrationView;
 
 public class ViewFactory {
@@ -18,5 +19,9 @@ public class ViewFactory {
 
     public FXLoadable registration(String username) {
         return new RegistrationView(viewModelFactory.registration(username));
+    }
+
+    public FXLoadable mainMenu(int userId, String username) {
+        return new MainMenuView(viewModelFactory.mainMenu(userId, username));
     }
 }

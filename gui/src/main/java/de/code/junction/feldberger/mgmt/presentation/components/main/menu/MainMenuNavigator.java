@@ -1,10 +1,12 @@
 package de.code.junction.feldberger.mgmt.presentation.components.main.menu;
 
 import de.code.junction.feldberger.mgmt.presentation.navigation.ScopedNavigator;
-import de.code.junction.feldberger.mgmt.presentation.view.FXController;
+import de.code.junction.feldberger.mgmt.presentation.view.FXLoadable;
 import javafx.application.Platform;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
+import java.util.Optional;
 import java.util.function.Consumer;
 
 import static de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuRoute.*;
@@ -38,7 +40,7 @@ public class MainMenuNavigator extends ScopedNavigator<Pane, MainMenuRoute> {
         setChildController(controller);
     }
 
-    private FXController customerOverview(int selectedCustomerId) {
+    private FXLoadable customerOverview(int selectedCustomerId) {
 
         final Consumer<Integer> onViewCustomerClicked = customerId -> navigateTo(new CustomerDashboard(customerId));
         final Consumer<Integer> onEditCustomerClicked = customerId -> navigateTo(new CustomerEditor(customerId));
@@ -53,7 +55,7 @@ public class MainMenuNavigator extends ScopedNavigator<Pane, MainMenuRoute> {
         );
     }
 
-    private FXController customerEditor(int customerId, boolean fromDashboard) {
+    private FXLoadable customerEditor(int customerId, boolean fromDashboard) {
 
         final var NEW_CUSTOMER_ID = 0;
         final var saveTransition = transitionFactory.customerEditorCustomerDashboard(this::navigateTo);
@@ -67,7 +69,7 @@ public class MainMenuNavigator extends ScopedNavigator<Pane, MainMenuRoute> {
         return controllerFactory.customerEditor(onBackClicked, saveTransition::orchestrate, customerId);
     }
 
-    private FXController customerDashboard(int customerId, int selectedTransactionId) {
+    private FXLoadable customerDashboard(int customerId, int selectedTransactionId) {
 
         final Runnable onBackClicked = () -> navigateTo(new CustomerOverview(customerId));
         final Runnable onEditCustomerClicked = () -> navigateTo(new CustomerEditor(customerId, true));
@@ -82,12 +84,20 @@ public class MainMenuNavigator extends ScopedNavigator<Pane, MainMenuRoute> {
         );
     }
 
-    private void setChildController(FXController controller) {
+    private void setChildController(FXLoadable controller) {
 
         final Runnable runnable = () -> {
 
-            final var node = controller == null ? new Pane() : controller.load();
+            final var node = Optional.ofNullable(controller)
+                    .map(FXLoadable::load)
+                    .orElseGet(Pane::new);
+
             scope.getChildren().setAll(node);
+
+            AnchorPane.setTopAnchor(node, 0.0);
+            AnchorPane.setRightAnchor(node, 0.0);
+            AnchorPane.setBottomAnchor(node, 0.0);
+            AnchorPane.setLeftAnchor(node, 0.0);
         };
 
         if (Platform.isFxApplicationThread())

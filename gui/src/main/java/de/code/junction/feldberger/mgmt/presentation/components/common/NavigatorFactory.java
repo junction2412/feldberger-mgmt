@@ -2,7 +2,6 @@ package de.code.junction.feldberger.mgmt.presentation.components.common;
 
 import de.code.junction.feldberger.mgmt.data.access.PersistenceManager;
 import de.code.junction.feldberger.mgmt.presentation.components.ViewFactory;
-import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationControllerFactory;
 import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavigator;
 import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuControllerFactory;
 import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuNavigator;
@@ -43,9 +42,7 @@ public class NavigatorFactory {
 
         if (applicationNavigator == null)
             applicationNavigator = new ApplicationNavigator(
-                    viewFactory,
-                    new ApplicationControllerFactory(),
-                    transitionFactoryProvider.applicationTransitionFactory()
+                    viewFactory
             );
 
         return applicationNavigator;

@@ -70,12 +70,14 @@ public class RegistrationViewModel extends FXViewModel {
         switch (registrationService.getValue()) {
             case RegistrationResult.Success(User user) -> {
 
+                final var username = user.getUsername();
                 final ApplicationRoute route;
+
                 if (user.isInactive()) {
                     messenger().send(Messages.REGISTRATION_SUCCEEDED_USER_INACTIVE);
-                    route = new ApplicationRoute.Login(user.getUsername());
+                    route = new ApplicationRoute.Login(username);
                 } else {
-                    route = new ApplicationRoute.MainMenu(user);
+                    route = new ApplicationRoute.MainMenu(user.getId(), username);
                 }
 
                 navigator.navigateTo(route);
@@ -114,16 +116,8 @@ public class RegistrationViewModel extends FXViewModel {
         return password;
     }
 
-    public String getRepeatPassword() {
-        return repeatPassword.get();
-    }
-
     public StringProperty repeatPasswordProperty() {
         return repeatPassword;
-    }
-
-    public boolean isSubmitDisabled() {
-        return submitDisabled.get();
     }
 
     public BooleanProperty submitDisabledProperty() {

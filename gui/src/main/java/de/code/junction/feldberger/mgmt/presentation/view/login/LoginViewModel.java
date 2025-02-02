@@ -57,7 +57,10 @@ public class LoginViewModel extends FXViewModel {
     private void onLoginServiceSucceeded(WorkerStateEvent event) {
 
         switch (loginService.getValue()) {
-            case LoginResult.Success(User user) -> navigator.navigateTo(new ApplicationRoute.MainMenu(user));
+            case LoginResult.Success(User user) -> navigator.navigateTo(new ApplicationRoute.MainMenu(
+                    user.getId(),
+                    user.getUsername()
+            ));
             case LoginResult.Failure(Message message) -> messenger().send(message);
         }
     }
@@ -76,10 +79,6 @@ public class LoginViewModel extends FXViewModel {
 
     public StringProperty passwordProperty() {
         return password;
-    }
-
-    public boolean isSubmitDisabled() {
-        return submitDisabled.get();
     }
 
     public BooleanProperty submitDisabledProperty() {

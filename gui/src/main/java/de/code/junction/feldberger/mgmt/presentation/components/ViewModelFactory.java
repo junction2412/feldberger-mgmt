@@ -3,6 +3,7 @@ package de.code.junction.feldberger.mgmt.presentation.components;
 import de.code.junction.feldberger.mgmt.presentation.components.common.NavigatorFactory;
 import de.code.junction.feldberger.mgmt.presentation.messaging.Messenger;
 import de.code.junction.feldberger.mgmt.presentation.view.login.LoginViewModel;
+import de.code.junction.feldberger.mgmt.presentation.view.main.menu.MainMenuViewModel;
 import de.code.junction.feldberger.mgmt.presentation.view.registration.RegistrationViewModel;
 
 public class ViewModelFactory {
@@ -28,6 +29,17 @@ public class ViewModelFactory {
                 messenger,
                 navigatorFactory.application(),
                 serviceFactory.registrationService(),
+                username
+        );
+    }
+
+    public MainMenuViewModel mainMenu(int userId, String username) {
+
+        return new MainMenuViewModel(
+                messenger,
+                navigatorFactory.application(),
+                navigatorFactory.mainMenu(),
+                userId,
                 username
         );
     }

@@ -1,7 +1,5 @@
 package de.code.junction.feldberger.mgmt.presentation.components.application;
 
-import de.code.junction.feldberger.mgmt.data.access.user.User;
-
 public sealed interface ApplicationRoute {
 
     record Login(String username) implements ApplicationRoute {
@@ -20,6 +18,6 @@ public sealed interface ApplicationRoute {
         }
     }
 
-    record MainMenu(User user) implements ApplicationRoute {
+    record MainMenu(int userId, String username) implements ApplicationRoute {
     }
 }
