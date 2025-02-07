@@ -9,7 +9,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
-import java.util.Optional;
 import java.util.function.Consumer;
 
 /**
@@ -24,14 +23,11 @@ public class FXMessenger implements Messenger {
      */
     private Stage stage;
 
-
     public FXMessenger() {
-
         this(null);
     }
 
     public FXMessenger(Stage stage) {
-
         this.stage = stage;
     }
 
@@ -41,32 +37,25 @@ public class FXMessenger implements Messenger {
      * @param message message details to be displayed
      */
     @Override
-    public void send(Message message) {
-
-        Platform.runLater(() -> showAlert(message));
+    public void send(Message message, Consumer<MessageResponse> onResponse) {
+        Platform.runLater(() -> showAlert(message, onResponse));
     }
 
-    private void showAlert(Message message) {
+    private void showAlert(Message message, Consumer<MessageResponse> onResponse) {
 
-        final Alert alert = new Alert(determineAlertType(message.type()));
+        final var alert = new Alert(determineAlertType(message.type()));
         alert.initOwner(stage);
         alert.setTitle(message.title());
         alert.setHeaderText(message.header());
         alert.setContentText(message.content());
         alert.setResizable(true);
 
-        final Optional<ButtonType> buttonType = alert.showAndWait();
+        final var buttonType = alert.showAndWait();
 
-        buttonType.ifPresent(type -> {
-            final Consumer<MessageResponse> onResponse = message.onResponse();
-            final MessageResponse response = determineResponseType(type);
-
-            onResponse.accept(response);
-        });
+        buttonType.ifPresent(type -> onResponse.accept(determineResponseType(type)));
     }
 
     public void setStage(Stage stage) {
-
         this.stage = stage;
     }
 
