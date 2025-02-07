@@ -59,87 +59,60 @@ public class Document implements DataTransferObject<Integer> {
                     Transaction transaction,
                     LocalDateTime uploadDate) {
 
-        this(
-                0,
-                fileName,
-                type,
-                binaryData,
-                transaction,
-                uploadDate
-        );
+        this(0, fileName, type, binaryData, transaction, uploadDate);
     }
 
     public Document() {
-
-        this(
-                0,
-                "",
-                null,
-                null,
-                null,
-                null
-        );
+        this(0, "", null, null, null, null);
     }
 
     @Override
     public Integer getId() {
-
         return id;
     }
 
     @Override
     public void setId(Integer id) {
-
         this.id = id;
     }
 
     public String getFileName() {
-
         return fileName;
     }
 
     public void setFileName(String fileName) {
-
         this.fileName = fileName;
     }
 
     public DocumentType getType() {
-
         return type;
     }
 
     public void setType(DocumentType type) {
-
         this.type = type;
     }
 
     public byte[] getBinaryData() {
-
         return binaryData;
     }
 
     public void setBinaryData(byte[] binaryData) {
-
         this.binaryData = binaryData;
     }
 
     public Transaction getTransaction() {
-
         return transaction;
     }
 
     public void setTransaction(Transaction transaction) {
-
         this.transaction = transaction;
     }
 
     public LocalDateTime getUploadDate() {
-
         return uploadDate;
     }
 
     public void setUploadDate(LocalDateTime uploadDate) {
-
         this.uploadDate = uploadDate;
     }
 

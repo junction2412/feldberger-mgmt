@@ -1,10 +1,12 @@
 package de.code.junction.feldberger.mgmt.presentation.components;
 
+import de.code.junction.feldberger.mgmt.data.access.customer.Customer;
 import de.code.junction.feldberger.mgmt.presentation.components.common.NavigatorFactory;
 import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuNavigator;
 import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuRoute;
 import de.code.junction.feldberger.mgmt.presentation.messaging.Messenger;
 import de.code.junction.feldberger.mgmt.presentation.navigation.Navigator;
+import de.code.junction.feldberger.mgmt.presentation.view.customer.editor.CustomerEditorViewModel;
 import de.code.junction.feldberger.mgmt.presentation.view.customer.overview.CustomerOverviewModel;
 import de.code.junction.feldberger.mgmt.presentation.view.login.LoginViewModel;
 import de.code.junction.feldberger.mgmt.presentation.view.main.menu.MainMenuViewModel;
@@ -50,5 +52,9 @@ public class ViewModelFactory {
 
     public CustomerOverviewModel customerOverview(Navigator<MainMenuRoute> navigator) {
         return new CustomerOverviewModel(messenger, navigator, serviceFactory.customerListService());
+    }
+
+    public CustomerEditorViewModel customerEditor(Navigator<MainMenuRoute> navigator, MainMenuRoute backRoute, Customer customer) {
+        return new CustomerEditorViewModel(messenger, navigator, serviceFactory.customerEditor(), backRoute, customer);
     }
 }

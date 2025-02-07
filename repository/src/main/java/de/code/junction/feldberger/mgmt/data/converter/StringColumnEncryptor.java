@@ -12,7 +12,6 @@ public class StringColumnEncryptor implements AttributeConverter<String, String>
     private final EncryptionService<String, String> encryptionService;
 
     public StringColumnEncryptor() {
-
         this.encryptionService = EncryptionServiceFactory.getInstance().createStringService();
     }
 

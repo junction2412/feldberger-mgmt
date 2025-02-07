@@ -11,7 +11,6 @@ public class ByteArrayColumnEncryptor implements AttributeConverter<byte[], byte
     private final EncryptionService<byte[], byte[]> encryptionService;
 
     public ByteArrayColumnEncryptor() {
-
         this.encryptionService = EncryptionServiceFactory.getInstance().createByteArrayService();
     }
 

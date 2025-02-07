@@ -24,15 +24,10 @@ public class User implements DataTransferObject<Integer> {
     private boolean active;
 
     public User() {
-
         this(0, "", "", "", false);
     }
 
-    public User(int id,
-                String username,
-                String passwordHash,
-                String passwordSalt,
-                boolean active) {
+    public User(int id, String username, String passwordHash, String passwordSalt, boolean active) {
 
         this.id = id;
         this.username = username;
@@ -41,22 +36,17 @@ public class User implements DataTransferObject<Integer> {
         this.active = active;
     }
 
-    public User(String username,
-                String passwordHash,
-                String passwordSalt) {
-
+    public User(String username, String passwordHash, String passwordSalt) {
         this(0, username, passwordHash, passwordSalt, true);
     }
 
     @Override
     public Integer getId() {
-
         return id;
     }
 
     @Override
     public void setId(Integer id) {
-
         this.id = id;
     }
 
@@ -65,7 +55,6 @@ public class User implements DataTransferObject<Integer> {
     }
 
     public void setUsername(String username) {
-
         this.username = username;
     }
 
@@ -74,22 +63,18 @@ public class User implements DataTransferObject<Integer> {
     }
 
     public void setPasswordHash(String passwordHash) {
-
         this.passwordHash = passwordHash;
     }
 
     public String getPasswordSalt() {
-
         return passwordSalt;
     }
 
     public void setPasswordSalt(String passwordSalt) {
-
         this.passwordSalt = passwordSalt;
     }
 
     public boolean isActive() {
-
         return active;
     }
 
@@ -100,7 +85,6 @@ public class User implements DataTransferObject<Integer> {
     }
 
     public boolean isInactive() {
-
         return !active;
     }
 

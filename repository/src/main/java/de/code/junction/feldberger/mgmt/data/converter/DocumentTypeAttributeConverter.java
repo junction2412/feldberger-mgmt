@@ -11,7 +11,6 @@ public class DocumentTypeAttributeConverter implements AttributeConverter<Docume
 
     @Override
     public Integer convertToDatabaseColumn(DocumentType documentType) {
-
         return documentType.getId();
     }
 

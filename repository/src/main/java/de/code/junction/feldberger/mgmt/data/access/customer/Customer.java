@@ -103,143 +103,116 @@ public class Customer implements DataTransferObject<Integer> {
     public Customer() {
 
         this("", "", "", "", "", "", "",
-                null);
+                new Address());
     }
 
     @Override
     public Integer getId() {
-
         return id;
     }
 
     @Override
     public void setId(Integer id) {
-
         this.id = id;
     }
 
     public String getIdNo() {
-
         return idNo;
     }
 
     public void setIdNo(String idNo) {
-
         this.idNo = idNo;
     }
 
     public String getLastName() {
-
         return lastName;
     }
 
     public void setLastName(String lastName) {
-
         this.lastName = lastName;
     }
 
     public String getFirstName() {
-
         return firstName;
     }
 
     public void setFirstName(String firstName) {
-
         this.firstName = firstName;
     }
 
     public String getCompanyName() {
-
         return companyName;
     }
 
     public void setCompanyName(String companyName) {
-
         this.companyName = companyName;
     }
 
     public String getEmailAddress() {
-
         return emailAddress;
     }
 
     public void setEmailAddress(String emailAddress) {
-
         this.emailAddress = emailAddress;
     }
 
     public String getLandlinePhoneNumber() {
-
         return landlinePhoneNumber;
     }
 
     public void setLandlinePhoneNumber(String landlinePhoneNumber) {
-
         this.landlinePhoneNumber = landlinePhoneNumber;
     }
 
     public String getMobilePhoneNumber() {
-
         return mobilePhoneNumber;
     }
 
     public void setMobilePhoneNumber(String mobilePhoneNumber) {
-
         this.mobilePhoneNumber = mobilePhoneNumber;
     }
 
     public Address getAddress() {
-
         return address;
     }
 
     public void setAddress(Address address) {
-
         this.address = address;
     }
 
     public String getNotes() {
-
         return notes;
     }
 
     public void setNotes(String notes) {
-
         this.notes = notes;
     }
 
     public boolean isArchived() {
-
         return archived;
     }
 
     public void setArchived(boolean archived) {
-
         this.archived = archived;
     }
 
     public LocalDateTime getArchiveDate() {
-
         return archiveDate;
     }
 
     public void setArchiveDate(LocalDateTime archiveDate) {
-
         this.archiveDate = archiveDate;
     }
 
     public List<Transaction> getTransactions() {
-
         return transactions;
     }
 
     public void setTransactions(List<Transaction> transactions) {
-
         this.transactions = transactions;
     }
 
     public String getFullName() {
-
         return getLastName() + ", " + getFirstName();
     }
 }

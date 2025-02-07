@@ -13,8 +13,12 @@ public final class Messages {
     }
 
     public static final Message TRANSITION_NOT_PERFORMED;
+
     public static final Message REGISTRATION_SUCCEEDED_USER_INACTIVE;
+
     public static final Message LOGIN_FAILED_WRONG_CREDENTIALS;
+
+    public static final Message CUSTOMER_EDITOR_CONFIRM_UNSAVED_CHANGES;
     public static final Message CUSTOMER_EDITOR_FAILED_IDNO_CONSTRAINT_VIOLATION;
 
     static {
@@ -47,6 +51,13 @@ public final class Messages {
                 bundle.getString("customer.editor.failed.idno.constraint.violation.title"),
                 bundle.getString("customer.editor.failed.idno.constraint.violation.header"),
                 bundle.getString("customer.editor.failed.idno.constraint.violation.content")
+        );
+
+        CUSTOMER_EDITOR_CONFIRM_UNSAVED_CHANGES = new Message(
+                MessageType.CONFIRMATION,
+                bundle.getString("customer.editor.confirmation.unsaved.changes.title"),
+                bundle.getString("customer.editor.confirmation.unsaved.changes.header"),
+                bundle.getString("customer.editor.confirmation.unsaved.changes.content")
         );
     }
 }

@@ -16,12 +16,10 @@ public enum DocumentType {
     }
 
     public int getId() {
-
         return id;
     }
 
     public String getTranslationKey() {
-
         return translationKey;
     }
 }

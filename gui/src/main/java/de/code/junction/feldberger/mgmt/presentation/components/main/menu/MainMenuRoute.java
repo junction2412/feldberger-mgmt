@@ -8,7 +8,6 @@ public sealed interface MainMenuRoute {
     record CustomerEditor(int customerId, boolean fromDashboard) implements MainMenuRoute {
 
         CustomerEditor(int customerId) {
-
             this(customerId, false);
         }
 
@@ -16,7 +15,6 @@ public sealed interface MainMenuRoute {
          * Default constructor used to edit a new customer record.
          */
         public CustomerEditor() {
-
             this(0, false);
         }
     }
@@ -24,7 +22,6 @@ public sealed interface MainMenuRoute {
     record CustomerDashboard(int customerId, int selectedTransactionId) implements MainMenuRoute {
 
         public CustomerDashboard(int customerId) {
-
             this(customerId, 0);
         }
     }

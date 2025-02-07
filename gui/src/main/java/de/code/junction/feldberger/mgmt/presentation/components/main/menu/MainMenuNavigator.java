@@ -1,5 +1,6 @@
 package de.code.junction.feldberger.mgmt.presentation.components.main.menu;
 
+import de.code.junction.feldberger.mgmt.data.access.customer.Customer;
 import de.code.junction.feldberger.mgmt.presentation.components.ViewFactory;
 import de.code.junction.feldberger.mgmt.presentation.navigation.ScopedNavigator;
 import de.code.junction.feldberger.mgmt.presentation.view.FXLoadable;
@@ -14,15 +15,11 @@ import static de.code.junction.feldberger.mgmt.presentation.components.main.menu
 public class MainMenuNavigator extends ScopedNavigator<Pane, MainMenuRoute> {
 
     private final ViewFactory viewFactory;
-    private final MainMenuTransitionFactory transitionFactory;
     private final MainMenuControllerFactory controllerFactory;
 
-    public MainMenuNavigator(ViewFactory viewFactory,
-                             MainMenuTransitionFactory transitionFactory,
-                             MainMenuControllerFactory controllerFactory) {
+    public MainMenuNavigator(ViewFactory viewFactory, MainMenuControllerFactory controllerFactory) {
 
         this.viewFactory = viewFactory;
-        this.transitionFactory = transitionFactory;
         this.controllerFactory = controllerFactory;
     }
 
@@ -34,7 +31,14 @@ public class MainMenuNavigator extends ScopedNavigator<Pane, MainMenuRoute> {
 
         final var controller = switch (route) {
             case CustomerOverview() -> viewFactory.customerOverview(this);
-            case CustomerEditor editor -> customerEditor(editor.customerId(), editor.fromDashboard());
+            case CustomerEditor(int customerId, boolean fromDashboard) -> {
+
+                final var backRoute = (fromDashboard)
+                        ? new CustomerDashboard(customerId)
+                        : new CustomerOverview();
+
+                yield viewFactory.customerEditor(this, backRoute, new Customer());
+            }
             case CustomerDashboard dashboard -> customerDashboard(
                     dashboard.customerId(),
                     dashboard.selectedTransactionId()
@@ -42,20 +46,6 @@ public class MainMenuNavigator extends ScopedNavigator<Pane, MainMenuRoute> {
         };
 
         setChildController(controller);
-    }
-
-    private FXLoadable customerEditor(int customerId, boolean fromDashboard) {
-
-        final var NEW_CUSTOMER_ID = 0;
-        final var saveTransition = transitionFactory.customerEditorCustomerDashboard(this::navigateTo);
-
-        final var route = (fromDashboard && (customerId != NEW_CUSTOMER_ID))
-                ? new CustomerDashboard(customerId)
-                : new CustomerOverview();
-
-        final Runnable onBackClicked = () -> navigateTo(route);
-
-        return controllerFactory.customerEditor(onBackClicked, saveTransition::orchestrate, customerId);
     }
 
     private FXLoadable customerDashboard(int customerId, int selectedTransactionId) {
