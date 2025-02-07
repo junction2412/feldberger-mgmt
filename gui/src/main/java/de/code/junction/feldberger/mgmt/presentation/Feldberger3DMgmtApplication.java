@@ -33,7 +33,8 @@ public class Feldberger3DMgmtApplication extends Application {
         messenger.setStage(stage);
 
         final var navigatorFactory = NavigatorFactory.getInstance(messenger);
-        final var viewFactory = new ViewFactory(new ViewModelFactory(messenger, navigatorFactory, new ServiceFactory(persistenceManager)));
+        final var viewModelFactory = new ViewModelFactory(messenger, navigatorFactory, new ServiceFactory(persistenceManager));
+        final var viewFactory = new ViewFactory(viewModelFactory);
         final var navigator = navigatorFactory.application(viewFactory);
 
         navigator.setScope(stage);

@@ -6,9 +6,6 @@ import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import de.code.junction.feldberger.mgmt.presentation.view.customer.dashboard.CustomerDashboardController;
 import de.code.junction.feldberger.mgmt.presentation.view.customer.editor.CustomerEditorController;
 import de.code.junction.feldberger.mgmt.presentation.view.customer.editor.CustomerViewModel;
-import de.code.junction.feldberger.mgmt.presentation.view.customer.overview.CustomerListService;
-import de.code.junction.feldberger.mgmt.presentation.view.customer.overview.CustomerOverviewController;
-import de.code.junction.feldberger.mgmt.presentation.view.customer.overview.CustomerOverviewModel;
 
 import java.util.function.Consumer;
 
@@ -19,24 +16,6 @@ public class MainMenuControllerFactory {
     public MainMenuControllerFactory(PersistenceManager persistenceManager) {
 
         this.persistenceManager = persistenceManager;
-    }
-
-    public FXController customerOverview(Runnable onNewCustomerClicked,
-                                         Consumer<Integer> onEditCustomerClicked,
-                                         Consumer<Integer> onViewCustomerClicked,
-                                         String filter,
-                                         int selectedCustomerId) {
-
-        final var viewModel = new CustomerOverviewModel(selectedCustomerId, filter);
-        final var customerListService = new CustomerListService(persistenceManager.customerDao());
-
-        return new CustomerOverviewController(
-                customerListService,
-                viewModel,
-                onNewCustomerClicked,
-                onEditCustomerClicked,
-                onViewCustomerClicked
-        );
     }
 
     public FXController customerEditor(Runnable onBackClicked, Consumer<Customer> onSaveClicked, int customerId) {

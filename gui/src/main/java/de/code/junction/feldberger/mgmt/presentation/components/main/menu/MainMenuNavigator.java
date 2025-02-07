@@ -1,5 +1,6 @@
 package de.code.junction.feldberger.mgmt.presentation.components.main.menu;
 
+import de.code.junction.feldberger.mgmt.presentation.components.ViewFactory;
 import de.code.junction.feldberger.mgmt.presentation.navigation.ScopedNavigator;
 import de.code.junction.feldberger.mgmt.presentation.view.FXLoadable;
 import javafx.application.Platform;
@@ -7,17 +8,20 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
 import java.util.Optional;
-import java.util.function.Consumer;
 
 import static de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuRoute.*;
 
 public class MainMenuNavigator extends ScopedNavigator<Pane, MainMenuRoute> {
 
+    private final ViewFactory viewFactory;
     private final MainMenuTransitionFactory transitionFactory;
     private final MainMenuControllerFactory controllerFactory;
 
-    public MainMenuNavigator(MainMenuTransitionFactory transitionFactory, MainMenuControllerFactory controllerFactory) {
+    public MainMenuNavigator(ViewFactory viewFactory,
+                             MainMenuTransitionFactory transitionFactory,
+                             MainMenuControllerFactory controllerFactory) {
 
+        this.viewFactory = viewFactory;
         this.transitionFactory = transitionFactory;
         this.controllerFactory = controllerFactory;
     }
@@ -29,7 +33,7 @@ public class MainMenuNavigator extends ScopedNavigator<Pane, MainMenuRoute> {
             throw new NullPointerException("Cannot navigate if scope is null.");
 
         final var controller = switch (route) {
-            case CustomerOverview overview -> customerOverview(overview.selectedCustomerId());
+            case CustomerOverview() -> viewFactory.customerOverview(this);
             case CustomerEditor editor -> customerEditor(editor.customerId(), editor.fromDashboard());
             case CustomerDashboard dashboard -> customerDashboard(
                     dashboard.customerId(),
@@ -38,21 +42,6 @@ public class MainMenuNavigator extends ScopedNavigator<Pane, MainMenuRoute> {
         };
 
         setChildController(controller);
-    }
-
-    private FXLoadable customerOverview(int selectedCustomerId) {
-
-        final Consumer<Integer> onViewCustomerClicked = customerId -> navigateTo(new CustomerDashboard(customerId));
-        final Consumer<Integer> onEditCustomerClicked = customerId -> navigateTo(new CustomerEditor(customerId));
-        final Runnable onNewCustomerClicked = () -> navigateTo(new CustomerEditor());
-
-        return controllerFactory.customerOverview(
-                onNewCustomerClicked,
-                onEditCustomerClicked,
-                onViewCustomerClicked,
-                "",
-                selectedCustomerId
-        );
     }
 
     private FXLoadable customerEditor(int customerId, boolean fromDashboard) {
@@ -71,7 +60,7 @@ public class MainMenuNavigator extends ScopedNavigator<Pane, MainMenuRoute> {
 
     private FXLoadable customerDashboard(int customerId, int selectedTransactionId) {
 
-        final Runnable onBackClicked = () -> navigateTo(new CustomerOverview(customerId));
+        final Runnable onBackClicked = () -> navigateTo(new CustomerOverview());
         final Runnable onEditCustomerClicked = () -> navigateTo(new CustomerEditor(customerId, true));
         final Runnable onNewTransactionClicked = () -> System.out.println("NOOP");
 

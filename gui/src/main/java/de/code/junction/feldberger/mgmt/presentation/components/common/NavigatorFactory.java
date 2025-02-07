@@ -3,10 +3,7 @@ package de.code.junction.feldberger.mgmt.presentation.components.common;
 import de.code.junction.feldberger.mgmt.data.access.PersistenceManager;
 import de.code.junction.feldberger.mgmt.presentation.components.ViewFactory;
 import de.code.junction.feldberger.mgmt.presentation.components.application.ApplicationNavigator;
-import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuControllerFactory;
-import de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuNavigator;
 import de.code.junction.feldberger.mgmt.presentation.messaging.Messenger;
-import javafx.scene.layout.Pane;
 
 import java.util.Objects;
 
@@ -41,33 +38,12 @@ public class NavigatorFactory {
     public ApplicationNavigator application(ViewFactory viewFactory) {
 
         if (applicationNavigator == null)
-            applicationNavigator = new ApplicationNavigator(
-                    viewFactory
-            );
+            applicationNavigator = new ApplicationNavigator(viewFactory);
 
         return applicationNavigator;
     }
 
     public ApplicationNavigator application() {
-
         return applicationNavigator;
-    }
-
-    public void initMainMenu(Pane scope) {
-
-        final var navigator = new MainMenuNavigator(
-                transitionFactoryProvider.mainMenuTransitionFactory(),
-                new MainMenuControllerFactory(persistenceManager)
-        );
-
-        navigator.setScope(scope);
-    }
-
-    public MainMenuNavigator mainMenu() {
-
-        return new MainMenuNavigator(
-                transitionFactoryProvider.mainMenuTransitionFactory(),
-                new MainMenuControllerFactory(persistenceManager)
-        );
     }
 }

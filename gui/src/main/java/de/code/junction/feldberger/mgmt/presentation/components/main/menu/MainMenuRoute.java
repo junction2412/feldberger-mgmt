@@ -2,12 +2,7 @@ package de.code.junction.feldberger.mgmt.presentation.components.main.menu;
 
 public sealed interface MainMenuRoute {
 
-    record CustomerOverview(int selectedCustomerId) implements MainMenuRoute {
-
-        public CustomerOverview() {
-
-            this(0);
-        }
+    record CustomerOverview() implements MainMenuRoute {
     }
 
     record CustomerEditor(int customerId, boolean fromDashboard) implements MainMenuRoute {

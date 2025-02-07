@@ -1,39 +1,32 @@
 package de.code.junction.feldberger.mgmt.presentation.view.customer.overview;
 
+import de.code.junction.feldberger.mgmt.data.access.customer.Customer;
 import de.code.junction.feldberger.mgmt.data.access.customer.CustomerDataAccessObject;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
-public class CustomerListService extends Service<ObservableList<CustomerItemViewModel>> {
+import java.util.stream.Collectors;
+
+public class CustomerListService extends Service<ObservableList<Customer>> {
 
     private final CustomerDataAccessObject customerDao;
 
     public CustomerListService(CustomerDataAccessObject customerDao) {
-
         this.customerDao = customerDao;
     }
 
     @Override
-    protected Task<ObservableList<CustomerItemViewModel>> createTask() {
+    protected Task<ObservableList<Customer>> createTask() {
 
         return new Task<>() {
 
             @Override
-            protected ObservableList<CustomerItemViewModel> call() {
+            protected ObservableList<Customer> call() {
 
-                final var viewModels = customerDao.getActiveCustomers().stream()
-                        .map(customer -> {
-
-                            final var nameOrCompanyName = (customer.getCompanyName().isEmpty())
-                                    ? customer.getFullName()
-                                    : customer.getCompanyName();
-
-                            return new CustomerItemViewModel(customer.getId(), customer.getIdNo(), nameOrCompanyName);
-                        }).toList();
-
-                return FXCollections.observableList(viewModels);
+                return customerDao.getActiveCustomers().stream()
+                        .collect(Collectors.toCollection(FXCollections::observableArrayList));
             }
         };
     }
