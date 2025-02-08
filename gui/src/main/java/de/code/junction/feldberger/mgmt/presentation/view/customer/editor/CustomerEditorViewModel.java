@@ -218,8 +218,8 @@ public class CustomerEditorViewModel extends FXViewModel {
     private void onCustomerSavingServiceSucceeded(WorkerStateEvent event) {
 
         switch (customerSavingService.getValue()) {
-            case CustomerSaveResult.Created(int id) -> navigator.navigateTo(new CustomerDashboard(id));
-            case CustomerSaveResult.Updated() -> navigator.navigateTo(new CustomerDashboard(getId()));
+            case CustomerSaveResult.Created(Customer customer) -> navigator.navigateTo(new CustomerDashboard(customer));
+            case CustomerSaveResult.Updated() -> navigator.navigateTo(new CustomerDashboard(getCustomer()));
             case CustomerSaveResult.Failure failure -> messenger().send(failure.message());
         }
     }
@@ -630,5 +630,21 @@ public class CustomerEditorViewModel extends FXViewModel {
 
     public void setSaveDisabled(boolean saveDisabled) {
         this.saveDisabled.set(saveDisabled);
+    }
+
+    public Address getAddress() {
+        return address.get();
+    }
+
+    public ObjectProperty<Address> addressProperty() {
+        return address;
+    }
+
+    public Customer getCustomer() {
+        return customer.get();
+    }
+
+    public ObjectProperty<Customer> customerProperty() {
+        return customer;
     }
 }

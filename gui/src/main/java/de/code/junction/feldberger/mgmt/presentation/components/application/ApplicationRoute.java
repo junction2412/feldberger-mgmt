@@ -5,7 +5,6 @@ public sealed interface ApplicationRoute {
     record Login(String username) implements ApplicationRoute {
 
         public Login() {
-
             this("");
         }
     }
@@ -13,7 +12,6 @@ public sealed interface ApplicationRoute {
     record Registration(String username) implements ApplicationRoute {
 
         public Registration() {
-
             this("");
         }
     }

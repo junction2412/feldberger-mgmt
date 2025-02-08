@@ -22,9 +22,9 @@ public final class HashUtil {
      */
     public static String toHexString(byte[] bytes) {
 
-        final StringBuilder builder = new StringBuilder();
+        final var builder = new StringBuilder();
 
-        for (byte b : bytes)
+        for (final var b : bytes)
             builder.append(String.format("%02x", b));
 
         return builder.toString();
@@ -38,7 +38,7 @@ public final class HashUtil {
      */
     public static String salt(int byteSize) {
 
-        final byte[] bytes = new byte[byteSize];
+        final var bytes = new byte[byteSize];
         new SecureRandom().nextBytes(bytes);
 
         return toHexString(bytes);
@@ -51,7 +51,6 @@ public final class HashUtil {
      * @see HashUtil#salt(int)
      */
     public static String salt() {
-
         return salt(16);
     }
 
@@ -82,9 +81,7 @@ public final class HashUtil {
      * @param salt     salt to be hashed with
      * @return SHA-256 hashed password (as hex string)
      */
-    public static String hashPassword(String password,
-                                      String salt) {
-
+    public static String hashPassword(String password, String salt) {
         return sha256(password + salt);
     }
 }

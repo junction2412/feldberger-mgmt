@@ -18,7 +18,6 @@ public final class ResourceLoader {
      * @return corresponding resource bundle
      */
     public static ResourceBundle getLabelStringResources() {
-
         return ResourceBundle.getBundle("de/code/junction/feldberger/mgmt/i18n/labels");
     }
 
@@ -28,7 +27,6 @@ public final class ResourceLoader {
      * @return corresponding resource bundle
      */
     public static ResourceBundle getMessageStringResources() {
-
         return ResourceBundle.getBundle("de/code/junction/feldberger/mgmt/i18n/messages");
     }
 }

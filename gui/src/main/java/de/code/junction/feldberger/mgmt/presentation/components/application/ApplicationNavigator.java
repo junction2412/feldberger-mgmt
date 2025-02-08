@@ -2,9 +2,6 @@ package de.code.junction.feldberger.mgmt.presentation.components.application;
 
 import de.code.junction.feldberger.mgmt.presentation.components.ViewFactory;
 import de.code.junction.feldberger.mgmt.presentation.navigation.ScopedNavigator;
-import de.code.junction.feldberger.mgmt.presentation.view.FXLoadable;
-import javafx.application.Platform;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -27,30 +24,18 @@ public class ApplicationNavigator extends ScopedNavigator<Stage, ApplicationRout
     @Override
     public void navigateTo(ApplicationRoute route) {
 
-        final var controller = switch (route) {
-            case Registration(String username) -> viewFactory.registration(username);
-            case Login(String username) -> viewFactory.login(username);
-            case MainMenu(int userId, String username) -> viewFactory.mainMenu(userId, username);
+        final var view = switch (route) {
+            case Registration(String username) -> viewFactory.registration(this, username);
+            case Login(String username) -> viewFactory.login(this, username);
+            case MainMenu(int userId, String username) -> viewFactory.mainMenu(this, userId, username);
         };
 
-        setSceneController(controller);
-    }
-
-    private void setSceneController(FXLoadable controller) {
-
-        final Runnable runnable = () -> setSceneRoot(controller.load());
-
-        if (Platform.isFxApplicationThread())
-            runnable.run();
-        else
-            Platform.runLater(runnable);
-    }
-
-    private void setSceneRoot(Parent parent) {
+        final var parent = view.load();
 
         if (scope.getScene() == null)
             scope.setScene(new Scene(parent));
         else
             scope.getScene().setRoot(parent);
     }
+
 }

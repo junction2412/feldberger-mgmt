@@ -31,7 +31,7 @@ public class SaveCustomer {
         customerService.persistCustomer(customer);
 
         return (isNewCustomer)
-                ? new CustomerSaveResult.Created(customer.getId())
+                ? new CustomerSaveResult.Created(customer)
                 : UPDATED;
     }
 }

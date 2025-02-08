@@ -12,6 +12,9 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.concurrent.WorkerStateEvent;
 
+import static de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuRoute.CustomerDashboard;
+import static de.code.junction.feldberger.mgmt.presentation.components.main.menu.MainMenuRoute.CustomerEditor;
+
 public class CustomerOverviewModel extends FXViewModel {
 
     private final BooleanProperty viewDisabled;
@@ -57,7 +60,7 @@ public class CustomerOverviewModel extends FXViewModel {
         if (selectedCustomer == null)
             return;
 
-        navigator.navigateTo(new MainMenuRoute.CustomerDashboard(selectedCustomer.getId()));
+        navigator.navigateTo(new CustomerDashboard(selectedCustomer));
     }
 
     public void onEditCustomerClicked() {
@@ -66,11 +69,11 @@ public class CustomerOverviewModel extends FXViewModel {
         if (selectedCustomer == null)
             return;
 
-        navigator.navigateTo(new MainMenuRoute.CustomerEditor(selectedCustomer.getId(), false));
+        navigator.navigateTo(new CustomerEditor(new MainMenuRoute.CustomerOverview(), selectedCustomer));
     }
 
     public void onNewCustomerClicked() {
-        navigator.navigateTo(new MainMenuRoute.CustomerEditor());
+        navigator.navigateTo(new CustomerEditor());
     }
 
     public void onCustomersClicked(int count) {

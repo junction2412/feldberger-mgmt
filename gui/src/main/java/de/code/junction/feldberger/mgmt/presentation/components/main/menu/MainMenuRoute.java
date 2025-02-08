@@ -1,28 +1,19 @@
 package de.code.junction.feldberger.mgmt.presentation.components.main.menu;
 
+import de.code.junction.feldberger.mgmt.data.access.customer.Customer;
+
 public sealed interface MainMenuRoute {
 
     record CustomerOverview() implements MainMenuRoute {
     }
 
-    record CustomerEditor(int customerId, boolean fromDashboard) implements MainMenuRoute {
+    record CustomerEditor(MainMenuRoute backRoute, Customer customer) implements MainMenuRoute {
 
-        CustomerEditor(int customerId) {
-            this(customerId, false);
-        }
-
-        /**
-         * Default constructor used to edit a new customer record.
-         */
         public CustomerEditor() {
-            this(0, false);
+            this(new CustomerOverview(), new Customer());
         }
     }
 
-    record CustomerDashboard(int customerId, int selectedTransactionId) implements MainMenuRoute {
-
-        public CustomerDashboard(int customerId) {
-            this(customerId, 0);
-        }
+    record CustomerDashboard(Customer customer) implements MainMenuRoute {
     }
 }

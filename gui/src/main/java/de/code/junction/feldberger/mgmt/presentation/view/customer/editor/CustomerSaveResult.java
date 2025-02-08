@@ -1,11 +1,12 @@
 package de.code.junction.feldberger.mgmt.presentation.view.customer.editor;
 
+import de.code.junction.feldberger.mgmt.data.access.customer.Customer;
 import de.code.junction.feldberger.mgmt.presentation.messaging.Message;
 import de.code.junction.feldberger.mgmt.presentation.messaging.Messages;
 
 public sealed interface CustomerSaveResult {
 
-    record Created(int id) implements CustomerSaveResult {
+    record Created(Customer customer) implements CustomerSaveResult {
     }
 
     Updated UPDATED = new Updated();
