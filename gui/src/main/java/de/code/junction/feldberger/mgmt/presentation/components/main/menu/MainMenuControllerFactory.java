@@ -3,7 +3,7 @@ package de.code.junction.feldberger.mgmt.presentation.components.main.menu;
 import de.code.junction.feldberger.mgmt.data.access.PersistenceManager;
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
 import de.code.junction.feldberger.mgmt.presentation.view.customer.dashboard.CustomerDashboardController;
-import de.code.junction.feldberger.mgmt.presentation.view.customer.editor.CustomerViewModel;
+import de.code.junction.feldberger.mgmt.presentation.view.customer.dashboard.CustomerViewModel;
 
 public class MainMenuControllerFactory {
 

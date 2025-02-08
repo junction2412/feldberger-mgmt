@@ -1,7 +1,6 @@
 package de.code.junction.feldberger.mgmt.presentation.view.customer.dashboard;
 
 import de.code.junction.feldberger.mgmt.presentation.view.FXController;
-import de.code.junction.feldberger.mgmt.presentation.view.customer.editor.CustomerViewModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

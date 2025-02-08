@@ -1,4 +1,4 @@
-package de.code.junction.feldberger.mgmt.presentation.view.customer.editor;
+package de.code.junction.feldberger.mgmt.presentation.view.customer.dashboard;
 
 import de.code.junction.feldberger.mgmt.data.access.address.Address;
 import javafx.beans.property.IntegerProperty;

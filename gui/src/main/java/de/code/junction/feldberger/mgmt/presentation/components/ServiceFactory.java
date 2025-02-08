@@ -1,8 +1,8 @@
 package de.code.junction.feldberger.mgmt.presentation.components;
 
 import de.code.junction.feldberger.mgmt.data.access.PersistenceManager;
-import de.code.junction.feldberger.mgmt.data.service.CustomerService;
 import de.code.junction.feldberger.mgmt.presentation.view.customer.editor.CustomerSavingService;
+import de.code.junction.feldberger.mgmt.presentation.view.customer.editor.SaveCustomer;
 import de.code.junction.feldberger.mgmt.presentation.view.customer.overview.CustomerListService;
 import de.code.junction.feldberger.mgmt.presentation.view.login.LoginService;
 import de.code.junction.feldberger.mgmt.presentation.view.login.PerformLogin;
@@ -30,8 +30,6 @@ public class ServiceFactory {
     }
 
     public CustomerSavingService customerEditor() {
-
-        final var customerService = new CustomerService(persistenceManager.customerDao(), persistenceManager.addressDao());
-        return new CustomerSavingService(customerService);
+        return new CustomerSavingService(new SaveCustomer(persistenceManager.customerService()));
     }
 }
