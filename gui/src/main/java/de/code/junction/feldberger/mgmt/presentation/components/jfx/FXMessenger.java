@@ -21,11 +21,7 @@ public class FXMessenger implements Messenger {
     /**
      * The stage to be used as the owner.
      */
-    private Stage stage;
-
-    public FXMessenger() {
-        this(null);
-    }
+    private final Stage stage;
 
     public FXMessenger(Stage stage) {
         this.stage = stage;
@@ -53,10 +49,6 @@ public class FXMessenger implements Messenger {
         final var buttonType = alert.showAndWait();
 
         buttonType.ifPresent(type -> onResponse.accept(determineResponseType(type)));
-    }
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
     }
 
     /**

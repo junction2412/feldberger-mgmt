@@ -25,14 +25,13 @@ public class Feldberger3DMgmtApplication extends Application {
     @Override
     public void start(Stage stage) {
 
-        final var messenger = new FXMessenger();
-        messenger.setStage(stage);
+        final var viewModelFactory = new ViewModelFactory(
+                new FXMessenger(stage),
+                new ServiceFactory(persistenceManager)
+        );
 
-        final var viewModelFactory = new ViewModelFactory(messenger, new ServiceFactory(persistenceManager));
         final var viewFactory = new ViewFactory(viewModelFactory);
-        final var navigator = new ApplicationNavigator(viewFactory);
-
-        navigator.setScope(stage);
+        final var navigator = new ApplicationNavigator(stage, viewFactory);
 
         final var NO_USERS_REGISTERED = persistenceManager.userDao().countAll() == 0;
         final var entryPoint = NO_USERS_REGISTERED

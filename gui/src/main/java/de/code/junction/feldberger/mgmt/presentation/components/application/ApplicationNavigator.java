@@ -1,7 +1,7 @@
 package de.code.junction.feldberger.mgmt.presentation.components.application;
 
 import de.code.junction.feldberger.mgmt.presentation.components.ViewFactory;
-import de.code.junction.feldberger.mgmt.presentation.navigation.ScopedNavigator;
+import de.code.junction.feldberger.mgmt.presentation.navigation.Navigator;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -13,11 +13,13 @@ import static de.code.junction.feldberger.mgmt.presentation.components.applicati
  *
  * @author J. Murray
  */
-public class ApplicationNavigator extends ScopedNavigator<Stage, ApplicationRoute> {
+public class ApplicationNavigator implements Navigator<ApplicationRoute> {
 
+    private final Stage stage;
     private final ViewFactory viewFactory;
 
-    public ApplicationNavigator(ViewFactory viewFactory) {
+    public ApplicationNavigator(Stage stage, ViewFactory viewFactory) {
+        this.stage = stage;
         this.viewFactory = viewFactory;
     }
 
@@ -32,10 +34,10 @@ public class ApplicationNavigator extends ScopedNavigator<Stage, ApplicationRout
 
         final var parent = view.load();
 
-        if (scope.getScene() == null)
-            scope.setScene(new Scene(parent));
+        if (stage.getScene() == null)
+            stage.setScene(new Scene(parent));
         else
-            scope.getScene().setRoot(parent);
+            stage.getScene().setRoot(parent);
     }
 
 }
