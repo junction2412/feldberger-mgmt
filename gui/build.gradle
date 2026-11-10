@@ -42,7 +42,7 @@ dependencies {
     implementation(project(':repository'))
 
     implementation 'com.h2database:h2:2.3.232'
-    implementation 'org.json:json:20240303'
+    implementation 'org.json:json:20260719'
 
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
